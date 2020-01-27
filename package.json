@@ -6,11 +6,13 @@
   "scripts": {
     "unit-tests": "node_modules/mocha/bin/mocha test/unit/",
     "integration-tests": "NODE_ENV=test node_modules/mocha/bin/mocha test/integration/services",
+    "travis-unit-tests": "node_modules/mocha/bin/mocha test/unit/",
+    "travis-integration-tests": "NODE_ENV=travis node_modules/mocha/bin/mocha test/integration/services",
     "start": "NODE_ENV=test node src/WorldServer.js"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Zachary Wild",
+  "license": "MIT",
   "dependencies": {
     "chai": "^4.2.0",
     "mocha": "^6.2.2",

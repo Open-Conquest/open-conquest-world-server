@@ -14,5 +14,12 @@ module.exports = {
     database: 'master',
     host: 'localhost',
     dialect: 'mysql'
+  },
+  travis: {
+    username: 'root',
+    password: '',
+    database: 'master',
+    host: 'localhost',
+    dialect: 'mysql'
   }
 };

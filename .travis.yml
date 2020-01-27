@@ -1,7 +1,13 @@
 language: node_js
 node_js:
   - 10
+services:
+  - mysql
+before_install:
+  - mysql --version
+  - mysql -u root --password="" < db/travis_create_db.sql
 install:
   - npm install
 script:
-  - npm run unit-tests
+  - npm run travis-unit-tests
+  - npm run travis-integration-tests
