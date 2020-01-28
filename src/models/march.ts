@@ -1,4 +1,4 @@
-module.exports = (sequelize, DataTypes) => {
+export default (sequelize, DataTypes) => {
   let march = sequelize.define('march', {
     march_id: {
       type: DataTypes.INTEGER(11),
@@ -35,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
     freezeTableName: true
   });
 
-  march.associate = function (models) {
+  march.associate = (models) => {
     models.march.belongsTo(models.army, {
       foreignKey: 'army_id'
     });

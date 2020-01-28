@@ -1,25 +1,28 @@
-module.exports = (sequelize, DataTypes) => {
-  let tile = sequelize.define('tile', {
-    tile_id: {
+export default (sequelize, DataTypes) => {
+  let unit = sequelize.define('unit', {
+    unit_id: {
       type: DataTypes.INTEGER(11),
       primaryKey: true,
       allowNull: false,
-      unique: true,
-      autoIncrement: true
+      unique: true
     },
-    map_id: {
+    attack: {
       type: DataTypes.INTEGER(11),
       allowNull: false
     },
-    tile_type: {
+    defense: {
       type: DataTypes.INTEGER(11),
       allowNull: false
     },
-    tile_row: {
+    name: {
+      type: DataTypes.STRING(45),
+      allowNull: false
+    },
+    level: {
       type: DataTypes.INTEGER(11),
       allowNull: false
     },
-    tile_col: {
+    gold_cost: {
       type: DataTypes.INTEGER(11),
       allowNull: false
     }
@@ -28,11 +31,8 @@ module.exports = (sequelize, DataTypes) => {
     freezeTableName: true
   });
 
-  tile.associate = function (models) {
-    models.tile.belongsTo(models.map, {
-      foreignKey: 'map_id'
-    });
+  unit.associate = (models) => {
   };
 
-  return tile;
+  return unit;
 };

@@ -1,4 +1,4 @@
-module.exports = (sequelize, DataTypes) => {
+export default (sequelize, DataTypes) => {
   let world = sequelize.define('world', {
     world_id: {
       type: DataTypes.INTEGER(11),

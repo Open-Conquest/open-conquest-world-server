@@ -1,4 +1,4 @@
-module.exports = (sequelize, DataTypes) => {
+export default (sequelize, DataTypes) => {
   let user = sequelize.define('user', {
     user_id: {
       type: DataTypes.INTEGER(11),
@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     freezeTableName: true
   });
 
-  user.associate = function (models) {
+  user.associate = (models) => {
     models.user.belongsTo(models.world, {
       foreignKey: 'world_id'
     });
