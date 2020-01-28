@@ -4,8 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "unit-tests": "node_modules/mocha/bin/mocha test/unit/",
-    "integration-tests": "NODE_ENV=test node_modules/mocha/bin/mocha test/integration",
+    "u-tests": "node_modules/mocha/bin/mocha --recursive --exit test/unit/",
+    "i-tests": "NODE_ENV=test node_modules/mocha/bin/mocha --recursive --exit test/integration",
     "start": "NODE_ENV=test node src/WorldServer.js"
   },
   "keywords": [],
