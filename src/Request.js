@@ -9,10 +9,10 @@ class Request {
 
   toJson() {
     return {
-      "service": this.service,
-      "operation": this.operation,
-      "data": this.data
-    }
+      'service': this.service,
+      'operation': this.operation,
+      'data': this.data,
+    };
   }
 
   getJson() {
@@ -26,10 +26,10 @@ class Request {
 
 function fromRequest(request) {
   try {
-    let json = JSON.parse(request.utf8Data);
-    let service = json.service;
-    let operation = json.operation;
-    let data = json.data;
+    const json = JSON.parse(request.utf8Data);
+    const service = json.service;
+    const operation = json.operation;
+    const data = json.data;
     return new Request(service, operation, data);
   } catch (err) {
     logError('Could not create Request from request: ' + JSON.stringify(request));
@@ -40,4 +40,4 @@ function fromRequest(request) {
 
 Request.fromRequest = fromRequest;
 
-module.exports = Request
+module.exports = Request;

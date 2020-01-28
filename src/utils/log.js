@@ -7,17 +7,17 @@ const logger = createLogger({
   // ),
   transports: [
     new transports.Console({
-     json: true
-    })
+      json: true,
+    }),
     // new transports.File({filename: '../../logs/error/error.log', level: 'error'}),
     // new transports.File({filename: '../../logs/activity/activity.log', level:'info'})
-  ]
+  ],
 });
 
 logger.info('Logging started.');
 
 function log(msg) {
-  logger.info(msg); 
+  logger.info(msg);
 }
 
 function logError(msg) {

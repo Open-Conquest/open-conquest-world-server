@@ -1,7 +1,7 @@
-const log           = require('../utils/log');
-const logError      = require('../utils/log').logError;
-const BaseServices  = require('./BaseServices');
-const models        = require('../models');
+const log = require('../utils/log');
+const logError = require('../utils/log').logError;
+const BaseServices = require('./BaseServices');
+const models = require('../models');
 
 class UserServices extends BaseServices {
   constructor() {
@@ -9,38 +9,38 @@ class UserServices extends BaseServices {
     this.service = 'user';
     this.handlers = {
       'get': this.getUsers,
-      'login': this.loginUser
+      'login': this.loginUser,
     };
   }
 
   getUsers(request) {
-    return new Promise(function (resolve, reject) {
+    return new Promise(function(resolve, reject) {
       models.user.findAll({})
-      .then(users => {
-        resolve(users);
-      })
-      .catch(err => {
-        reject(err);
-      });
+          .then((users) => {
+            resolve(users);
+          })
+          .catch((err) => {
+            reject(err);
+          });
     });
   }
 
   loginUser(request) {
-    return new Promise(function (resolve, reject) {
-      let username = request.username;
+    return new Promise(function(resolve, reject) {
+      const username = request.username;
       models.user.findOne({
-        username: username
+        username: username,
       })
-      .then(user => {
-        resolve({'username': user.user_name});
-        // just return username instead
-        resolve(user);
-      })
-      .catch(err => {
-        reject(err);
-      })
-    })
+          .then((user) => {
+            resolve({'username': user.user_name});
+            // just return username instead
+            resolve(user);
+          })
+          .catch((err) => {
+            reject(err);
+          });
+    });
   }
 }
 
-module.exports = UserServices
+module.exports = UserServices;

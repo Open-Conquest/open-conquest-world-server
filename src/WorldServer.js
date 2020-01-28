@@ -16,44 +16,44 @@ const MapServices = require('./services/MapServices');
 const MarchServices = require('./services/MarchServices');
 const TileServices = require('./services/TileServices');
 const UserServices = require('./services/UserServices');
-let worldServices = new WorldServices(
-  new ArmyServices(),
-  new CityServices(),
-  new MapServices(),
-  new MarchServices(),
-  new TileServices(),
-  new UserServices()
+const worldServices = new WorldServices(
+    new ArmyServices(),
+    new CityServices(),
+    new MapServices(),
+    new MarchServices(),
+    new TileServices(),
+    new UserServices(),
 );
 
 // START WEBSOCKET SERVER
-let wss = new WSS({
-  httpServer: HTTP.createServer(function(req, res){}).listen(PORT)
-});         
+const wss = new WSS({
+  httpServer: HTTP.createServer(function(req, res) {}).listen(PORT),
+});
 
 // HANDLE CLIENT CONNECT
-let clients = [];     
+const clients = [];
 wss.on('request', function(request) {
   log('Connection from: '+ request.origin);
 
   // add new connection to list of connected clients
-  let connection = request.accept(null, request.origin);
-  let index = clients.push(connection) - 1;
+  const connection = request.accept(null, request.origin);
+  const index = clients.push(connection) - 1;
 
   // HANDLE CLIENT SEND REQUEST
   connection.on('message', function(request) {
     log('Recieved message from connection ' + connection.remoteAddress);
     worldServices.dispatchRequest(request)
-      .then(res => {
-        let clientAddr = connection.remoteAddress;
-        log('Sending: ' + clientAddr + ' response: ' + JSON.stringify(res));
-        connection.sendUTF(res);
-      })
-      .catch(err => {
-        let clientAddr = connection.remoteAddress;
-        logError('Sending: ' + clientAddr + ' error: ' + JSON.stringify(err));
-        logError(err.stack);
-        connection.sendUTF(err);
-      });
+        .then((res) => {
+          const clientAddr = connection.remoteAddress;
+          log('Sending: ' + clientAddr + ' response: ' + JSON.stringify(res));
+          connection.sendUTF(res);
+        })
+        .catch((err) => {
+          const clientAddr = connection.remoteAddress;
+          logError('Sending: ' + clientAddr + ' error: ' + JSON.stringify(err));
+          logError(err.stack);
+          connection.sendUTF(err);
+        });
   });
 
   // HANDLE CLIENT DISCONNECT
