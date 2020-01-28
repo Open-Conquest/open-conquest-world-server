@@ -1,5 +1,5 @@
-const log = require('../utils/log');
-const Response = require('../Response');
+import {log} from '../utils/log';
+import {Response} from '../Response';
 
 /**
  * The base class for all services which contains the shared handle

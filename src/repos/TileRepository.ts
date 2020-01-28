@@ -1,4 +1,4 @@
-const log = require('../../utils/log');
+import {log} from '../../utils/log';
 const logError = require('../../utils/log').logError;
 const tile = require('../../models').tile;
 

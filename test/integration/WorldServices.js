@@ -1,15 +1,15 @@
-const log     = require('../../src/utils/log');
-const chai    = require('chai');
+import {log} from '../../src/utils/log';
+import {chai} from 'chai';
 const should  = chai.should();
 const expect  = chai.expect;
 const assert  = chai.assert;
 
 // run all of the test on world services
 // ensure that messages are dispatched properly
-const WorldServices   = require('../../src/WorldServices');
-const UserServices    = require('../../src/services/UserServices');
-const MapServices     = require('../../src/services/MapServices');
-const Request         = require('../../src/Request');
+import {WorldServices} from '../../src/WorldServices';
+import {UserServices} from '../../src/services/UserServices';
+import {MapServices} from '../../src/services/MapServices';
+import {Request} from '../../src/Request';
 let userServices      = new UserServices();
 let mapServices       = new MapServices();
 let worldServices     = new WorldServices(userServices, mapServices);

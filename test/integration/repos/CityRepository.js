@@ -1,13 +1,13 @@
-const log     = require('../../../src/utils/log');
-const chai    = require('chai');
+import {log} from '../../../src/utils/log';
+import {chai} from 'chai';
 const should  = chai.should();
 const expect  = chai.expect;
 const assert  = chai.assert;
 
 // run all of the test on map services
 // ensure that messages are dispatched properly
-const CityServices    = require('../../../src/services/CityServices');
-const Request         = require('../../../src/Request');
+import {CityServices} from '../../../src/services/CityServices';
+import {Request} from '../../../src/Request';
 let cityServices      = new CityServices();
 
 describe('CityServices', function() {

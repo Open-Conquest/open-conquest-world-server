@@ -4,10 +4,10 @@
  * @class MapServices
  */
 
-const log = require('../utils/log');
+import {log} from '../utils/log';
 const logError = require('../utils/log').logError;
 import {BaseServices} from './BaseServices';
-const models = require('../models');
+import {models} from '../models';
 
 export class MapServices extends BaseServices {
   constructor() {

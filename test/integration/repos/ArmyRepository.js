@@ -1,5 +1,5 @@
-const log = require('../../../src/utils/log');
-const chai = require('chai');
+import {log} from '../../../src/utils/log';
+import {chai} from 'chai';
 const should = chai.should();
 const expect = chai.expect;
 const assert = chai.assert;

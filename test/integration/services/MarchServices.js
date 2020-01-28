@@ -1,13 +1,13 @@
-const log     = require('../../../src/utils/log');
-const chai    = require('chai');
+import {log} from '../../../src/utils/log';
+import {chai} from 'chai';
 const should  = chai.should();
 const expect  = chai.expect;
 const assert  = chai.assert;
 
 // run all of the test on march services
 // ensure that messages are dispatched properly
-const MarchServices   = require('../../../src/services/MarchServices');
-const Request         = require('../../../src/Request');
+import {MarchServices} from '../../../src/services/MarchServices';
+import {Request} from '../../../src/Request';
 let marchServices     = new MarchServices();
 
 describe('MarchServices', function() {

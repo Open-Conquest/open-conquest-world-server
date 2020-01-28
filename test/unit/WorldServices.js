@@ -1,12 +1,12 @@
-const chai    = require('chai');
+import {chai} from 'chai';
 const should  = chai.should();
 const expect  = chai.expect;
 const assert  = chai.assert;
 
 // run all of the test on world services
 // ensure that messages are dispatched properly
-const WorldServices   = require('../../src/WorldServices');
-const Request         = require('../../src/Request');
+import {WorldServices} from '../../src/WorldServices';
+import {Request} from '../../src/Request';
 let worldServices     = new WorldServices();
 
 describe('WorldServices', function() {

@@ -2,14 +2,14 @@
  * The WorldService dispatches request to the appropriate handler.
  */
 
-const log = require('./utils/log');
+import {log} from './utils/log';
 const logError = require('./utils/log').logError;
-const Request = require('./Request');
-const ArmyServices = require('./services/ArmyServices');
-const MapServies = require('./services/MapServices');
-const MarchServices = require('./services/MarchServices');
-const TileServices = require('./services/TileServices');
-const UserServices = require('./services/UserServices');
+import {Request} from './Request';
+import {ArmyServices} from './services/ArmyServices';
+import {MapServies} from './services/MapServices';
+import {MarchServices} from './services/MarchServices';
+import {TileServices} from './services/TileServices';
+import {UserServices} from './services/UserServices';
 
 class WorldServices {
   constructor(armyServices, cityServices, mapServices, marchServices, tileServices, userServices) {

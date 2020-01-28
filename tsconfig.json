@@ -2,7 +2,7 @@
   "compilerOptions": {
       "outDir": "./dist",
       "allowJs": true,
-      "module": "CommonJS",
+      "module": "commonjs",
       "moduleResolution": "node",
       "target": "es6"
   },
@@ -11,8 +11,6 @@
   ],
   "eslint.validate": [
     "javascript",
-    "javascriptreact",
     { "language": "typescript", "autoFix": true },
-    { "language": "typescriptreact", "autoFix": true }
 ],
 }
