@@ -1,6 +1,6 @@
 import {log} from '../../utils/log';
-const logError = require('../../utils/log').logError;
-const user = require('../../models').user;
+import {logError as logError} from '../../utils/log';
+import {user as user} from '../../models';
 
 export class UserRepository {
   constructor() {}

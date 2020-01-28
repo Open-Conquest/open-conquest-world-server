@@ -3,8 +3,8 @@
  * connections to the server, and dispatching request to the World Services.
  */
 import {log} from './utils/log';
-const logError = require('./utils/log').logError;
-const WSS = require('websocket').server;
+import {logError as logError} from './utils/log';
+import {server as WSS} from 'websocket';
 import {HTTP} from 'http';
 const PORT = 1337;
 

@@ -1,6 +1,6 @@
 import {log} from '../../utils/log';
-const logError = require('../../utils/log').logError;
-const tile = require('../../models').tile;
+import {logError as logError} from '../../utils/log';
+import {tile as tile} from '../../models';
 
 export class TileRepository {
   constructor() {}

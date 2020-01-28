@@ -1,6 +1,6 @@
 import {log} from '../../utils/log';
-const logError = require('../../utils/log').logError;
-const map = require('../../models').map;
+import {logError as logError} from '../../utils/log';
+import {map as map} from '../../models';
 
 export class MapRepository {
   constructor() {}

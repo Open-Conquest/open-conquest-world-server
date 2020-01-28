@@ -1,6 +1,6 @@
 import {log} from '../../utils/log';
-const logError = require('../../utils/log').logError;
-const march = require('../../models').march;
+import {logError as logError} from '../../utils/log';
+import {march as march} from '../../models';
 
 export class MarchRepository {
   constructor() {}

@@ -1,6 +1,6 @@
 import {log} from '../../utils/log';
-const logError = require('../../utils/log').logError;
-const army = require('../../models').army;
+import {logError as logError} from '../../utils/log';
+import {army as army} from '../../models';
 
 /**
  * 

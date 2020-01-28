@@ -5,7 +5,7 @@
  */
 
 import {log} from '../utils/log';
-const logError = require('../utils/log').logError;
+import {logError as logError} from '../utils/log';
 import {BaseServices} from './BaseServices';
 import {models} from '../models';
 

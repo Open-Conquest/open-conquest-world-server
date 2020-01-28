@@ -3,7 +3,7 @@
  */
 
 import {log} from './utils/log';
-const logError = require('./utils/log').logError;
+import {logError as logError} from './utils/log';
 import {Request} from './Request';
 import {ArmyServices} from './services/ArmyServices';
 import {MapServies} from './services/MapServices';
@@ -11,7 +11,7 @@ import {MarchServices} from './services/MarchServices';
 import {TileServices} from './services/TileServices';
 import {UserServices} from './services/UserServices';
 
-class WorldServices {
+export class WorldServices {
   constructor(armyServices, cityServices, mapServices, marchServices, tileServices, userServices) {
     log('WorldService initialized.');
     this.armyServices = armyServices;

@@ -1,4 +1,4 @@
-const logError = require('./utils/log').logError;
+import {logError as logError} from './utils/log';
 
 class Request {
   constructor(service, operation, data) {
