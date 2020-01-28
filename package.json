@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "unit-tests": "node_modules/mocha/bin/mocha test/unit/",
-    "integration-tests": "NODE_ENV=test node_modules/mocha/bin/mocha test/integration/services",
+    "integration-tests": "NODE_ENV=test node_modules/mocha/bin/mocha test/integration",
     "start": "NODE_ENV=test node src/WorldServer.js"
   },
   "keywords": [],

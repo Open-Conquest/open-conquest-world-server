@@ -5,11 +5,11 @@
 const log           = require('./utils/log');
 const logError      = require('./utils/log').logError;
 const Request       = require('./Request');
-const ArmyServices  = require('./services/army/ArmyServices');
-const MapServies    = require('./services/map/MapServices');
-const MarchServices = require('./services/march/MarchServices');
-const TileServices  = require('./services/tile/TileServices');
-const UserServices  = require('./services/user/UserServices');
+const ArmyServices  = require('./services/ArmyServices');
+const MapServies    = require('./services/MapServices');
+const MarchServices = require('./services/MarchServices');
+const TileServices  = require('./services/TileServices');
+const UserServices  = require('./services/UserServices');
 
 class WorldServices {
 
