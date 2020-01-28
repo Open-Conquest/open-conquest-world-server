@@ -6,10 +6,10 @@
 
 const log = require('../utils/log');
 const logError = require('../utils/log').logError;
-const BaseServices = require('./BaseServices');
+import {BaseServices} from './BaseServices';
 const models = require('../models');
 
-class MapServices extends BaseServices {
+export class MapServices extends BaseServices {
   constructor() {
     super();
     this.service = 'map';
@@ -48,5 +48,3 @@ class MapServices extends BaseServices {
     });
   }
 }
-
-module.exports = MapServices;

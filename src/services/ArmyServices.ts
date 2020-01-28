@@ -1,9 +1,9 @@
 const log = require('../utils/log');
 const logError = require('../utils/log').logError;
-const BaseServices = require('./BaseServices');
+import {BaseServices} from './BaseServices';
 const models = require('../models');
 
-class ArmyServices extends BaseServices {
+export class ArmyServices extends BaseServices {
   constructor() {
     super();
     this.service = 'army';
@@ -31,5 +31,3 @@ class ArmyServices extends BaseServices {
     });
   }
 }
-
-module.exports = ArmyServices;

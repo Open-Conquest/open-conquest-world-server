@@ -7,7 +7,10 @@ const Response = require('../Response');
  *
  * @class BaseServices
  */
-class BaseServices {
+export class BaseServices {
+  public handlers;
+  public service;
+
   /**
    * Creates an instance of BaseServices.
    * @memberof BaseServices
@@ -22,7 +25,7 @@ class BaseServices {
    * @return {Promise}
    * @memberof BaseServices
    */
-  handle(request) {
+  handle(request): Promise<Response> {
     const handlers = this.handlers;
     const service = this.service;
     const clazz = this.constructor.name;
@@ -41,5 +44,3 @@ class BaseServices {
     });
   }
 }
-
-module.exports = BaseServices;

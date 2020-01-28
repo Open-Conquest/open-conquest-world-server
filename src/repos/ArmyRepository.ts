@@ -17,7 +17,7 @@ export class ArmyRepository {
    * @return Promise
    * @memberof ArmyRepository
    */
-  async getAllArmies(): Promise<T> {
+  getAllArmies(){
     return new Promise( function(resolve, reject) {
       army.findAll({})
           .then((armies) => {
