@@ -4,10 +4,10 @@
  * @class TileServices
  */
 
-const log           = require('../../utils/log');
-const logError      = require('../../utils/log').logError;
-const BaseServices  = require('../BaseServices');
-const models        = require('../../models');
+const log           = require('../utils/log');
+const logError      = require('../utils/log').logError;
+const BaseServices  = require('./BaseServices');
+const models        = require('../models');
 
 class TileServices extends BaseServices {
   constructor() {

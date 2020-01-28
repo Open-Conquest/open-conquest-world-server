@@ -6,7 +6,7 @@ const assert  = chai.assert;
 
 // run all of the test on tile services
 // ensure that messages are dispatched properly
-const TileServices    = require('../../../../src/services/tile/TileServices');
+const TileServices    = require('../../../src/services/TileServices');
 const Request         = require('../../../src/Request');
 let tileServices      = new TileServices();
 

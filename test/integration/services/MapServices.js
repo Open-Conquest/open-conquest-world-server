@@ -6,9 +6,9 @@ const assert  = chai.assert;
 
 // run all of the test on map services
 // ensure that messages are dispatched properly
-const MapServices    = require('../../../../src/services/map/MapServices');
-const Request         = require('../../../src/Request');
-let mapServices      = new MapServices();
+const MapServices   = require('../../../src/services/MapServices');
+const Request       = require('../../../src/Request');
+let mapServices     = new MapServices();
 
 describe('MapServices', function() {
   it('should get expected test map', function() {

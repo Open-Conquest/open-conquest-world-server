@@ -6,7 +6,7 @@ const assert  = chai.assert;
 
 // run all of the test on user services
 // ensure that messages are dispatched properly
-const UserServices    = require('../../../../src/services/user/UserServices');
+const UserServices    = require('../../../src/services/UserServices');
 const Request         = require('../../../src/Request');
 let userServices      = new UserServices();
 

@@ -6,7 +6,7 @@ const assert  = chai.assert;
 
 // run all of the test on march services
 // ensure that messages are dispatched properly
-const MarchServices   = require('../../../../src/services/march/MarchServices');
+const MarchServices   = require('../../../src/services/MarchServices');
 const Request         = require('../../../src/Request');
 let marchServices     = new MarchServices();
 
