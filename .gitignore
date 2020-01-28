@@ -1,2 +1,5 @@
+# TypeScript built files
+dist
+
+# Node dependencies
 node_modules
-schema.json
