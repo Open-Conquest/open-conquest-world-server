@@ -10,12 +10,12 @@ const PORT = 1337;
 
 // CREATE WORLD SERVICES
 const WorldServices = require('./WorldServices');
-const ArmyServices = require('./services/army/ArmyServices');
-const CityServices = require('./services/city/CityServices');
-const MapServices = require('./services/map/MapServices');
-const MarchServices = require('./services/march/MarchServices');
-const TileServices = require('./services/tile/TileServices');
-const UserServices = require('./services/user/UserServices');
+const ArmyServices = require('./services/ArmyServices');
+const CityServices = require('./services/CityServices');
+const MapServices = require('./services/MapServices');
+const MarchServices = require('./services/MarchServices');
+const TileServices = require('./services/TileServices');
+const UserServices = require('./services/UserServices');
 let worldServices = new WorldServices(
   new ArmyServices(),
   new CityServices(),

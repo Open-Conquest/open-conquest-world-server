@@ -4,15 +4,22 @@ const should  = chai.should();
 const expect  = chai.expect;
 const assert  = chai.assert;
 
-// run all of the test on map services
-// ensure that messages are dispatched properly
-const ArmyServices    = require('../../../src/services/ArmyServices');
-const Request         = require('../../../src/Request');
-let armyServices      = new ArmyServices();
+// What we are testing
+const ArmyRepository  = require('../../../src/repos/ArmyRepository');
+const ArmyRepository  = new ArmyRepository();
 
-describe('ArmyServices', function() {
+describe('ArmyRepository', function() {
+
+  /**
+   * This test is meant to make sure that the repo returns the expected armies
+   * in the expected format `ArmyEntity`.
+   */
   it('should get expected test armies', function() {
-    let request = new Request('army', 'get', {});
+    
+    return armyRepository.getAllArmies().then(res => {
+    
+    });
+    
     return armyServices.handle(request).then(res => {
 
       let army_data = res.data;
