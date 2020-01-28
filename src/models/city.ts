@@ -1,5 +1,5 @@
-module.exports = (sequelize, DataTypes) => {
-  let city = sequelize.define('city', {
+export default (sequelize, DataTypes) => {
+  const city = sequelize.define('city', {
     city_id: {
       type: DataTypes.INTEGER(11),
       primaryKey: true,
@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
     freezeTableName: true
   });
 
-  city.associate = function (models) {
+  city.associate = (models) => {
     models.city.belongsTo(models.user, {
       foreignKey: 'user_id'
     });

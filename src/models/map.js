@@ -1,5 +1,5 @@
-module.exports = (sequelize, DataTypes) => {
-  let map = sequelize.define('map', {
+export default (sequelize, DataTypes) => {
+  const map = sequelize.define('map', {
     map_id: {
       type: DataTypes.INTEGER(11),
       primaryKey: true,
@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
     freezeTableName: true
   });
 
-  map.associate = function (models) {
+  map.associate = (models) => {
     models.map.belongsTo(models.world, {
       foreignKey: 'world_id'
     });
