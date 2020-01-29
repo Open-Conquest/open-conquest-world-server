@@ -5,23 +5,23 @@ export default (sequelize, DataTypes) => {
       primaryKey: true,
       allowNull: false,
       unique: true,
-      autoIncrement: true
+      autoIncrement: true,
     },
     user_id: {
       type: DataTypes.INTEGER(11),
-      allowNull: false
-    }
+      allowNull: false,
+    },
   }, {
     timestamps: false,
-    freezeTableName: true
+    freezeTableName: true,
   });
 
   army.associate = (models) => {
     models.army.belongsTo(models.user, {
-      foreignKey: 'user_id'
+      foreignKey: 'user_id',
     });
     models.army.hasMany(models.army_units, {
-      foreignKey: 'army_id'
+      foreignKey: 'army_id',
     });
   };
 

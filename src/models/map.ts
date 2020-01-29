@@ -5,20 +5,20 @@ export default (sequelize, DataTypes) => {
       primaryKey: true,
       allowNull: false,
       unique: true,
-      autoIncrement: true
+      autoIncrement: true,
     },
     world_id: {
       type: DataTypes.INTEGER(11),
-      allowNull: false
-    }
+      allowNull: false,
+    },
   }, {
     timestamps: false,
-    freezeTableName: true
+    freezeTableName: true,
   });
 
   map.associate = (models) => {
     models.map.belongsTo(models.world, {
-      foreignKey: 'world_id'
+      foreignKey: 'world_id',
     });
   };
 

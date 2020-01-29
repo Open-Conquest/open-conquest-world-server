@@ -19,5 +19,8 @@ module.exports = {
     '@typescript-eslint/',
   ],
   'rules': {
+    'new-cap': ['error', {
+        'properties': false
+    }]
   },
 };

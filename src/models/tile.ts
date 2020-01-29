@@ -1,36 +1,36 @@
 export default (sequelize, DataTypes) => {
-  let tile = sequelize.define('tile', {
+  const tile = sequelize.define('tile', {
     tile_id: {
       type: DataTypes.INTEGER(11),
       primaryKey: true,
       allowNull: false,
       unique: true,
-      autoIncrement: true
+      autoIncrement: true,
     },
     map_id: {
       type: DataTypes.INTEGER(11),
-      allowNull: false
+      allowNull: false,
     },
     tile_type: {
       type: DataTypes.INTEGER(11),
-      allowNull: false
+      allowNull: false,
     },
     tile_row: {
       type: DataTypes.INTEGER(11),
-      allowNull: false
+      allowNull: false,
     },
     tile_col: {
       type: DataTypes.INTEGER(11),
-      allowNull: false
-    }
+      allowNull: false,
+    },
   }, {
     timestamps: false,
-    freezeTableName: true
+    freezeTableName: true,
   });
 
   tile.associate = (models) => {
     models.tile.belongsTo(models.map, {
-      foreignKey: 'map_id'
+      foreignKey: 'map_id',
     });
   };
 
