@@ -1,6 +1,6 @@
-import {log} from '../../utils/log';
-import {logError as logError} from '../../utils/log';
-import {march as march} from '../../models';
+import {log} from '../utils/log';
+import {logError as logError} from '../utils/log';
+import {march as march} from '../models';
 
 export class MarchRepository {
   constructor() {}

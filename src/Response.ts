@@ -1,4 +1,8 @@
-class Response {
+export class Response {
+  public service;
+  public operation;
+  public data;
+
   constructor(service, operation, data) {
     this.service = service;
     this.operation = operation;
@@ -10,7 +14,11 @@ class Response {
   }
 
   toJson() {
-    return JSON(this);
+    return {
+      'service': this.service,
+      'operation': this.operation,
+      'data': this.data,
+    };
   }
 }
 

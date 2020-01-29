@@ -1,6 +1,10 @@
 import {logError as logError} from './utils/log';
 
-class Request {
+export class Request {
+  public operation;
+  public service;
+  public data;
+
   constructor(service, operation, data) {
     this.service = service;
     this.operation = operation;
@@ -24,7 +28,7 @@ class Request {
   }
 }
 
-function fromRequest(request) {
+export function fromRequest(request) {
   try {
     const json = JSON.parse(request.utf8Data);
     const service = json.service;
@@ -37,7 +41,3 @@ function fromRequest(request) {
     throw err;
   }
 }
-
-Request.fromRequest = fromRequest;
-
-module.exports = Request;

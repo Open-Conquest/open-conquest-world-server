@@ -1,5 +1,5 @@
-const fs = require('fs');
-const path = require('path');
+import * as fs from 'fs';
+import * as path from 'path';
 const Sequelize = require('sequelize');
 const thisfile = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
@@ -15,7 +15,7 @@ const sequelize = new Sequelize(
       dialect: config.dialect,
     });
 
-const db = {};
+const models: any = {};
 
 // import all the model definitions from files in this directory
 fs.readdirSync(__dirname)
@@ -25,16 +25,16 @@ fs.readdirSync(__dirname)
     })
     .forEach((file) => {
       const model = sequelize['import'](path.join(__dirname, file));
-      db[model.name] = model;
+      models[model.name] = model;
     });
 
-Object.keys(db).forEach((modelName) => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
+Object.keys(models).forEach((modelName) => {
+  if (models[modelName].associate) {
+    models[modelName].associate(models);
   }
 });
 
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
+models.sequelize = sequelize;
+models.Sequelize = Sequelize;
 
-module.exports = db;
+export default models;

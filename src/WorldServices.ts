@@ -5,13 +5,22 @@
 import {log} from './utils/log';
 import {logError as logError} from './utils/log';
 import {Request} from './Request';
+import {fromRequest} from './Request';
 import {ArmyServices} from './services/ArmyServices';
-import {MapServies} from './services/MapServices';
+import {MapServices} from './services/MapServices';
 import {MarchServices} from './services/MarchServices';
 import {TileServices} from './services/TileServices';
 import {UserServices} from './services/UserServices';
 
 export class WorldServices {
+  private services;
+  private armyServices;
+  private cityServices;
+  private mapServices;
+  private marchServices;
+  private tileServices;
+  private userServices;
+
   constructor(armyServices, cityServices, mapServices, marchServices, tileServices, userServices) {
     log('WorldService initialized.');
     this.armyServices = armyServices;
@@ -36,7 +45,7 @@ export class WorldServices {
     const services = this.services;
     return new Promise( function(resolve, reject) {
       try {
-        request = new Request.fromRequest(request);
+        request = fromRequest(request);
       } catch (err) {
         reject(err);
       }

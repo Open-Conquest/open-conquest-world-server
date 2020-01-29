@@ -1,6 +1,6 @@
-const log = require('../../utils/log');
-import {logError as logError} from '../../utils/log';
-import {city as city} from '../../models';
+const log = require('../utils/log');
+import {logError as logError} from '../utils/log';
+import {city as city} from '../models';
 
 export class CityRepository {
   constructor() {}

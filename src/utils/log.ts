@@ -16,13 +16,24 @@ const logger = createLogger({
 
 logger.info('Logging started.');
 
+/**
+ *
+ *
+ * @export
+ * @param {*} msg
+ */
 function log(msg) {
   logger.info(msg);
 }
 
+/**
+ *
+ *
+ * @export
+ * @param {*} msg
+ */
 function logError(msg) {
   logger.error(msg);
 }
 
-module.exports = log;
-module.exports.logError = logError;
+export {log, logError};
