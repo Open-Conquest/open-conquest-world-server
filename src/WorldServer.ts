@@ -5,7 +5,7 @@
 import {log} from './utils/log';
 import {logError as logError} from './utils/log';
 import {server as WSS} from 'websocket';
-import {HTTP} from 'http';
+import * as HTTP from 'http';
 const PORT = 1337;
 
 // CREATE WORLD SERVICES

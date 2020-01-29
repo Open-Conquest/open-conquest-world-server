@@ -1,6 +1,5 @@
 import {log} from '../utils/log';
 import {logError as logError} from '../utils/log';
-import {user as user} from '../models';
 
 export class UserRepository {
   constructor() {}

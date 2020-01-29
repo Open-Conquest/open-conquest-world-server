@@ -1,16 +1,37 @@
+// {
+//   "compilerOptions": {
+//       "outDir": "./dist",
+//       "allowJs": true,
+//       "module": "commonjs",
+//       "moduleResolution": "node",
+//       "target": "es5"
+//   },
+//   "include": [
+//       "./src/**/*"
+//   ],
+//   "eslint.validate": [
+//     "javascript",
+//     { "language": "typescript", "autoFix": true },
+// ],
+// }
 {
-  "compilerOptions": {
-      "outDir": "./dist",
+    "compilerOptions": {
       "allowJs": true,
       "module": "commonjs",
       "moduleResolution": "node",
-      "target": "es6"
-  },
-  "include": [
-      "./src/**/*"
-  ],
-  "eslint.validate": [
-    "javascript",
-    { "language": "typescript", "autoFix": true },
-],
-}
+      "pretty": true,
+      "target": "es2017",
+      "outDir": "./dist",
+      "lib": ["es6"],
+      "resolveJsonModule": true,
+      "types": ["node"],
+      "typeRoots" : ["./node_modules/@types"],
+      "experimentalDecorators": true,
+      "esModuleInterop": true
+    },
+    "include": [
+      "src/*.ts",
+      "src/**/*.ts",
+      "src/**/*.js"
+    ]
+  }

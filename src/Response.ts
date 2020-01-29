@@ -10,7 +10,7 @@ export class Response {
   }
 
   fromJson(json) {
-    return new this(json.service, json.operation, json.data);
+    return new Response(json.service, json.operation, json.data);
   }
 
   toJson() {

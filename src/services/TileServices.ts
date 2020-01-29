@@ -28,19 +28,19 @@ export class TileServices extends BaseServices {
    */
   getTile(request) {
     log('Getting tile for request:' + request);
-    return new Promise(function(resolve, reject) {
-      const row = request.data.tile_row;
-      const col = request.data.tile_col;
+    // return new Promise(function(resolve, reject) {
+    //   const row = request.data.tile_row;
+    //   const col = request.data.tile_col;
 
-      models.tile.findOne({
-        where: {tile_row: row, tile_col: col},
-      })
-          .then((tile) => {
-            resolve(tile);
-          })
-          .catch((err) => {
-            reject(err);
-          });
-    });
+    //   models.tile.findOne({
+    //     where: {tile_row: row, tile_col: col},
+    //   })
+    //       .then((tile) => {
+    //         resolve(tile);
+    //       })
+    //       .catch((err) => {
+    //         reject(err);
+    //       });
+    // });
   }
 }

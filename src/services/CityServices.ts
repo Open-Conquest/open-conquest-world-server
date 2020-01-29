@@ -13,14 +13,14 @@ export class CityServices extends BaseServices {
   }
 
   getCity(request) {
-    return new Promise( function(resolve, reject) {
-      models.city.findAll()
-          .then((res) => {
-            resolve(res);
-          })
-          .catch((err) => {
-            reject(err);
-          });
-    });
+    // return new Promise( function(resolve, reject) {
+    //   models.city.findAll()
+    //       .then((res) => {
+    //         resolve(res);
+    //       })
+    //       .catch((err) => {
+    //         reject(err);
+    //       });
+    // });
   }
 }

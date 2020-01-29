@@ -13,15 +13,25 @@ import {TileServices} from './services/TileServices';
 import {UserServices} from './services/UserServices';
 
 export class WorldServices {
-  private services;
-  private armyServices;
-  private cityServices;
-  private mapServices;
-  private marchServices;
-  private tileServices;
-  private userServices;
+  private services: any;
+  private armyServices: any;
+  private cityServices: any;
+  private mapServices: any;
+  private marchServices: any;
+  private tileServices: any;
+  private userServices: any;
 
-  constructor(armyServices, cityServices, mapServices, marchServices, tileServices, userServices) {
+  /**
+   *Creates an instance of WorldServices.
+   * @param {*} armyServices
+   * @param {*} cityServices
+   * @param {*} mapServices
+   * @param {*} marchServices
+   * @param {*} tileServices
+   * @param {*} userServices
+   * @memberof WorldServices
+   */
+  constructor(armyServices: any, cityServices: any, mapServices: any, marchServices: any, tileServices: any, userServices: any) {
     log('WorldService initialized.');
     this.armyServices = armyServices;
     this.cityServices = cityServices;
@@ -39,7 +49,14 @@ export class WorldServices {
     };
   }
 
-  dispatchRequest(request) {
+  /**
+   *
+   *
+   * @param {*} request
+   * @return {Request}
+   * @memberof WorldServices
+   */
+  public dispatchRequest(request): any {
     log('WorldService received request: ' + JSON.stringify(request));
 
     const services = this.services;
@@ -66,4 +83,3 @@ export class WorldServices {
   }
 }
 
-module.exports = WorldServices;

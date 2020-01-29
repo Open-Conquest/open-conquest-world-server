@@ -1,6 +1,5 @@
 import {log} from '../utils/log';
 import {logError as logError} from '../utils/log';
-import {tile as tile} from '../models';
 
 export class TileRepository {
   constructor() {}

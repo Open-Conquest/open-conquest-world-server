@@ -1,6 +1,5 @@
 import {log} from '../utils/log';
 import {logError as logError} from '../utils/log';
-import {map as map} from '../models';
 
 export class MapRepository {
   constructor() {}

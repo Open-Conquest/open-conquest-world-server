@@ -14,31 +14,31 @@ export class UserServices extends BaseServices {
   }
 
   getUsers(request) {
-    return new Promise(function(resolve, reject) {
-      models.user.findAll({})
-          .then((users) => {
-            resolve(users);
-          })
-          .catch((err) => {
-            reject(err);
-          });
-    });
+    // return new Promise(function(resolve, reject) {
+    //   models.user.findAll({})
+    //       .then((users) => {
+    //         resolve(users);
+    //       })
+    //       .catch((err) => {
+    //         reject(err);
+    //       });
+    // });
   }
 
   loginUser(request) {
-    return new Promise(function(resolve, reject) {
-      const username = request.username;
-      models.user.findOne({
-        username: username,
-      })
-          .then((user) => {
-            resolve({'username': user.user_name});
-            // just return username instead
-            resolve(user);
-          })
-          .catch((err) => {
-            reject(err);
-          });
-    });
+    // return new Promise(function(resolve, reject) {
+    //   const username = request.username;
+    //   models.user.findOne({
+    //     username: username,
+    //   })
+    //       .then((user) => {
+    //         resolve({'username': user.user_name});
+    //         // just return username instead
+    //         resolve(user);
+    //       })
+    //       .catch((err) => {
+    //         reject(err);
+    //       });
+    // });
   }
 }

@@ -13,21 +13,21 @@ export class ArmyServices extends BaseServices {
   }
 
   getArmy(request) {
-    return new Promise( function(resolve, reject) {
-      models.army.findAll({
-        include: {
-          model: models.army_units,
-          include: {
-            model: models.unit,
-          },
-        },
-      })
-          .then((armies) => {
-            resolve(armies);
-          })
-          .catch((err) => {
-            reject(err);
-          });
-    });
+    // return new Promise( function(resolve, reject) {
+    //   models.army.findAll({
+    //     include: {
+    //       model: models.army_units,
+    //       include: {
+    //         model: models.unit,
+    //       },
+    //     },
+    //   })
+    //       .then((armies) => {
+    //         resolve(armies);
+    //       })
+    //       .catch((err) => {
+    //         reject(err);
+    //       });
+    // });
   }
 }
