@@ -1,22 +1,16 @@
-import {log} from '../utils/log';
-import {logError as logError} from '../utils/log';
-
 /**
- *
- *
- * @export
+ * A Sequelize implementation of the `IUserRepository`
  * @class UserRepository
  */
 export class UserRepository {
   /**
-   *Creates an instance of UserRepository.
+   * Creates an instance of UserRepository.
    * @memberof UserRepository
    */
   constructor() {}
 
   /**
-   * Gets all of the map in this world.
-   *
+   * Gets all of the users in this world.
    * @memberof UserRepository
    */
   getAllUsers() {

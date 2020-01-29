@@ -1,23 +1,17 @@
-import {log} from '../utils/log';
-import {logError as logError} from '../utils/log';
-
 /**
- * Implementation
+ * Sequelize implementation of the ArmyRepository.
  *
  * @class ArmyRepository
  */
 export class ArmyRepository {
   /**
-   *Creates an instance of ArmyRepository.
+   * Creates an instance of ArmyRepository.
    * @memberof ArmyRepository
    */
-  constructor() {
-
-  }
+  constructor() {}
 
   /**
    * Gets all of the armies in this world.
-   *
    * @memberof ArmyRepository
    */
   getAllArmies() {
