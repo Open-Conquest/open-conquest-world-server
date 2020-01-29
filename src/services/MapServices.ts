@@ -1,15 +1,20 @@
-/**
- * Responsible for handling map related requests.
- *
- * @class MapServices
- */
-
 import {log} from '../utils/log';
 import {logError as logError} from '../utils/log';
 import {BaseServices} from './BaseServices';
 import {models} from '../models';
 
+/**
+ *
+ *
+ * @export
+ * @class MapServices
+ * @extends {BaseServices}
+ */
 export class MapServices extends BaseServices {
+  /**
+   *Creates an instance of MapServices.
+   * @memberof MapServices
+   */
   constructor() {
     super();
     this.service = 'map';

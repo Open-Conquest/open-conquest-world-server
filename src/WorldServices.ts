@@ -12,6 +12,12 @@ import {MarchServices} from './services/MarchServices';
 import {TileServices} from './services/TileServices';
 import {UserServices} from './services/UserServices';
 
+/**
+ *
+ *
+ * @export
+ * @class WorldServices
+ */
 export class WorldServices {
   private services: any;
   private armyServices: any;

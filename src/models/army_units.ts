@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 export default (sequelize, DataTypes) => {
   const army_units = sequelize.define('army_units', {
     army_units_id: {

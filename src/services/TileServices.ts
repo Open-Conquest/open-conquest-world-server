@@ -1,15 +1,20 @@
-/**
- * Responsible for handling tile related requests.
- *
- * @class TileServices
- */
-
 import {log} from '../utils/log';
 import {logError as logError} from '../utils/log';
 import {BaseServices} from './BaseServices';
 import {models} from '../models';
 
+/**
+ *
+ *
+ * @export
+ * @class TileServices
+ * @extends {BaseServices}
+ */
 export class TileServices extends BaseServices {
+  /**
+   *Creates an instance of TileServices.
+   * @memberof TileServices
+   */
   constructor() {
     super();
     this.service = 'tile';
@@ -23,7 +28,6 @@ export class TileServices extends BaseServices {
    * Gets all of the tiles associated with the tile for a world.
    *
    * @param {*} request
-   * @return
    * @memberof TileServices
    */
   getTile(request) {

@@ -2,12 +2,17 @@ import {log} from '../utils/log';
 import {logError as logError} from '../utils/log';
 
 /**
- *
+ * Implementation
  *
  * @class ArmyRepository
  */
 export class ArmyRepository {
+  /**
+   *Creates an instance of ArmyRepository.
+   * @memberof ArmyRepository
+   */
   constructor() {
+
   }
 
   /**

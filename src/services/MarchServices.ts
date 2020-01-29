@@ -3,7 +3,18 @@ import {logError as logError} from '../utils/log';
 import {BaseServices} from './BaseServices';
 import {models} from '../models';
 
+/**
+ *
+ *
+ * @export
+ * @class MarchServices
+ * @extends {BaseServices}
+ */
 export class MarchServices extends BaseServices {
+  /**
+   *Creates an instance of MarchServices.
+   * @memberof MarchServices
+   */
   constructor() {
     super();
     this.service = 'march';
@@ -18,7 +29,6 @@ export class MarchServices extends BaseServices {
    * data. Should return an array of march json objects.
    *
    * @param {*} request
-   * @return
    * @memberof MarchServices
    */
   getMarch(request) {
@@ -40,7 +50,6 @@ export class MarchServices extends BaseServices {
    * json data about the new march.
    *
    * @param {*} request
-   * @return
    * @memberof MarchServices
    */
   createMarch(request) {

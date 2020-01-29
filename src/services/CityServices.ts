@@ -3,7 +3,18 @@ import {logError as logError} from '../utils/log';
 import {BaseServices} from './BaseServices';
 import {models} from '../models';
 
+/**
+ *
+ *
+ * @export
+ * @class CityServices
+ * @extends {BaseServices}
+ */
 export class CityServices extends BaseServices {
+  /**
+   *Creates an instance of CityServices.
+   * @memberof CityServices
+   */
   constructor() {
     super();
     this.service = 'city';
@@ -12,6 +23,12 @@ export class CityServices extends BaseServices {
     };
   }
 
+  /**
+   *
+   *
+   * @param {*} request
+   * @memberof CityServices
+   */
   getCity(request) {
     // return new Promise( function(resolve, reject) {
     //   models.city.findAll()

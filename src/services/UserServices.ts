@@ -3,7 +3,18 @@ import {logError as logError} from '../utils/log';
 import {BaseServices} from './BaseServices';
 import {models} from '../models';
 
+/**
+ *
+ *
+ * @export
+ * @class UserServices
+ * @extends {BaseServices}
+ */
 export class UserServices extends BaseServices {
+  /**
+   *Creates an instance of UserServices.
+   * @memberof UserServices
+   */
   constructor() {
     super();
     this.service = 'user';
@@ -13,6 +24,12 @@ export class UserServices extends BaseServices {
     };
   }
 
+  /**
+   *
+   *
+   * @param {*} request
+   * @memberof UserServices
+   */
   getUsers(request) {
     // return new Promise(function(resolve, reject) {
     //   models.user.findAll({})
@@ -25,6 +42,12 @@ export class UserServices extends BaseServices {
     // });
   }
 
+  /**
+   *
+   *
+   * @param {*} request
+   * @memberof UserServices
+   */
   loginUser(request) {
     // return new Promise(function(resolve, reject) {
     //   const username = request.username;
