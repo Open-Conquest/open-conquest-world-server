@@ -26,6 +26,7 @@ export class Response {
    *
    *
    * @param {*} json
+   * @return {Response}
    * @memberof Response
    */
   fromJson(json) {
@@ -34,7 +35,7 @@ export class Response {
 
   /**
    *
-   *
+   * @return {Response}
    * @memberof Response
    */
   toJson() {

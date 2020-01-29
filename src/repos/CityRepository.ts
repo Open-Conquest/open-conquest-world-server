@@ -1,7 +1,5 @@
 /**
  * Sequelize implementation of the `ICityRepository`
- *
- * @export
  * @class CityRepository
  */
 export class CityRepository {

@@ -1,6 +1,5 @@
 /**
- * Sequelize implementation of the ArmyRepository.
- *
+ * Sequelize implementation of the `IArmyRepository`.
  * @class ArmyRepository
  */
 export class ArmyRepository {
