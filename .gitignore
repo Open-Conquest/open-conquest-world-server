@@ -3,3 +3,6 @@ dist
 
 # Node dependencies
 node_modules
+
+# VS Code
+.vscode
