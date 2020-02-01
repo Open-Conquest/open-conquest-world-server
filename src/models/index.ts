@@ -21,7 +21,7 @@ const models: any = {};
 fs.readdirSync(__dirname)
     .filter((file) => {
       return (file.indexOf('.') !== 0) &&
-      (file !== thisfile) && (file.slice(-3) === '.js');
+      (file !== thisfile) && (file.slice(-3) === '.ts');
     })
     .forEach((file) => {
       const model = sequelize['import'](path.join(__dirname, file));

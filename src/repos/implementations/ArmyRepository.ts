@@ -1,3 +1,6 @@
+import {Army} from '../../domain/army';
+import * as models from '../../models';
+
 /**
  * Sequelize implementation of the `IArmyRepository`.
  * @class ArmyRepository
@@ -11,9 +14,25 @@ export class ArmyRepository {
 
   /**
    * Gets all of the armies in this world.
+   * @return {Promise<Array<Army>>}
    * @memberof ArmyRepository
    */
-  getAllArmies() {
-    throw new Error('no implementation');
+  getAllArmies(): Promise<Array<Army>> {
+    return new Promise( function(resolve, reject) {
+      models.army.findAll({
+        include: {
+          model: models.army_units,
+          include: {
+            model: models.unit,
+          },
+        },
+      })
+          .then((armies) => {
+            resolve(armies);
+          })
+          .catch((err) => {
+            reject(err);
+          });
+    });
   }
 }

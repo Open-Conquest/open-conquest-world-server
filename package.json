@@ -4,6 +4,9 @@
   "description": "",
   "main": "server.js",
   "scripts": {
+    "make-all": "npm run make-src && npm run make-test",
+    "make-src": "tsc --p tsconfig.src.json",
+    "make-test": "tsc --p tsconfig.test.json",
     "u-tests": "node_modules/mocha/bin/mocha --recursive --exit test/unit/",
     "i-tests": "NODE_ENV=test node_modules/mocha/bin/mocha --recursive --exit test/integration",
     "start": "NODE_ENV=test node src/WorldServer.js"
@@ -12,8 +15,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "chai": "^4.2.0",
-    "mocha": "^6.2.2",
     "mysql2": "^2.0.0",
     "sequelize": "^5.21.2",
     "typescript": "^3.7.5",
@@ -21,10 +22,14 @@
     "winston": "^3.2.1"
   },
   "devDependencies": {
+    "@types/chai": "^4.2.8",
+    "@types/mocha": "^7.0.1",
     "@types/node": "^13.5.1",
     "@typescript-eslint/eslint-plugin": "^2.18.0",
     "@typescript-eslint/parser": "^2.18.0",
+    "chai": "^4.2.0",
     "eslint": "^6.8.0",
-    "eslint-config-google": "^0.14.0"
+    "eslint-config-google": "^0.14.0",
+    "mocha": "^6.2.2"
   }
 }
