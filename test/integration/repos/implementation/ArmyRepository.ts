@@ -14,8 +14,8 @@ describe('ArmyRepository', function() {
    * This test is meant to make sure that the repo returns the expected armies
    * in the expected format `ArmyEntity`.
    */
-  it('should get expected test armies', function() {
-
+  it('should get expected test armies', async function() {
+    let armies = await armyRepository.getAllArmies();
     armyRepository.getAllArmies().then((res) => {
       // make sure that the armies are army entities
       const armies = res;

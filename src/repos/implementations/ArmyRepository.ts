@@ -1,5 +1,5 @@
 import {Army} from '../../domain/army';
-import * as models from '../../models';
+import {models} from '../../models';
 
 /**
  * Sequelize implementation of the `IArmyRepository`.
@@ -17,7 +17,7 @@ export class ArmyRepository {
    * @return {Promise<Array<Army>>}
    * @memberof ArmyRepository
    */
-  getAllArmies(): Promise<Array<Army>> {
+  async getAllArmies(): Promise<Array<Army>> {
     return new Promise( function(resolve, reject) {
       models.army.findAll({
         include: {
