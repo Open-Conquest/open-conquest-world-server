@@ -1,5 +1,5 @@
 // import {log} from '';
-const log = require('../../../dist/utils/log');
+const log = require('../../../dist/src/utils/log');
 const chai = require('chai');
 // import {chai} from 'chai';
 const should = chai.should();
@@ -7,7 +7,7 @@ const expect = chai.expect;
 const assert = chai.assert;
 
 // What we are testing
-const ArmyRepository = require('../../../dist/repos/implementations/ArmyRepository');
+const ArmyRepository = require('../../../dist/src/repos/implementations/ArmyRepository');
 const armyRepository = new ArmyRepository();
 
 describe('ArmyRepository', function() {
