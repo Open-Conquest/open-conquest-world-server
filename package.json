@@ -7,8 +7,8 @@
     "make-all": "npm run make-src && npm run make-test",
     "make-src": "tsc --p tsconfig.src.json",
     "make-test": "tsc --p tsconfig.test.json",
-    "u-tests": "node_modules/mocha/bin/mocha --recursive --exit test/unit/",
-    "i-tests": "NODE_ENV=test node_modules/mocha/bin/mocha --recursive --exit test/integration",
+    "u-tests": "node_modules/mocha/bin/mocha --recursive --exit dist/test/unit/",
+    "i-tests": "NODE_ENV=test node_modules/mocha/bin/mocha --recursive --exit dist/test/integration",
     "start": "NODE_ENV=test node src/WorldServer.js"
   },
   "keywords": [],
@@ -22,9 +22,11 @@
     "winston": "^3.2.1"
   },
   "devDependencies": {
+    "@types/bluebird": "^3.5.29",
     "@types/chai": "^4.2.8",
     "@types/mocha": "^7.0.1",
-    "@types/node": "^13.5.1",
+    "@types/node": "^13.7.0",
+    "@types/validator": "^12.0.1",
     "@typescript-eslint/eslint-plugin": "^2.18.0",
     "@typescript-eslint/parser": "^2.18.0",
     "chai": "^4.2.0",
