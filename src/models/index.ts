@@ -3,7 +3,7 @@ import * as path from 'path';
 const Sequelize = require('sequelize');
 const thisfile = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
-const config = require('../../config/real-config.js')[env];
+const config = require('../../../config/real-config.js')[env];
 
 // create connection to database
 const sequelize = new Sequelize(
