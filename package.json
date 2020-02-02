@@ -9,7 +9,7 @@
     "make-test": "tsc --p tsconfig.test.json",
     "u-tests": "node_modules/mocha/bin/mocha --recursive --exit dist/test/unit/",
     "i-tests": "NODE_ENV=test node_modules/mocha/bin/mocha --recursive --exit dist/test/integration",
-    "start": "NODE_ENV=test node src/WorldServer.js"
+    "start": "NODE_ENV=test node dist/src/WorldServer.js"
   },
   "keywords": [],
   "author": "",

@@ -3,7 +3,6 @@ import * as mocha from 'mocha';
 import {ArmyRepository} from '../../../../src/repos/implementations/ArmyRepository';
 import {log} from '../../../../src/utils/log';
 
-const should = chai.should();
 const expect = chai.expect;
 const assert = chai.assert;
 
