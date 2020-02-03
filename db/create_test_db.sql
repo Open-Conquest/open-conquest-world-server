@@ -1,4 +1,5 @@
--- CREATE SCHEMA master;
+DROP DATABASE IF EXISTS master;
+CREATE DATABASE master;
 USE master;
 
 DROP TABLE IF EXISTS city;
