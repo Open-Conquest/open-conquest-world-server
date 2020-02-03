@@ -1,4 +1,4 @@
-import {Army} from '../../domain/army';
+import {Army} from '../../domain/Army';
 import {models} from '../../models';
 
 /**
