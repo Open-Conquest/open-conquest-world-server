@@ -5,7 +5,7 @@
       "moduleResolution": "node",
       "pretty": true,
       "target": "es2017",
-      "outDir": "./dist/src",
+      "outDir": "./dist",
       "lib": ["es6"],
       "resolveJsonModule": true,
       "types": ["node"],

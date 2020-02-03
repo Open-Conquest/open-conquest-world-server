@@ -3,6 +3,7 @@ node_js:
   - 10
 install:
   - npm install
-  - npm run make-all
+  - npm run make-src
+  - npm run make-test
 script:
   - npm run i-tests

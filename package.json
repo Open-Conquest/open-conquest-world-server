@@ -4,7 +4,6 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "make-all": "npm run make-src && npm run make-test",
     "make-src": "tsc --p tsconfig.src.json",
     "make-test": "tsc --p tsconfig.test.json",
     "u-tests": "node_modules/mocha/bin/mocha --recursive --exit dist/test/unit/",
