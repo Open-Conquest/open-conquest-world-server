@@ -5,8 +5,8 @@
   "main": "server.js",
   "scripts": {
     "make-all": "npm run make-src && npm run make-test",
-    "make-src": "tsc --p src/tsconfig.json",
-    "make-test": "tsc --p test/tsconfig.json",
+    "make-src": "tsc --p tsconfig.src.json",
+    "make-test": "tsc --p tsconfig.test.json",
     "u-tests": "node_modules/mocha/bin/mocha --recursive --exit dist/test/unit/",
     "i-tests": "NODE_ENV=test node_modules/mocha/bin/mocha --recursive --exit dist/test/integration",
     "start": "NODE_ENV=test node dist/src/WorldServer.js"

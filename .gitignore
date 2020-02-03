@@ -6,3 +6,6 @@ node_modules
 
 # VS Code
 .vscode
+
+# Old local files
+old-test

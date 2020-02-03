@@ -21,6 +21,7 @@
   "include": [
     "test/*.ts",
     "test/**/*.ts",
-    "test/**/*.js"
+    "test/**/*.js",
+    "config/*.*"
   ]
 }
