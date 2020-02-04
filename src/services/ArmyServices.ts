@@ -1,5 +1,8 @@
 import {BaseServices} from './BaseServices';
-import {models} from '../models';
+import {Response} from '../Response';
+import {Request} from '../Request';
+import {ArmyRepository} from '../repos/implementations/ArmyRepository';
+import {Army} from '../domain/Army';
 
 /**
  *
@@ -9,12 +12,16 @@ import {models} from '../models';
  * @extends {BaseServices}
  */
 export class ArmyServices extends BaseServices {
+  private armyRepository: ArmyRepository
+
   /**
-   *Creates an instance of ArmyServices.
+   * Creates an instance of ArmyServices.
+   * @param {ArmyRepository} armyRepository
    * @memberof ArmyServices
    */
   constructor() {
     super();
+    this.armyRepository = new ArmyRepository();
     this.service = 'army';
     this.handlers = {
       'get': this.getArmy,
@@ -22,27 +29,23 @@ export class ArmyServices extends BaseServices {
   }
 
   /**
+   * Returns an array of `Army`.
    *
-   *
-   * @param {*} request
+   * @param {Request} request
+   * @return {Promise<Array<Army>>}
    * @memberof ArmyServices
    */
-  getArmy(request) {
-    // return new Promise( function(resolve, reject) {
-    //   models.army.findAll({
-    //     include: {
-    //       model: models.army_units,
-    //       include: {
-    //         model: models.unit,
-    //       },
-    //     },
-    //   })
-    //       .then((armies) => {
-    //         resolve(armies);
-    //       })
-    //       .catch((err) => {
-    //         reject(err);
-    //       });
-    // });
+  async getArmy(): Promise<any> {
+    const armyRepository = this.armyRepository;
+    return new Promise( function(resolve, reject) {
+      armyRepository.getAllArmies()
+          .then((armies) => {
+            const response = new Response('army', 'get', armies);
+            resolve(response);
+          })
+          .catch((err) => {
+            reject(err);
+          });
+    });
   }
 }
