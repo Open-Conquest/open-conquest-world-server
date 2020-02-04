@@ -15,10 +15,19 @@ export class TileRepository {
   /**
    * Gets all of the map in this world.
    *
+   * @return {Promise<Array<Tile>>}
    * @memberof TileRepository
    */
-  getAllTiles() {
-    throw new Error('no implmentation');
+  getAllTiles(): Promise<Array<Tile>> {
+    return new Promise( function(resolve, reject) {
+      models.tile.findAll()
+          .then((tile) => {
+            resolve(tile);
+          })
+          .catch((err) => {
+            reject(err);
+          });
+    });
   }
 
   /**
