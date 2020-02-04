@@ -10,7 +10,7 @@ const mapRepository = new MapRepository();
 describe('MapRepository', function() {
   it('should get expected test maps', async function() {
     try {
-      const maps = await mapRepository.getAllCities();
+      const maps = await mapRepository.getAllMaps();
       expect(maps ).to.be.not.null;
     } catch (err) {
       log(err);

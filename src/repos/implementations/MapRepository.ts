@@ -17,7 +17,7 @@ export class MapRepository {
    * @return {Promise<Array<Map>>}
    * @memberof CitRepository
    */
-  getAllCities(): Promise<Array<Map>> {
+  getAllMaps(): Promise<Array<Map>> {
     return new Promise( function(resolve, reject) {
       models.map.findAll()
           .then((maps) => {
