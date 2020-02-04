@@ -1,6 +1,8 @@
+import {Map} from '../../domain/Map';
+import {models} from '../../models';
+
 /**
- * An Sequelize implementation of the `IMapRepository`
- *
+ * Sequelize implementation of the `IMapRepository`
  * @class MapRepository
  */
 export class MapRepository {
@@ -11,10 +13,19 @@ export class MapRepository {
   constructor() {}
 
   /**
-   * Gets all of the map in this world.
-   * @memberof MapRepository
+   * Gets all of the maps in this world.
+   * @return {Promise<Array<Map>>}
+   * @memberof CitRepository
    */
-  getMapId() {
-    throw new Error('no implmentation');
+  getAllCities(): Promise<Array<Map>> {
+    return new Promise( function(resolve, reject) {
+      models.map.findAll()
+          .then((maps) => {
+            resolve(maps);
+          })
+          .catch((err) => {
+            reject(err);
+          });
+    });
   }
 }

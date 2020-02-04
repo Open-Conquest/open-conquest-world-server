@@ -1,10 +1,8 @@
 import * as chai from 'chai';
 import * as mocha from 'mocha';
 import {ArmyRepository} from '../../../../src/repos/implementations/ArmyRepository';
+import {Army} from '../../../../src/domain/Army';
 import {log} from '../../../../src/utils/log';
-
-const expect = chai.expect;
-const assert = chai.assert;
 
 const armyRepository = new ArmyRepository();
 
@@ -14,15 +12,18 @@ describe('ArmyRepository', function() {
    * in the expected format `ArmyEntity`.
    */
   it('should get expected test armies', async function() {
-    let armies = await armyRepository.getAllArmies();
-    armyRepository.getAllArmies().then((res) => {
-      // make sure that the armies are army entities
-      const armies = res;
-      // make sure that armies is of the correct type
-      expect(armies).to.be.not.null;
-    }).catch((err) => {
+    try {
+      const armies = await armyRepository.getAllArmies();
+      // assertions to make sure that armies is what's expected
+      // in this case Array<Army>
+      for (let i = 0; i < armies.length; i++) {
+        log(armies[i]);
+        chai.expect(armies[i]);
+        chai.assert(armies[i]);
+      }
+    } catch (err) {
       log(err);
       throw err;
-    });
+    }
   });
 });

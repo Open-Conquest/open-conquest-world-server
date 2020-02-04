@@ -1,3 +1,6 @@
+import {City} from '../../domain/City';
+import {models} from '../../models';
+
 /**
  * Sequelize implementation of the `ICityRepository`
  * @class CityRepository
@@ -11,9 +14,18 @@ export class CityRepository {
 
   /**
    * Gets all of the cities in this world.
+   * @return {Promise<Array<City>>}
    * @memberof CitRepository
    */
-  getCities() {
-    throw new Error('no implmentation');
+  getAllCities(): Promise<Array<City>> {
+    return new Promise( function(resolve, reject) {
+      models.city.findAll()
+          .then((cities) => {
+            resolve(cities);
+          })
+          .catch((err) => {
+            reject(err);
+          });
+    });
   }
 }
