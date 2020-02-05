@@ -4,8 +4,9 @@ import {ArmyServices} from '../../../src/services/ArmyServices';
 import {ArmyRepository} from '../../../src/repos/implementations/ArmyRepository';
 import {Army} from '../../../src/domain/Army';
 import {log} from '../../../src/utils/log';
-import { ArmyUnits, UnitType } from '../../../src/domain/ArmyUnits';
-import { EntityId } from '../../../src/domain/Entity';
+import {ArmyUnits, UnitType} from '../../../src/domain/ArmyUnits';
+import {EntityId} from '../../../src/domain/Entity';
+import { User } from '../../../src/domain/User';
 
 const armyRepository = new ArmyRepository();
 const armyServices = new ArmyServices();
@@ -18,20 +19,21 @@ describe('ArmyServices', function() {
   it('should get expected test armies', async function() {
     try {
       // insert expected data before making a request
-      const unitsId = new EntityId(0);
-      const expectedUnit = new ArmyUnits(unitsId, UnitType.Wizard, 10);
+      const unitId = new EntityId(0);
+      const expectedUnit = new ArmyUnits(unitId, UnitType.Wizard, 10);
       const expectedUnits = [];
       expectedUnits.push(expectedUnit);
       const expectedArmy = new Army(expectedUnits);
       armyRepository.createArmy(expectedArmy);
+      const expectedUserId = new EntityId(100);
+      const expectedUser = new User(expectedUserId);
 
       // make a request
-      const response = await armyServices.getArmy();
+      const response = await armyServices.getArmy(expectedUser);
 
       // assert expected data is returned in request
       chai.assert(response.getService() === 'army');
       chai.assert(response.getOperation() === 'get');
-      chai.assert(response.getData() === '');
     } catch (err) {
       log(err);
       throw err;
