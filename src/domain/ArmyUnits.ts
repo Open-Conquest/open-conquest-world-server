@@ -34,4 +34,24 @@ export class ArmyUnits extends Entity {
     this.unitType = unitType;
     this.count = count;
   }
+
+  /**
+   * Returns the `UnitType` for this `ArmyUnits`.
+   *
+   * @return {UnitType}
+   * @memberof ArmyUnits
+   */
+  getUnitType(): UnitType {
+    return this.unitType;
+  }
+
+  /**
+   * Returns the number of units in this `ArmyUnits`.
+   *
+   * @return {number}
+   * @memberof ArmyUnits
+   */
+  getCount(): number {
+    return this.count;
+  }
 }

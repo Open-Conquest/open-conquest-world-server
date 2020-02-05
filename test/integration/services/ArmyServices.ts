@@ -1,9 +1,13 @@
 import * as chai from 'chai';
 import * as mocha from 'mocha';
 import {ArmyServices} from '../../../src/services/ArmyServices';
+import {ArmyRepository} from '../../../src/repos/implementations/ArmyRepository';
 import {Army} from '../../../src/domain/Army';
 import {log} from '../../../src/utils/log';
+import { ArmyUnits, UnitType } from '../../../src/domain/ArmyUnits';
+import { EntityId } from '../../../src/domain/Entity';
 
+const armyRepository = new ArmyRepository();
 const armyServices = new ArmyServices();
 
 describe('ArmyServices', function() {
@@ -13,14 +17,21 @@ describe('ArmyServices', function() {
    */
   it('should get expected test armies', async function() {
     try {
+      // insert expected data before making a request
+      const unitsId = new EntityId(0);
+      const expectedUnit = new ArmyUnits(unitsId, UnitType.Wizard, 10);
+      const expectedUnits = [];
+      expectedUnits.push(expectedUnit);
+      const expectedArmy = new Army(expectedUnits);
+      armyRepository.createArmy(expectedArmy);
+
+      // make a request
       const response = await armyServices.getArmy();
-      // assertions to make sure that armies is what's expected
-      // in this case Array<Army>
-      // for (let i = 0; i < armies.length; i++) {
-      //   log(armies[i]);
-      //   chai.expect(armies[i]);
-      //   chai.assert(armies[i]);
-      // }
+
+      // assert expected data is returned in request
+      chai.assert(response.getService() === 'army');
+      chai.assert(response.getOperation() === 'get');
+      chai.assert(response.getData() === '');
     } catch (err) {
       log(err);
       throw err;
