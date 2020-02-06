@@ -2,32 +2,17 @@ DROP DATABASE IF EXISTS master;
 CREATE DATABASE master;
 USE master;
 
-CREATE TABLE `world` (
-  `world_id` int(11) NOT NULL AUTO_INCREMENT,
-  `world_name` varchar(45) NOT NULL,
-  PRIMARY KEY (`world_id`),
-  UNIQUE KEY `world_id_UNIQUE` (`world_id`),
-  UNIQUE KEY `world_name_UNIQUE` (`world_name`)
-);
-
 CREATE TABLE `user` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_name` varchar(45) NOT NULL,
-  `world_id` int(11) NOT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `user_id_UNIQUE` (`user_id`),
-  UNIQUE KEY `user_name_UNIQUE` (`user_name`),
-  KEY `user_world_idx` (`world_id`),
-  CONSTRAINT `user_world` FOREIGN KEY (`world_id`) REFERENCES `world` (`world_id`)
+  UNIQUE KEY `user_name_UNIQUE` (`user_name`)
 );
 
 CREATE TABLE `map` (
   `map_id` int(11) NOT NULL AUTO_INCREMENT,
-  `world_id` int(11) NOT NULL,
-  PRIMARY KEY (`map_id`),
-  UNIQUE KEY `world_id_UNIQUE` (`map_id`),
-  KEY `map_world_idx` (`world_id`),
-  CONSTRAINT `map_world` FOREIGN KEY (`world_id`) REFERENCES `world` (`world_id`)
+  PRIMARY KEY (`map_id`)
 );
 
 CREATE TABLE `tile` (
@@ -108,16 +93,14 @@ CREATE TABLE `city` (
   CONSTRAINT `city_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
 );
 
-SET @world_id = 1;
-INSERT INTO world (world_id, world_name) VALUES (@world_id, "world_1");
 
-INSERT INTO user (world_id, user_name) VALUES (@world_id, "test_user_1");
-INSERT INTO user (world_id, user_name) VALUES (@world_id, "test_user_2");
-INSERT INTO user (world_id, user_name) VALUES (@world_id, "test_user_3");
-INSERT INTO user (world_id, user_name) VALUES (@world_id, "test_user_4");
-INSERT INTO user (world_id, user_name) VALUES (@world_id, "test_user_5");
+INSERT INTO user (user_name) VALUES ("test_user_1");
+INSERT INTO user (user_name) VALUES ("test_user_2");
+INSERT INTO user (user_name) VALUES ("test_user_3");
+INSERT INTO user (user_name) VALUES ("test_user_4");
+INSERT INTO user (user_name) VALUES ("test_user_5");
 
-INSERT INTO map (world_id) VALUES (@world_id);
+INSERT INTO map () VALUES ();
 
 SET @tile_type = 0;
 DROP PROCEDURE IF EXISTS CreateTiles;
