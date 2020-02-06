@@ -15,8 +15,8 @@ const armyRepository = new ArmyRepository();
 describe('ArmyRepository', function() {
   it('getAllArmies should return an array of domain armies', async function() {
     // setup a new test user
-    let newUser: User;
-    userRepository.createNewUser()
+    let newUser = new User(null, 'username');
+    userRepository.createNewUser(newUser)
         .then((user) => {
           newUser = user;
           // setup new armies for test user

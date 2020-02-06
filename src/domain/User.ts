@@ -36,7 +36,7 @@ export class User extends Entity {
    * Check if this user equals another user.
    *
    * @param {User} user
-   * @returns {boolean}
+   * @return {boolean}
    * @memberof User
    */
   equals(user: User): boolean {

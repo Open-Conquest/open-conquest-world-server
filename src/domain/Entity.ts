@@ -63,7 +63,7 @@ export class Entity {
    * @param {Entity} entity
    * @memberof Entity
    */
-  equals(entity: Entity) {
+  equals(entity: Entity): boolean {
     throw new Error('Entity subclasses must override equals(Entity)');
   }
 }
