@@ -38,7 +38,7 @@ export class ArmyServices extends BaseServices {
    * @return {Promise<Array<Army>>}
    * @memberof ArmyServices
    */
-  async getArmy(user: User): Promise<any> {
+  async getArmies(user: User): Promise<any> {
     const armyRepository = this.armyRepository;
     return new Promise( function(resolve, reject) {
       armyRepository.getAllArmies(user)

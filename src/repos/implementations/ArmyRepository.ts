@@ -70,9 +70,6 @@ export class ArmyRepository {
             }
             resolve(dbArmy);
           })
-          .then((res) => {
-            log('i suspect this will happen before all units are created');
-          })
           .catch((err) => {
             reject(err);
           });
