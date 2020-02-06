@@ -31,4 +31,15 @@ export class User extends Entity {
   getUsername(): string {
     return this.username;
   }
+
+  /**
+   * Check if this user equals another user.
+   *
+   * @param {User} user
+   * @returns {boolean}
+   * @memberof User
+   */
+  equals(user: User): boolean {
+    return user.getUsername() === user.getUsername();
+  }
 }

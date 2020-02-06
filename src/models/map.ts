@@ -7,19 +7,12 @@ export default (sequelize, DataTypes) => {
       unique: true,
       autoIncrement: true,
     },
-    world_id: {
-      type: DataTypes.INTEGER(11),
-      allowNull: false,
-    },
   }, {
     timestamps: false,
     freezeTableName: true,
   });
 
   map.associate = (models) => {
-    models.map.belongsTo(models.world, {
-      foreignKey: 'world_id',
-    });
   };
 
   return map;
