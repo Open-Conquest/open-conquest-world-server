@@ -2,6 +2,7 @@ import {log} from '../utils/log';
 import {logError as logError} from '../utils/log';
 import {BaseServices} from './BaseServices';
 import {models} from '../models';
+import { ServiceNames } from './ServiceNames';
 
 /**
  *
@@ -17,7 +18,7 @@ export class MarchServices extends BaseServices {
    */
   constructor() {
     super();
-    this.service = 'march';
+    this.serviceName = ServiceNames.March;
     this.handlers = {
       'get': this.getMarch,
       'create': this.createMarch,

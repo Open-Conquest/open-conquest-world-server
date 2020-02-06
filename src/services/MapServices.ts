@@ -1,5 +1,6 @@
 import {BaseServices} from './BaseServices';
 import {models} from '../models';
+import { ServiceNames } from './ServiceNames';
 
 /**
  *
@@ -15,7 +16,7 @@ export class MapServices extends BaseServices {
    */
   constructor() {
     super();
-    this.service = 'map';
+    this.serviceName = ServiceNames.Map;
     this.handlers = {
       'get': this.getMap,
     };

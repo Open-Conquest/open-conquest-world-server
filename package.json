@@ -4,8 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "make-src": "tsc --p tsconfig.src.json",
-    "make-test": "tsc --p tsconfig.test.json",
+    "make": "tsc",
     "u-tests": "node_modules/mocha/bin/mocha --recursive --exit dist/test/unit/",
     "i-tests": "NODE_ENV=test node_modules/mocha/bin/mocha --recursive --exit dist/test/integration",
     "i-tests-travis": "NODE_ENV=travis node_modules/mocha/bin/mocha --recursive --exit dist/test/integration",

@@ -60,6 +60,11 @@ export class Request {
   }
 }
 
+export interface IRequestData {
+  toJson()
+  fromJson(json: any)
+}
+
 /**
  *
  *

@@ -7,7 +7,6 @@ before_install:
   - mysql -u root --password="" < db/create_test_db.sql
 install:
   - npm install
-  - npm run make-src
-  - npm run make-test
+  - npm run make
 script:
   - npm run i-tests-travis

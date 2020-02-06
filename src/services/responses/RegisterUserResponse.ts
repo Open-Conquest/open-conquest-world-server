@@ -1,3 +1,7 @@
+import {Response} from '../../Response';
+import { ServiceNames } from '../ServiceNames';
+import { ServiceOperations } from '../ServiceOperations';
+
 /**
  *
  *
@@ -12,6 +16,6 @@ export class RegisterUserResponse extends Response {
    * @memberof RegisterUserResponse
    */
   constructor() {
-    super();
+    super(ServiceNames.User, ServiceOperations.RegisterUser, null);
   }
 }
