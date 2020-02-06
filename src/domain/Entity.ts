@@ -37,7 +37,7 @@ export class Entity {
   private id: EntityId;
 
   /**
-   * Creates an instance of Entity.
+   * Creates an instance of entity.
    *
    * @param {EntityId} id
    * @memberof Entity
@@ -54,5 +54,16 @@ export class Entity {
    */
   getId(): number {
     return this.id.getValue();
+  }
+
+  /**
+   * Check if this entity is equal to another. This method must be implemented
+   * by entity subclasses.
+   *
+   * @param {Entity} entity
+   * @memberof Entity
+   */
+  equals(entity: Entity) {
+    throw new Error('Entity subclasses must override equals(Entity)');
   }
 }
