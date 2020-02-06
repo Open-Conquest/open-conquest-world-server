@@ -75,4 +75,27 @@ export class ArmyRepository {
           });
     });
   }
+
+  /**
+   * Creates a new empty army.
+   *
+   * @param {User} user
+   * @memberof ArmyRepository
+   */
+  async createEmptyArmy(user: User): Promise<Army> {
+    return new Promise( function(resolve, reject) {
+      models.army.create({
+        user_id: user.getId(),
+      })
+          .then((army) => {
+            // todo
+            // map army to domain army
+            // let newArmy = new Army();
+            resolve(army);
+          })
+          .catch((err) => {
+            reject(err);
+          });
+    });
+  }
 }

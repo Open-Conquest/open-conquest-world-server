@@ -27,12 +27,12 @@ export class ArmyServices extends BaseServices {
     this.armyRepository = new ArmyRepository();
     this.service = 'army';
     this.handlers = {
-      'get': this.getArmy,
+      'get': this.getArmies,
     };
   }
 
   /**
-   * Returns an array of `Army`.
+   * Returns an array of the user's `Army`s.
    *
    * @param {User} user
    * @return {Promise<Array<Army>>}

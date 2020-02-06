@@ -28,4 +28,24 @@ export class UserRepository {
           });
     });
   }
+
+  /**
+   * Create a new user.
+   *
+   * @return {Promise<User>}
+   * @memberof UserRepository
+   */
+  createNewUser(): Promise<User> {
+    return new Promise(function(resolve, reject) {
+      models.user.create()
+          .then((user) => {
+            // map db response to domain user
+            const newUser = new User(user.user_id);
+            resolve(newUser);
+          })
+          .catch((err) => {
+            reject(err);
+          });
+    });
+  }
 }
