@@ -1,4 +1,5 @@
 import {logError as logError} from './utils/log';
+import { ServiceNames } from './services/ServiceNames';
 
 /**
  *
@@ -7,19 +8,19 @@ import {logError as logError} from './utils/log';
  * @class Request
  */
 export class Request {
-  public operation;
-  public service;
-  public data;
+  public operation: string;
+  public serviceName: ServiceNames;
+  public data: any;
 
   /**
    *Creates an instance of Request.
-   * @param {*} service
+   * @param {*} serviceName
    * @param {*} operation
    * @param {*} data
    * @memberof Request
    */
-  constructor(service, operation, data) {
-    this.service = service;
+  constructor(serviceName, operation, data) {
+    this.serviceName = serviceName;
     this.operation = operation;
     this.data = data;
   }
@@ -32,7 +33,7 @@ export class Request {
    */
   toJson() {
     return {
-      'service': this.service,
+      'service': this.serviceName,
       'operation': this.operation,
       'data': this.data,
     };

@@ -1,5 +1,6 @@
 import {BaseServices} from './BaseServices';
 import {models} from '../models';
+import { RegisterUserResponse } from './responses/RegisterUserResponse';
 
 /**
  *
@@ -61,5 +62,17 @@ export class UserServices extends BaseServices {
     //         reject(err);
     //       });
     // });
+  }
+
+
+  /**
+   * Service for handling registering a new user.
+   *
+   * @param {RegisterUserRequest} request
+   * @return {Promise<RegisterUserResponse>}
+   * @memberof UserServices
+   */
+  registerUser(request: Registe): Promise<RegisterUserResponse> {
+
   }
 }

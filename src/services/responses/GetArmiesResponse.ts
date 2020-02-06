@@ -1,6 +1,6 @@
-import { Response } from "./Response";
-import {Army} from './domain/Army';
-import {User} from './domain/User';
+import { Response } from "../../Response";
+import {Army} from '../../domain/Army';
+import {User} from '../../domain/User';
 
 /**
  *

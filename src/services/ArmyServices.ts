@@ -3,9 +3,10 @@ import {Response} from '../Response';
 import {Request} from '../Request';
 import {ArmyRepository} from '../repos/implementations/ArmyRepository';
 import {Army} from '../domain/Army';
-import {GetArmiesResponse} from '../GetArmiesResponse';
+import {GetArmiesResponse} from './responses/GetArmiesResponse';
 import {User} from '../domain/User';
 import {EntityId} from '../domain/Entity';
+import { ServiceNames } from './ServiceNames';
 
 /**
  *
@@ -25,7 +26,7 @@ export class ArmyServices extends BaseServices {
   constructor() {
     super();
     this.armyRepository = new ArmyRepository();
-    this.service = 'army';
+    this.serviceName = ServiceNames.Army;
     this.handlers = {
       'get': this.getArmies,
     };

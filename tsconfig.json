@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+      "allowJs": true,
+      "module": "commonjs",
+      "moduleResolution": "node",
+      "pretty": true,
+      "target": "es2017",
+      "outDir": "./dist",
+      "lib": ["es6"],
+      "resolveJsonModule": true,
+      "types": ["node"],
+      "typeRoots" : ["./node_modules/@types"],
+      "experimentalDecorators": true,
+      "esModuleInterop": true,
+      "baseUrl": ".",
+      "paths": {
+        "src/*": ["src/*"],
+        "test/*": ["test/*"],
+        "config/*": ["config/*"]
+      }
+    }
+}

@@ -1,5 +1,6 @@
 import {log} from '../utils/log';
 import {Response} from '../Response';
+import {ServiceNames} from './ServiceNames';
 
 /**
  * The base class for all services which contains the shared handle
@@ -9,7 +10,7 @@ import {Response} from '../Response';
  */
 export class BaseServices {
   public handlers;
-  public service;
+  public serviceName: ServiceNames;
 
   /**
    * Creates an instance of BaseServices.
@@ -27,14 +28,14 @@ export class BaseServices {
    */
   handle(request): Promise<Response> {
     const handlers = this.handlers;
-    const service = this.service;
+    const serviceName = this.serviceName;
     const clazz = this.constructor.name;
 
     log(clazz + ' received request: ' + JSON.stringify(request));
     return new Promise( function(resolve, reject) {
       handlers[request.operation](request)
           .then((res) => {
-            const response = new Response(service, request.operation, res);
+            const response = new Response(serviceName, request.operation, res);
             log(clazz + ' returning response: ' + JSON.stringify(response));
             resolve(response);
           })

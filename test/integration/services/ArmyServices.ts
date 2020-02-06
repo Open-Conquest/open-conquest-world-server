@@ -1,7 +1,7 @@
 import * as chai from 'chai';
 import * as mocha from 'mocha';
 import {log} from '../../../src/utils/log';
-import {GetArmiesResponse} from '../../../src/GetArmiesResponse';
+import {GetArmiesResponse} from '../../../src/services/responses/GetArmiesResponse';
 import {ArmyUnits, UnitType} from '../../../src/domain/ArmyUnits';
 import {Army} from '../../../src/domain/Army';
 import {EntityId} from '../../../src/domain/Entity';
