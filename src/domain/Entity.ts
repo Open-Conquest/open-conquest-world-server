@@ -15,6 +15,16 @@ export class EntityId {
   constructor(id: number) {
     this.id = id;
   }
+
+  /**
+   * Returns this entityid as a number;
+   *
+   * @return {number}
+   * @memberof EntityId
+   */
+  getValue(): number {
+    return this.id;
+  }
 }
 
 /**
@@ -34,5 +44,15 @@ export class Entity {
    */
   constructor(id: EntityId) {
     this.id = id;
+  }
+
+  /**
+   * Returns this entity's id as a number.
+   *
+   * @return {number}
+   * @memberof Entity
+   */
+  getId(): number {
+    return this.id.getValue();
   }
 }

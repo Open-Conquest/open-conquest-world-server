@@ -9,7 +9,7 @@ import {User} from './domain/User';
  * @class GetAllArmiesResponse
  * @extends {Response}
  */
-export class GetAllArmiesResponse extends Response {
+export class GetArmiesResponse extends Response {
   private user: User;
   private armies: Array<Army>;
   /**

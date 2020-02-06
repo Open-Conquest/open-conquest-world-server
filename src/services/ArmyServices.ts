@@ -3,7 +3,7 @@ import {Response} from '../Response';
 import {Request} from '../Request';
 import {ArmyRepository} from '../repos/implementations/ArmyRepository';
 import {Army} from '../domain/Army';
-import {GetAllArmiesResponse} from '../GetAllArmiesResponse';
+import {GetArmiesResponse} from '../GetArmiesResponse';
 import {User} from '../domain/User';
 import {EntityId} from '../domain/Entity';
 
@@ -41,12 +41,9 @@ export class ArmyServices extends BaseServices {
   async getArmy(user: User): Promise<any> {
     const armyRepository = this.armyRepository;
     return new Promise( function(resolve, reject) {
-      armyRepository.getAllArmies()
+      armyRepository.getAllArmies(user)
           .then((armies) => {
-            // todo remove just for testing rn
-            const userId = new EntityId(100);
-            const user = new User(userId);
-            const response = new GetAllArmiesResponse(user, armies);
+            const response = new GetArmiesResponse(user, armies);
             resolve(response);
           })
           .catch((err) => {

@@ -3,6 +3,8 @@ import * as mocha from 'mocha';
 import {ArmyRepository} from '../../../../src/repos/implementations/ArmyRepository';
 import {Army} from '../../../../src/domain/Army';
 import {log} from '../../../../src/utils/log';
+import { User } from '../../../../src/domain/User';
+import { EntityId } from '../../../../src/domain/Entity';
 
 const armyRepository = new ArmyRepository();
 
@@ -13,7 +15,9 @@ describe('ArmyRepository', function() {
    */
   it('should get expected test armies', async function() {
     try {
-      const armies = await armyRepository.getAllArmies();
+      const id = new EntityId(10);
+      const user = new User(id);
+      const armies = await armyRepository.getAllArmies(user);
       // assertions to make sure that armies is what's expected
       // in this case Array<Army>
       for (let i = 0; i < armies.length; i++) {
