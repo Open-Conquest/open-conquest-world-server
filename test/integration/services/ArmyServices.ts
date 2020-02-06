@@ -50,7 +50,7 @@ describe('ArmyServices', function() {
     userRepository.createNewUser()
         .then((user) => {
           // create new armies for user
-          armyRepository.createNewArmy(user);
+          armyRepository.createEmptyArmy(user);
         })
         .catch((err) => {
           log(err);
@@ -60,8 +60,8 @@ describe('ArmyServices', function() {
 
     // add units to the armies for user
 
-    const wizard = new EntityId(0);
-    const expectedUnit = new ArmyUnits(unitId, UnitType.Wizard, 10);
+    const wizardId = new EntityId(0);
+    const expectedUnit = new ArmyUnits(wizardId, UnitType.Wizard, 10);
     const expectedUnits = [];
     expectedUnits.push(expectedUnit);
     const expectedArmy = new Army(expectedUnits);

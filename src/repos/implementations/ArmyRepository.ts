@@ -28,15 +28,14 @@ export class ArmyRepository {
         where: {
           user_id: user.getId(),
         },
-        include: {
-          model: models.army_units,
-          include: {
-            model: models.unit,
-          },
-        },
       })
           .then((armies) => {
             resolve(armies);
+            // const domainArmies = [];
+            // for (let i = 0; i < armies.length; i++) {
+            //   domainArmies.push(armies[i].toDomain());
+            // }
+            // resolve(domainArmies);
           })
           .catch((err) => {
             reject(err);
