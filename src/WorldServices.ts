@@ -16,7 +16,7 @@ import {ServiceNames} from './services/ServiceNames';
  * @class WorldServices
  */
 export class WorldServices {
-  private services: Map<ServiceNames,BaseServices>;
+  private services: Map<ServiceNames, BaseServices>;
 
   /**
    * Creates an instance of WorldServices.
@@ -68,4 +68,3 @@ export class WorldServices {
     });
   }
 }
-

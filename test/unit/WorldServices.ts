@@ -56,7 +56,8 @@ describe('WorldService', function() {
     worldServices.registerService(userService);
     // make a request that should be dispatched to test services
     const request = new Request(ServiceNames.Test, ServiceOperations.Test, {});
-    return worldServices.dispatchRequest(request)
+    const requestJson = request.toJson();
+    return worldServices.dispatchRequest(requestJson)
         .then((res) => {
           assert(res.getService() === ServiceNames.Army);
           assert(res.getOperation() === ServiceOperations.Test);
@@ -77,7 +78,8 @@ describe('WorldService', function() {
     worldServices.registerService(userService);
     // make a request that should be dispatched to test services
     const request = new Request(ServiceNames.Test, ServiceOperations.Test, {});
-    return worldServices.dispatchRequest(request)
+    const requestJson = request.toJson();
+    return worldServices.dispatchRequest(requestJson)
         .then((res) => {
           assert.fail('Expected error');
         })

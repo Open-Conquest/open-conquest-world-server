@@ -1,3 +1,7 @@
+import { ServiceNames } from "./services/ServiceNames";
+import { ServiceOperations } from "./services/ServiceOperations";
+import { log } from "./utils/log";
+
 /**
  *
  *
@@ -5,56 +9,90 @@
  * @class Response
  */
 export class Response {
-  public service: string;
-  public operation: string;
+  public service: ServiceNames;
+  public operation: ServiceOperations;
   public data: any;
 
   /**
    *Creates an instance of Response.
-   * @param {*} service
-   * @param {*} operation
+   * @param {ServiceNames} service
+   * @param {ServiceOperations} operation
    * @param {*} data
    * @memberof Response
    */
-  constructor(service, operation, data) {
+  constructor(service: ServiceNames, operation: ServiceOperations, data) {
     this.service = service;
     this.operation = operation;
     this.data = data;
   }
 
-  getService(): string {
+  /**
+   * Returns this response's service.
+   *
+   * @return {ServiceNames}
+   * @memberof Response
+   */
+  getService(): ServiceNames {
     return this.service;
   }
 
-  getOperation(): string {
+  /**
+   * Get this response's operation.
+   *
+   * @return {ServiceOperations}
+   * @memberof Response
+   */
+  getOperation(): ServiceOperations {
     return this.operation;
   }
 
+  /**
+   * Return this response's data object.
+   *
+   * @return {*}
+   * @memberof Response
+   */
   getData(): any {
     return this.data;
   }
 
   /**
-   *
+   * Creates a new `Response` from a POJO.
    *
    * @param {*} json
    * @return {Response}
    * @memberof Response
    */
-  fromJson(json) {
-    return new Response(json.service, json.operation, json.data);
+  static fromJSON(json) {
+    try {
+      return new Response(json.service, json.operation, json.data);
+    } catch (err) {
+      log(err);
+      throw new Error('Badly formatted json response.');
+    }
   }
 
   /**
+   * Return this response as a POJO.
    *
-   * @return {Response}
+   * @return {*}
    * @memberof Response
    */
-  toJson() {
+  toJSON(): any {
     return {
       'service': this.service,
       'operation': this.operation,
       'data': this.data,
     };
+  }
+
+  /**
+   * Return this response as stringified JSON.
+   *
+   * @return {string}
+   * @memberof Response
+   */
+  toJSONString(): string {
+    return JSON.stringify(this.toJSON());
   }
 }

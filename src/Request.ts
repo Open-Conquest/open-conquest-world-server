@@ -38,26 +38,6 @@ export class Request {
       'data': this.data,
     };
   }
-
-  /**
-   *
-   *
-   * @return {JSON}
-   * @memberof Request
-   */
-  getJson() {
-    return this.toJson();
-  }
-
-  /**
-   *
-   *
-   * @return {JSON}
-   * @memberof Request
-   */
-  getJsonString() {
-    return JSON.stringify(this.toJson());
-  }
 }
 
 export interface IRequestData {

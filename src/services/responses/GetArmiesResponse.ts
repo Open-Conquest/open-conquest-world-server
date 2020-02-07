@@ -1,6 +1,8 @@
 import { Response } from "../../Response";
 import {Army} from '../../domain/Army';
 import {User} from '../../domain/User';
+import { ServiceNames } from "../ServiceNames";
+import { ServiceOperations } from "../ServiceOperations";
 
 /**
  *
@@ -24,7 +26,7 @@ export class GetArmiesResponse extends Response {
       'user': user,
       'armies': armies,
     };
-    super('army', 'getall', data);
+    super(ServiceNames.Army, ServiceOperations.GetArmies, data);
     this.user = user;
     this.armies = armies;
   }

@@ -1,3 +1,4 @@
 export enum ServiceOperations {
-  RegisterUser = 'RegisterUse'
+  RegisterUser = 'RegisterUser',
+  GetArmies = 'GetArmies'
 }
