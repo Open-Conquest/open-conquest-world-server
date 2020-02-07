@@ -16,14 +16,13 @@ import {MapServices} from './services/MapServices';
 import {MarchServices} from './services/MarchServices';
 import {TileServices} from './services/TileServices';
 import {UserServices} from './services/UserServices';
-const worldServices = new WorldServices(
-    new ArmyServices(),
-    new CityServices(),
-    new MapServices(),
-    new MarchServices(),
-    new TileServices(),
-    new UserServices(),
-);
+const worldServices = new WorldServices();
+worldServices.registerService(new ArmyServices());
+worldServices.registerService(new CityServices());
+worldServices.registerService(new MapServices());
+worldServices.registerService(new MarchServices());
+worldServices.registerService(new TileServices());
+worldServices.registerService(new UserServices());
 
 // START WEBSOCKET SERVER
 const wss = new WSS({

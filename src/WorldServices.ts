@@ -6,11 +6,8 @@ import {log} from './utils/log';
 import {logError as logError} from './utils/log';
 import {Request} from './Request';
 import {fromRequest} from './Request';
-import {ArmyServices} from './services/ArmyServices';
-import {MapServices} from './services/MapServices';
-import {MarchServices} from './services/MarchServices';
-import {TileServices} from './services/TileServices';
-import {UserServices} from './services/UserServices';
+import {BaseServices} from './services/BaseServices';
+import {ServiceNames} from './services/ServiceNames';
 
 /**
  *
@@ -19,40 +16,26 @@ import {UserServices} from './services/UserServices';
  * @class WorldServices
  */
 export class WorldServices {
-  private services: any;
-  private armyServices: any;
-  private cityServices: any;
-  private mapServices: any;
-  private marchServices: any;
-  private tileServices: any;
-  private userServices: any;
+  private services: Map<ServiceNames,BaseServices>;
 
   /**
-   *Creates an instance of WorldServices.
-   * @param {*} armyServices
-   * @param {*} cityServices
-   * @param {*} mapServices
-   * @param {*} marchServices
-   * @param {*} tileServices
-   * @param {*} userServices
+   * Creates an instance of WorldServices.
+   *
    * @memberof WorldServices
    */
-  constructor(armyServices: any, cityServices: any, mapServices: any, marchServices: any, tileServices: any, userServices: any) {
+  constructor() {
     log('WorldService initialized.');
-    this.armyServices = armyServices;
-    this.cityServices = cityServices;
-    this.mapServices = mapServices;
-    this.marchServices = marchServices;
-    this.tileServices = tileServices;
-    this.userServices = userServices;
-    this.services = {
-      'army': this.armyServices,
-      'city': this.cityServices,
-      'map': this.mapServices,
-      'march': this.marchServices,
-      'tile': this.tileServices,
-      'user': this.userServices,
-    };
+    this.services = new Map<ServiceNames, BaseServices>();
+  }
+
+  /**
+   * Register a new service with WorldServices.
+   *
+   * @param {BaseServices} service
+   * @memberof WorldServices
+   */
+  registerService(service: BaseServices) {
+    this.services.set(service.serviceName, service);
   }
 
   /**
@@ -62,7 +45,7 @@ export class WorldServices {
    * @return {Request}
    * @memberof WorldServices
    */
-  public dispatchRequest(request): any {
+  dispatchRequest(request): any {
     log('WorldService received request: ' + JSON.stringify(request));
 
     const services = this.services;
@@ -72,13 +55,10 @@ export class WorldServices {
       } catch (err) {
         reject(err);
       }
-      /**
-       * ADD BETTER LOGGING, IT ALREADY HATH SPILLITH BLOOD
-       */
-      services[request.service].handle(request)
+      services.get(request.serviceName).handle(request)
           .then((res) => {
-            res = JSON.stringify(res);
-            log('WorldService returning response: ' + res);
+            const response = JSON.stringify(res);
+            log('WorldService returning response: ' + response);
             resolve(res);
           })
           .catch((err) => {

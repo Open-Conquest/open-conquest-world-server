@@ -67,4 +67,22 @@ describe('WorldService', function() {
           throw err;
         });
   });
+  it('should error when dispatching to a non-existent service', async function() {
+    // create new world services
+    const worldServices = new WorldServices();
+    // register services with world services
+    const armyService = new ArmyServices();
+    const userService = new UserServices();
+    worldServices.registerService(armyService);
+    worldServices.registerService(userService);
+    // make a request that should be dispatched to test services
+    const request = new Request(ServiceNames.Test, ServiceOperations.Test, {});
+    return worldServices.dispatchRequest(request)
+        .then((res) => {
+          assert.fail('Expected error');
+        })
+        .catch((err) => {
+          log(err);
+        });
+  });
 });

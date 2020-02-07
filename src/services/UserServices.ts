@@ -1,6 +1,7 @@
 import {BaseServices} from './BaseServices';
-import {models} from '../models';
-import { RegisterUserResponse } from './responses/RegisterUserResponse';
+import {RegisterUserResponse} from './responses/RegisterUserResponse';
+import {RegisterUserRequest} from './requests/RegisterUserRequest';
+import {ServiceNames} from './ServiceNames';
 
 /**
  *
@@ -16,11 +17,25 @@ export class UserServices extends BaseServices {
    */
   constructor() {
     super();
-    this.service = 'user';
+    this.serviceName = ServiceNames.User;
     this.handlers = {
       'get': this.getUsers,
       'login': this.loginUser,
     };
+  }
+
+  /**
+   * Service for handling registering a new user.
+   *
+   * @param {RegisterUserRequest} request
+   * @return {Promise<RegisterUserResponse>}
+   * @memberof UserServices
+   */
+  registerUser(request: RegisterUserRequest): Promise<RegisterUserResponse> {
+    // what does this function need to do?
+    return new Promise(function(resolve, reject) {
+
+    });
   }
 
   /**
@@ -62,17 +77,5 @@ export class UserServices extends BaseServices {
     //         reject(err);
     //       });
     // });
-  }
-
-
-  /**
-   * Service for handling registering a new user.
-   *
-   * @param {RegisterUserRequest} request
-   * @return {Promise<RegisterUserResponse>}
-   * @memberof UserServices
-   */
-  registerUser(request: Registe): Promise<RegisterUserResponse> {
-
   }
 }

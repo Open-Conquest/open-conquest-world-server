@@ -1,6 +1,7 @@
 import {BaseServices} from './BaseServices';
 import {models} from '../models';
 import {log} from '../utils/log';
+import { ServiceNames } from './ServiceNames';
 
 /**
  *
@@ -16,7 +17,7 @@ export class TileServices extends BaseServices {
    */
   constructor() {
     super();
-    this.service = 'tile';
+    this.serviceName = ServiceNames.Tile;
     // creates a tile of request operations -> handling methods
     this.handlers = {
       'get': this.getTile,

@@ -18,39 +18,6 @@ export class RegisterUserRequest extends Request {
    * @memberof RegisterUserRequest
    */
   constructor(data: any) {
-    data = new RegisterUserRequestData(data);
     super(ServiceNames.User, ServiceOperations.RegisterUser, data);
   }
-}
-
-/**
- * Data class for RegisterUserRequest.
- *
- * @export
- * @class RegisterUserRequestData
- * @extends {RequestData}
- */
-export class RegisterUserRequestData implements IRequestData {
-  /**
-   * Creates an instance of RegisterUserRequestData.
-   *
-   * @param {*} data
-   * @memberof RegisterUserRequestData
-   */
-  constructor(data: any) {}
-
-  /**
-   *
-   *
-   * @memberof RegisterUserRequestData
-   */
-  toJson() {}
-
-  /**
-   *
-   *
-   * @param {*} json
-   * @memberof RegisterUserRequestData
-   */
-  fromJson(json: any) {}
 }
