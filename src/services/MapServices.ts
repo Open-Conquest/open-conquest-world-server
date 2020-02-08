@@ -1,6 +1,6 @@
 import {BaseServices} from './BaseServices';
-import {models} from '../models';
 import { ServiceNames } from './ServiceNames';
+import { IMapRepository } from 'src/repos/IMapRepository';
 
 /**
  *
@@ -10,12 +10,17 @@ import { ServiceNames } from './ServiceNames';
  * @extends {BaseServices}
  */
 export class MapServices extends BaseServices {
+  private mapRepository: IMapRepository;
+
   /**
-   *Creates an instance of MapServices.
+   * Creates an instance of MapServices.
+   *
+   * @param {IMapRepository} mapRepository
    * @memberof MapServices
    */
-  constructor() {
+  constructor(mapRepository: IMapRepository) {
     super();
+    this.mapRepository = mapRepository;
     this.serviceName = ServiceNames.Map;
     this.handlers = {
       'get': this.getMap,
@@ -26,7 +31,6 @@ export class MapServices extends BaseServices {
    * Gets all of the tiles associated with the map for a world.
    *
    * @param {*} request
-   * @return
    * @memberof MapServices
    */
   getMap(request) {

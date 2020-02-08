@@ -1,11 +1,9 @@
 import * as chai from 'chai';
 import * as mocha from 'mocha';
-import {MarchRepository} from '../../../../src/repos/implementations/MarchRepository';
+import {marchRepository} from '../../../../src/repos/implementations/';
 import {log} from '../../../../src/utils/log';
 
 const expect = chai.expect;
-
-const marchRepository = new MarchRepository();
 
 describe('MarchRepository', function() {
   it('should get expected test marchs', async function() {

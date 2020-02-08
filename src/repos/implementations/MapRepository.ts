@@ -1,16 +1,21 @@
 import {Map} from '../../domain/Map';
-import {models} from '../../models';
+import { IMapRepository } from '../IMapRepository';
 
 /**
  * Sequelize implementation of the `IMapRepository`
  * @class MapRepository
  */
-export class MapRepository {
+export class MapRepository implements IMapRepository {
+  private models: any;
+
   /**
    * Creates an instance of MapRepository.
+   * @param {*} models
    * @memberof MapRepository
    */
-  constructor() {}
+  constructor(models) {
+    this.models = models;
+  }
 
   /**
    * Gets all of the maps in this world.
@@ -18,6 +23,7 @@ export class MapRepository {
    * @memberof CitRepository
    */
   getAllMaps(): Promise<Array<Map>> {
+    const models = this.models;
     return new Promise( function(resolve, reject) {
       models.map.findAll()
           .then((maps) => {

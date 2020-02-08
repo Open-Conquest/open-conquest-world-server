@@ -1,8 +1,7 @@
-import {log} from './utils/log';
-import {logError as logError} from './utils/log';
-import {Request} from './Request';
-import {BaseServices} from './services/BaseServices';
-import {ServiceNames} from './services/ServiceNames';
+import {log} from '../utils/log';
+import {Request} from '../Request';
+import {BaseServices} from '../services/BaseServices';
+import {ServiceNames} from '../services/ServiceNames';
 
 /**
  * WorldServices is meant to route jsons to the appropriate services.

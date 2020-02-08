@@ -1,16 +1,20 @@
 import {Tile} from '../../domain/Tile';
-import {models} from '../../models';
+import { ITileRepository } from '../ITileRepository';
 
 /**
  * A Sequelize implementation of the `ITileRepository`
  * @class TileRepository
  */
-export class TileRepository {
+export class TileRepository implements ITileRepository {
+  private models: any;
   /**
    * Creates an instance of TileRepository.
+   * @param {*} models
    * @memberof TileRepository
    */
-  constructor() {}
+  constructor(models) {
+    this.models = models;
+  }
 
   /**
    * Gets all of the map in this world.
@@ -19,6 +23,7 @@ export class TileRepository {
    * @memberof TileRepository
    */
   getAllTiles(): Promise<Array<Tile>> {
+    const models = this.models;
     return new Promise( function(resolve, reject) {
       models.tile.findAll()
           .then((tile) => {
@@ -39,6 +44,7 @@ export class TileRepository {
    * @memberof TileRepository
    */
   getTile(row: number, col: number) {
+    const models = this.models;
     return new Promise(function(resolve, reject) {
       models.tile.findOne({
         where: {tile_row: row, tile_col: col},

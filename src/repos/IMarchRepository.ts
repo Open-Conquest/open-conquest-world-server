@@ -1,6 +1,5 @@
 import { March } from "../domain/March";
 
-export interface IMarchInterface {
+export interface IMarchRepository {
   getAllMarches(): Promise<Array<March>>
-  createMarch(march: March)
 }

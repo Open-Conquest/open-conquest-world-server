@@ -1,16 +1,21 @@
 import {March} from '../../domain/March';
-import {models} from '../../models';
+import { IMarchRepository } from '../IMarchRepository';
 
 /**
  * A Sequelize implementation of the `IMarchRepository`
  * @class MarchRepository
  */
-export class MarchRepository {
+export class MarchRepository implements IMarchRepository {
+  private models: any;
+
   /**
    * Creates an instance of MarchRepository.
+   * @param {*} models
    * @memberof MarchRepository
    */
-  constructor() {}
+  constructor(models) {
+    this.models = models;
+  }
 
   /**
    * Gets all of the marches in this world.
@@ -18,6 +23,7 @@ export class MarchRepository {
    * @memberof MarchRepository
    */
   getAllMarches(): Promise<Array<March>> {
+    const models = this.models;
     return new Promise( function(resolve, reject) {
       models.march.findAll({
         include: ['startTile', 'endTile'],

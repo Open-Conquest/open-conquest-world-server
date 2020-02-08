@@ -1,8 +1,6 @@
-import {log} from '../utils/log';
-import {logError as logError} from '../utils/log';
 import {BaseServices} from './BaseServices';
-import {models} from '../models';
-import { ServiceNames } from './ServiceNames';
+import {ServiceNames} from './ServiceNames';
+import {IMarchRepository} from '../repos/IMarchRepository';
 
 /**
  *
@@ -12,12 +10,17 @@ import { ServiceNames } from './ServiceNames';
  * @extends {BaseServices}
  */
 export class MarchServices extends BaseServices {
+  private marchRepository: IMarchRepository;
+
   /**
-   *Creates an instance of MarchServices.
+   * Creates an instance of MarchServices.
+   *
+   * @param {IMarchRepository} marchRepository
    * @memberof MarchServices
    */
-  constructor() {
+  constructor(marchRepository: IMarchRepository) {
     super();
+    this.marchRepository = marchRepository;
     this.serviceName = ServiceNames.March;
     this.handlers = {
       'get': this.getMarch,

@@ -2,6 +2,7 @@ import {BaseServices} from './BaseServices';
 import {models} from '../models';
 import {log} from '../utils/log';
 import { ServiceNames } from './ServiceNames';
+import { ITileRepository } from 'src/repos/ITileRepository';
 
 /**
  *
@@ -11,12 +12,16 @@ import { ServiceNames } from './ServiceNames';
  * @extends {BaseServices}
  */
 export class TileServices extends BaseServices {
+  private tileRepository: ITileRepository;
+
   /**
-   *Creates an instance of TileServices.
+   * Creates an instance of TileServices.
+   * @param {ITileRepository} tileRepository
    * @memberof TileServices
    */
-  constructor() {
+  constructor(tileRepository: ITileRepository) {
     super();
+    this.tileRepository = tileRepository;
     this.serviceName = ServiceNames.Tile;
     // creates a tile of request operations -> handling methods
     this.handlers = {

@@ -1,26 +1,32 @@
 import {User} from '../../domain/User';
 import {models} from '../../models';
+import { IUserRepository } from '../IUserRepository';
 
 /**
  * A Sequelize implementation of the `IUserRepository`
  *
  * @class UserRepository
  */
-export class UserRepository {
+export class UserRepository implements IUserRepository {
+  private models: any;
   /**
    * Creates an instance of UserRepository.
    *
+   * @param {*} models
    * @memberof UserRepository
    */
-  constructor() {}
+  constructor(models) {
+    this.models = models;
+  }
 
   /**
    * Gets all of the users in this world.
    *
-   * @return {Promise<User>}
+   * @return {Promise<Array<User>>}
    * @memberof UserRepository
    */
-  getAllUsers(): Promise<User> {
+  getAllUsers(): Promise<Array<User>> {
+    const models = this.models;
     return new Promise(function(resolve, reject) {
       models.user.findAll({})
           .then((users) => {
@@ -39,7 +45,8 @@ export class UserRepository {
    * @return {Promise<User>}
    * @memberof UserRepository
    */
-  createNewUser(user: User): Promise<User> {
+  createUser(user: User): Promise<User> {
+    const models = this.models;
     return new Promise(function(resolve, reject) {
       models.user.create({
         user_name: user.getUsername(),

@@ -1,5 +1,5 @@
 import {City} from '../domain/City';
 
 export interface ICityRepository {
-  getCity(): Promise<City>
+  getAllCities(): Promise<Array<City>>
 }

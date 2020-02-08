@@ -1,7 +1,10 @@
 import {BaseServices} from './BaseServices';
-import {RegisterUserResponse} from './responses/RegisterUserResponse';
-import {RegisterUserRequest} from './requests/RegisterUserRequest';
-import {ServiceNames} from './ServiceNames';
+import {RegisterUserResponse} from 'src/services/responses/RegisterUserResponse';
+import {RegisterUserRequest} from 'src/services/requests/RegisterUserRequest';
+import {ServiceNames} from 'src/services/ServiceNames';
+import { UserRepository } from 'src/repos/implementations/UserRepository';
+import { log } from 'src/utils/log';
+import { IUserRepository } from 'src/repos/IUserRepository';
 
 /**
  *
@@ -11,17 +14,23 @@ import {ServiceNames} from './ServiceNames';
  * @extends {BaseServices}
  */
 export class UserServices extends BaseServices {
+  private userRepository: IUserRepository;
   /**
-   *Creates an instance of UserServices.
+   * Creates an instance of UserServices.
+   *
+   * @param {IUserRepository} userRepository
    * @memberof UserServices
    */
-  constructor() {
+  constructor(userRepository: IUserRepository) {
     super();
+    // set properties for this specific service
     this.serviceName = ServiceNames.User;
     this.handlers = {
       'get': this.getUsers,
       'login': this.loginUser,
     };
+    // set repos from construtor
+    this.userRepository = userRepository;
   }
 
   /**
@@ -31,51 +40,38 @@ export class UserServices extends BaseServices {
    * @return {Promise<RegisterUserResponse>}
    * @memberof UserServices
    */
-  registerUser(request: RegisterUserRequest): Promise<RegisterUserResponse> {
+  registerUser(request: RegisterUserRequest): Promise<any> {
     // what does this function need to do?
+    const userRepository = this.userRepository;
     return new Promise(function(resolve, reject) {
-
+      // need to create a json schema for this request and all the others in future
+      // should get a username, password in the request
+      // create a new user with username
+      // use this password to create a salt... (happens inside userepo)
+      const user = request.getUser();
+      userRepository.createUser(user)
+          .then((newUser) => {
+            resolve(newUser);
+          })
+          .catch((err) => {
+            reject(err);
+          });
     });
   }
 
   /**
-   *
-   *
    * @param {*} request
    * @memberof UserServices
    */
   getUsers(request) {
-    // return new Promise(function(resolve, reject) {
-    //   models.user.findAll({})
-    //       .then((users) => {
-    //         resolve(users);
-    //       })
-    //       .catch((err) => {
-    //         reject(err);
-    //       });
-    // });
+    throw new Error('no impl');
   }
 
   /**
-   *
-   *
    * @param {*} request
    * @memberof UserServices
    */
   loginUser(request) {
-    // return new Promise(function(resolve, reject) {
-    //   const username = request.username;
-    //   models.user.findOne({
-    //     username: username,
-    //   })
-    //       .then((user) => {
-    //         resolve({'username': user.user_name});
-    //         // just return username instead
-    //         resolve(user);
-    //       })
-    //       .catch((err) => {
-    //         reject(err);
-    //       });
-    // });
+    throw new Error('no impl');
   }
 }

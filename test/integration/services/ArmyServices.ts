@@ -6,13 +6,8 @@ import {ArmyUnits, UnitType} from '../../../src/domain/ArmyUnits';
 import {Army} from '../../../src/domain/Army';
 import {EntityId} from '../../../src/domain/Entity';
 import {User} from '../../../src/domain/User';
-import {ArmyRepository} from '../../../src/repos/implementations/ArmyRepository';
-import {ArmyServices} from '../../../src/services/ArmyServices';
-import {UserRepository} from '../../../src/repos/implementations/UserRepository';
-
-const armyServices = new ArmyServices();
-const armyRepository = new ArmyRepository();
-const userRepository = new UserRepository();
+import { armyServices } from 'src/services';
+import { armyRepository, userRepository } from 'src/repos/implementations';
 
 describe('ArmyServices', function() {
   it('should return expected GetArmiesResponse for a user with a single army', async function() {
@@ -48,7 +43,7 @@ describe('ArmyServices', function() {
     const user = new User(null, 'username');
 
     // create new user
-    userRepository.createNewUser(user)
+    userRepository.createUser(user)
         .then((user) => {
           // create new armies for user
           armyRepository.createEmptyArmy(user);

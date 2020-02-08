@@ -1,19 +1,24 @@
-import {models} from '../../models';
 import {User} from '../../domain/User';
 import {Army} from '../../domain/Army';
 import {ArmyUnits} from '../../domain/ArmyUnits';
 import {log} from '../../utils/log';
+import { IArmyRepository } from '../IArmyRepository';
 
 /**
  * Sequelize implementation of the `IArmyRepository`.
  * @class ArmyRepository
  */
-export class ArmyRepository {
+export class ArmyRepository implements IArmyRepository {
+  private models: any;
+
   /**
    * Creates an instance of ArmyRepository.
+   * @param {*} models
    * @memberof ArmyRepository
    */
-  constructor() {}
+  constructor(models) {
+    this.models = models;
+  }
 
   /**
    * Gets all of the armies for a user.
@@ -23,6 +28,7 @@ export class ArmyRepository {
    * @memberof ArmyRepository
    */
   async getAllArmies(user: User): Promise<Array<Army>> {
+    const models = this.models;
     return new Promise( function(resolve, reject) {
       models.army.findAll({
         where: {
@@ -52,6 +58,7 @@ export class ArmyRepository {
    * @memberof ArmyRepository
    */
   async createArmy(user: User, army: Army): Promise<any> {
+    const models = this.models;
     return new Promise( function(resolve, reject) {
       models.army.create({
         user_id: user.getId(),
@@ -82,6 +89,7 @@ export class ArmyRepository {
    * @memberof ArmyRepository
    */
   async createEmptyArmy(user: User): Promise<Army> {
+    const models = this.models;
     return new Promise( function(resolve, reject) {
       models.army.create({
         user_id: user.getId(),

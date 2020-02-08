@@ -7,6 +7,7 @@ import {GetArmiesResponse} from './responses/GetArmiesResponse';
 import {User} from '../domain/User';
 import {EntityId} from '../domain/Entity';
 import { ServiceNames } from './ServiceNames';
+import { IArmyRepository } from 'src/repos/IArmyRepository';
 
 /**
  *
@@ -16,16 +17,16 @@ import { ServiceNames } from './ServiceNames';
  * @extends {BaseServices}
  */
 export class ArmyServices extends BaseServices {
-  private armyRepository: ArmyRepository
+  private armyRepository: IArmyRepository;
 
   /**
    * Creates an instance of ArmyServices.
    * @param {ArmyRepository} armyRepository
    * @memberof ArmyServices
    */
-  constructor() {
+  constructor(armyRepository: IArmyRepository) {
     super();
-    this.armyRepository = new ArmyRepository();
+    this.armyRepository = armyRepository;
     this.serviceName = ServiceNames.Army;
     this.handlers = {
       'get': this.getArmies,

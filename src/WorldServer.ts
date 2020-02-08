@@ -2,27 +2,14 @@
  * The WorldServer module is responsible for running the WSS, managing the
  * connections to the server, and dispatching request to the World Services.
  */
-import {log} from './utils/log';
-import {logError as logError} from './utils/log';
+import {log} from 'src/utils/log';
+import {logError as logError} from 'src/utils/log';
 import {server as WSS} from 'websocket';
 import * as HTTP from 'http';
 const PORT = 1337;
 
 // CREATE WORLD SERVICES
-import {WorldServices} from './WorldServices';
-import {ArmyServices} from './services/ArmyServices';
-import {CityServices} from './services/CityServices';
-import {MapServices} from './services/MapServices';
-import {MarchServices} from './services/MarchServices';
-import {TileServices} from './services/TileServices';
-import {UserServices} from './services/UserServices';
-const worldServices = new WorldServices();
-worldServices.registerService(new ArmyServices());
-worldServices.registerService(new CityServices());
-worldServices.registerService(new MapServices());
-worldServices.registerService(new MarchServices());
-worldServices.registerService(new TileServices());
-worldServices.registerService(new UserServices());
+import {worldServices} from 'src/routing';
 
 // START WEBSOCKET SERVER
 const wss = new WSS({

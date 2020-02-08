@@ -1,11 +1,9 @@
 import * as chai from 'chai';
 import * as mocha from 'mocha';
-import {TileRepository} from '../../../../src/repos/implementations/TileRepository';
+import {tileRepository} from '../../../../src/repos/implementations/';
 import {log} from '../../../../src/utils/log';
 
 const expect = chai.expect;
-
-const tileRepository = new TileRepository();
 
 describe('TileRepository', function() {
   it('should get expected test tiles', async function() {

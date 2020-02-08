@@ -1,6 +1,6 @@
 import * as chai from 'chai';
 import * as mocha from 'mocha';
-import {WorldServices} from "../../src/WorldServices"
+import {WorldServices} from "../../src/routing/WorldServices"
 import {BaseServices} from "../../src/services/BaseServices";
 import {ArmyServices} from "../../src/services/ArmyServices";
 import {UserServices} from "../../src/services/UserServices";
@@ -9,6 +9,7 @@ import {Response} from "../../src/Response";
 import {ServiceNames} from "../../src/services/ServiceNames";
 import {ServiceOperations} from "../../src/services/ServiceOperations";
 import {log} from '../../src/utils/log';
+import { armyServices, userServices } from 'src/services';
 
 const assert = chai.assert;
 
@@ -49,11 +50,9 @@ describe('WorldService', function() {
     const worldServices = new WorldServices();
     // register services with world services
     const testService = new TestService();
-    const armyService = new ArmyServices();
-    const userService = new UserServices();
-    worldServices.registerService(armyService);
+    worldServices.registerService(armyServices);
     worldServices.registerService(testService);
-    worldServices.registerService(userService);
+    worldServices.registerService(userServices);
     // make a request that should be dispatched to test services
     const request = new Request(ServiceNames.Test, ServiceOperations.Test, {});
     const requestJson = request.toJSON();
@@ -68,14 +67,13 @@ describe('WorldService', function() {
           throw err;
         });
   });
+
   it('should error when dispatching to a non-existent service', async function() {
     // create new world services
     const worldServices = new WorldServices();
     // register services with world services
-    const armyService = new ArmyServices();
-    const userService = new UserServices();
-    worldServices.registerService(armyService);
-    worldServices.registerService(userService);
+    worldServices.registerService(armyServices);
+    worldServices.registerService(userServices);
     // make a request that should be dispatched to test services
     const request = new Request(ServiceNames.Test, ServiceOperations.Test, {});
     const requestJson = request.toJSON();

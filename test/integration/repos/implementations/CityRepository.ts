@@ -1,11 +1,9 @@
 import * as chai from 'chai';
 import * as mocha from 'mocha';
-import {CityRepository} from '../../../../src/repos/implementations/CityRepository';
 import {log} from '../../../../src/utils/log';
+import { cityRepository } from 'src/repos/implementations';
 
 const expect = chai.expect;
-
-const cityRepository = new CityRepository();
 
 describe('CityRepository', function() {
   /**

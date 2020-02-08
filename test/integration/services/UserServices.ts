@@ -19,8 +19,6 @@ describe('UserServices', function() {
     return connection.query('ROLLBACK');
   });
 
-  const userServices = new UserServices();
-
   it('registerUser should return a valid jwt for the new user', async function() {
     // try to register a user with a new username
   });

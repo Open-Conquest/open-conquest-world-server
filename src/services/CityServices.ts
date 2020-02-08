@@ -1,6 +1,7 @@
 import {BaseServices} from './BaseServices';
 import {models} from '../models';
 import { ServiceNames } from './ServiceNames';
+import { ICityRepository } from 'src/repos/ICityRepository';
 
 /**
  *
@@ -10,12 +11,16 @@ import { ServiceNames } from './ServiceNames';
  * @extends {BaseServices}
  */
 export class CityServices extends BaseServices {
+  private cityRepository: ICityRepository;
+
   /**
-   *Creates an instance of CityServices.
+   * Creates an instance of CityServices.
+   * @param {ICityRepository} cityRepository
    * @memberof CityServices
    */
-  constructor() {
+  constructor(cityRepository: ICityRepository) {
     super();
+    this.cityRepository = cityRepository;
     this.serviceName = ServiceNames.City;
     this.handlers = {
       'get': this.getCity,
