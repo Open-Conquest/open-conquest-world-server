@@ -5,7 +5,7 @@ import { MarchRepository } from "./MarchRepository";
 import { TileRepository } from "./TileRepository";
 import { UserRepository } from "./UserRepository";
 
-import { models } from "src/models";
+import { models } from "../../models";
 
 const armyRepository = new ArmyRepository(models);
 const cityRepository = new CityRepository(models);

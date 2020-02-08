@@ -1,10 +1,10 @@
 import {BaseServices} from './BaseServices';
-import {RegisterUserResponse} from 'src/services/responses/RegisterUserResponse';
-import {RegisterUserRequest} from 'src/services/requests/RegisterUserRequest';
-import {ServiceNames} from 'src/services/ServiceNames';
-import { UserRepository } from 'src/repos/implementations/UserRepository';
-import { log } from 'src/utils/log';
-import { IUserRepository } from 'src/repos/IUserRepository';
+import {RegisterUserResponse} from '../services/responses/RegisterUserResponse';
+import {RegisterUserRequest} from '../services/requests/RegisterUserRequest';
+import {ServiceNames} from '../services/ServiceNames';
+import { UserRepository } from '../repos/implementations/UserRepository';
+import { log } from '../utils/log';
+import { IUserRepository } from '../repos/IUserRepository';
 
 /**
  *

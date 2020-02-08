@@ -9,7 +9,7 @@ import {Response} from "../../src/Response";
 import {ServiceNames} from "../../src/services/ServiceNames";
 import {ServiceOperations} from "../../src/services/ServiceOperations";
 import {log} from '../../src/utils/log';
-import { armyServices, userServices } from 'src/services';
+import { armyServices, userServices } from '../../src/services';
 
 const assert = chai.assert;
 

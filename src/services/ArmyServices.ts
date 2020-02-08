@@ -7,7 +7,7 @@ import {GetArmiesResponse} from './responses/GetArmiesResponse';
 import {User} from '../domain/User';
 import {EntityId} from '../domain/Entity';
 import { ServiceNames } from './ServiceNames';
-import { IArmyRepository } from 'src/repos/IArmyRepository';
+import { IArmyRepository } from '../repos/IArmyRepository';
 
 /**
  *

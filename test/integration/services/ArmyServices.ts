@@ -6,8 +6,8 @@ import {ArmyUnits, UnitType} from '../../../src/domain/ArmyUnits';
 import {Army} from '../../../src/domain/Army';
 import {EntityId} from '../../../src/domain/Entity';
 import {User} from '../../../src/domain/User';
-import { armyServices } from 'src/services';
-import { armyRepository, userRepository } from 'src/repos/implementations';
+import { armyServices } from '../../../src/services';
+import { armyRepository, userRepository } from '../../../src/repos/implementations';
 
 describe('ArmyServices', function() {
   it('should return expected GetArmiesResponse for a user with a single army', async function() {
