@@ -1,5 +1,4 @@
 import {Request} from '../../Request';
-import {IRequestData} from '../../Request';
 import {ServiceNames} from '../ServiceNames';
 import {ServiceOperations} from '../ServiceOperations';
 

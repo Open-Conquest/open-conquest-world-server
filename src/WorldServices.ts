@@ -1,16 +1,11 @@
-/**
- * The WorldService dispatches request to the appropriate handler.
- */
-
 import {log} from './utils/log';
 import {logError as logError} from './utils/log';
 import {Request} from './Request';
-import {fromRequest} from './Request';
 import {BaseServices} from './services/BaseServices';
 import {ServiceNames} from './services/ServiceNames';
 
 /**
- *
+ * WorldServices is meant to route jsons to the appropriate services.
  *
  * @export
  * @class WorldServices
@@ -41,21 +36,21 @@ export class WorldServices {
   /**
    *
    *
-   * @param {*} request
+   * @param {*} json
    * @return {Request}
    * @memberof WorldServices
    */
-  dispatchRequest(request): any {
-    log('WorldService received request: ' + JSON.stringify(request));
+  dispatchRequest(json): any {
+    log('WorldService received json: ' + JSON.stringify(json));
 
     const services = this.services;
     return new Promise( function(resolve, reject) {
       try {
-        request = fromRequest(request);
+        json = Request.fromJSON(json);
       } catch (err) {
         reject(err);
       }
-      services.get(request.serviceName).handle(request)
+      services.get(json.serviceName).handle(json)
           .then((res) => {
             const response = JSON.stringify(res);
             log('WorldService returning response: ' + response);
