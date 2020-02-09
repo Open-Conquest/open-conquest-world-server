@@ -43,28 +43,35 @@ export class UserServices extends BaseServices {
   registerUser(request: RegisterUserRequest): Promise<any> {
     const userRepository = this.userRepository;
     return new Promise(function(resolve, reject) {
-      // check that the username doesn't exist
-      userRepository.getUserWithUsername(request.getUsername())
+
+      // check that the username isn't in use
+      const newUser = request.getUser();
+      const username = newUser.getUsername();
+      userRepository.getUserWithUsername(username)
           .then((user) => {
-
+            if (user === null) {
+              // username is not in use
+              return userRepository.createUser(user);
+            } else {
+              // username is already taken
+              resolve(new RegisterUserRequest(false));
+            }
           })
-          .catch((err) => {
 
-          });
-      // make sure password is valid
-
-      // try to register new user
-
-      // should get a username, password in the request
-      // create a new user with username
-      // use this password to create a salt... (happens inside userepo)
-      const user = request.getUser();
-      userRepository.createUser(user)
-          .then((newUser) => {
-            resolve(newUser);
+          // user has been created in the database
+          .then((user) => {
+            /**
+             *  the user was created in the database
+            *   now respond with the details of the user
+            *   in the future this should respond with a jwt
+            *   that the user can supply with their requests
+            *   in the future for autorization.
+            */
+            resolve(new RegisterUserRequest(user));
           })
+
           .catch((err) => {
-            reject(err);
+            reject(new RegisterUserResponse());
           });
     });
   }

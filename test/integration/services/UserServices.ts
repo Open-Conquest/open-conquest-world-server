@@ -3,9 +3,8 @@ import * as mocha from 'mocha';
 import {log} from '../../../src/utils/log';
 import {RegisterUserRequest} from '../../../src/services/requests/RegisterUserRequest';
 import {RegisterUserResponse} from '../../../src/services/responses/RegisterUserResponse';
-import {UserServices} from '../../../src/services/UserServices';
 import {models} from '../../../src/models/';
-import {User} from '../../../src/domain/User';
+import { userServices } from '../../../src/services';
 const assert = chai.assert;
 
 describe('UserServices', function() {
@@ -20,6 +19,23 @@ describe('UserServices', function() {
   });
 
   it('registerUser should return a valid jwt for the new user', async function() {
-    // try to register a user with a new username
+    const username = 'test_username';
+    const password = 'test_password';
+    const requestData = {
+      'username': username,
+      'password': password,
+    };
+    const request = new RegisterUserRequest(requestData);
+    return userServices.registerUser(request)
+        .then((response) => {
+          throw new Error(JSON.stringify(response.getData()));
+          // expect that user has the same username
+          const actualUser = response.getUser();
+          assert(actualUser.getUsername() === username);
+        })
+        .catch((err) => {
+          // see what the error is or something
+          throw err;
+        });
   });
 });

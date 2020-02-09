@@ -1,8 +1,8 @@
 import {Request} from '../../Request';
 import {ServiceNames} from '../ServiceNames';
 import {ServiceOperations} from '../ServiceOperations';
-import {User} from 'src/domain/User';
-import {EntityId} from 'src/domain/Entity';
+import {User} from '../../domain/User';
+import {EntityId} from '../../domain/Entity';
 
 /**
  *

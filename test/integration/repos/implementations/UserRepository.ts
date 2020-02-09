@@ -83,5 +83,5 @@ describe('UserRepository', function() {
           log(err);
           throw err;
         });
-  });
+});
 });
