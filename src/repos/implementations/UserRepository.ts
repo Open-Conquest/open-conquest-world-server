@@ -48,8 +48,10 @@ export class UserRepository implements IUserRepository {
   getUserWithUsername(username: string): Promise<User> {
     const models = this.models;
     return new Promise( function(resolve, reject) {
-      models.user.find({
-        user_name: username,
+      models.user.findOne({
+        where: {
+          user_name: username,
+        },
       })
           .then((user) => {
             resolve(user);
