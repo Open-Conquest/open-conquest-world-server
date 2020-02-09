@@ -20,6 +20,7 @@ export class RegisterUserRequest extends Request {
    */
   constructor(data: any) {
     super(ServiceNames.User, ServiceOperations.RegisterUser, data);
+    this.data = RegisterUserRequestData.fromJSON(data);
   }
 
   /**
@@ -30,5 +31,44 @@ export class RegisterUserRequest extends Request {
    */
   getUser(): User {
     return new User(new EntityId(0), 'username');
+  }
+}
+
+/**
+ * Class to encapsulate data for RegisterUserRequest.
+ *
+ * @export
+ * @class RegisterUserRequestData
+ */
+export class RegisterUserRequestData {
+  private username: string;
+  private password: string;
+
+  /**
+   * Creates an instance of RegisterUserRequestData.
+   *
+   * @param {string} username
+   * @param {string} password
+   * @param {password} email
+   * @memberof ReqisterUserRequestData
+   */
+  constructor(username: string, password: string) {
+    this.username = username;
+    this.password = password;
+  }
+
+  /**
+   * Create an instance of this class from some JSON.
+   *
+   * @static
+   * @param {*} json
+   * @return {RegisterUserRequestData}
+   * @memberof RegisterUserRequestData
+   */
+  static fromJSON(json: any) {
+    return new RegisterUserRequestData(
+        json['username'],
+        json['password'],
+    );
   }
 }
