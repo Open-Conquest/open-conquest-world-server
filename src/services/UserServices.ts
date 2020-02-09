@@ -41,10 +41,20 @@ export class UserServices extends BaseServices {
    * @memberof UserServices
    */
   registerUser(request: RegisterUserRequest): Promise<any> {
-    // what does this function need to do?
     const userRepository = this.userRepository;
     return new Promise(function(resolve, reject) {
-      // need to create a json schema for this request and all the others in future
+      // check that the username doesn't exist
+      userRepository.getUserWithUsername(request.getUsername())
+          .then((user) => {
+
+          })
+          .catch((err) => {
+
+          });
+      // make sure password is valid
+
+      // try to register new user
+
       // should get a username, password in the request
       // create a new user with username
       // use this password to create a salt... (happens inside userepo)
