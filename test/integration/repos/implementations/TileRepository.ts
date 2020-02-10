@@ -10,6 +10,7 @@ describe('TileRepository', function() {
     try {
       const tiles = await tileRepository.getAllTiles();
       expect(tiles ).to.be.not.null;
+      throw new Error('no strong assertions');
     } catch (err) {
       log(err);
       throw err;
@@ -19,6 +20,7 @@ describe('TileRepository', function() {
     try {
       const tile = await tileRepository.getTile(0, 0);
       expect(tile).to.be.not.null;
+      throw new Error('no strong assertions');
     } catch (err) {
       log(err);
       throw err;

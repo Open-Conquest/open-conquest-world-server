@@ -10,6 +10,7 @@ describe('MapRepository', function() {
     try {
       const maps = await mapRepository.getAllMaps();
       expect(maps ).to.be.not.null;
+      throw new Error('no strong assertions');
     } catch (err) {
       log(err);
       throw err;
