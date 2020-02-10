@@ -54,6 +54,7 @@ export class UserRepository implements IUserRepository {
         },
       })
           .then((user) => {
+            // const newUser = User.fromSequelize(user);
             resolve(user);
           })
           .catch((err) => {

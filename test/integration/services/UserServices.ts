@@ -1,10 +1,11 @@
 import * as chai from 'chai';
 import * as mocha from 'mocha';
 import {log} from '../../../src/utils/log';
-import {RegisterUserRequest} from '../../../src/services/requests/RegisterUserRequest';
-import {RegisterUserResponse} from '../../../src/services/responses/RegisterUserResponse';
 import {models} from '../../../src/models/';
-import { userServices } from '../../../src/services';
+import {userServices} from '../../../src/services';
+import { Request } from '../../../src/Request';
+import { ServiceNames } from '../../../src/services/ServiceNames';
+import { ServiceOperations } from '../../../src/services/ServiceOperations';
 const assert = chai.assert;
 
 describe('UserServices', function() {
@@ -21,11 +22,17 @@ describe('UserServices', function() {
   it('registerUser should return a valid jwt for the new user', async function() {
     const username = 'test_username';
     const password = 'test_password';
-    const requestData = {
+    const data = {
       'username': username,
       'password': password,
     };
-    const request = new RegisterUserRequest(requestData);
+
+    const request = new Request(
+        ServiceNames.User,
+        ServiceOperations.RegisterUser,
+        data,
+    );
+
     return userServices.registerUser(request)
         .then((response) => {
           // expect that user has the same username

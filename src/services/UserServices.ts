@@ -1,10 +1,10 @@
 import {BaseServices} from './BaseServices';
-import {RegisterUserResponse} from '../services/responses/RegisterUserResponse';
-import {RegisterUserRequest} from '../services/requests/RegisterUserRequest';
 import {ServiceNames} from '../services/ServiceNames';
-import { UserRepository } from '../repos/implementations/UserRepository';
+import {ServiceOperations} from '../services/ServiceOperations';
 import { log } from '../utils/log';
 import { IUserRepository } from '../repos/IUserRepository';
+import { Request } from '../Request';
+import { Response } from '../Response';
 
 /**
  *
@@ -36,17 +36,16 @@ export class UserServices extends BaseServices {
   /**
    * Service for handling registering a new user.
    *
-   * @param {RegisterUserRequest} request
-   * @return {Promise<RegisterUserResponse>}
+   * @param {Request} request
+   * @return {Promise<Response>}
    * @memberof UserServices
    */
-  registerUser(request: RegisterUserRequest): Promise<RegisterUserResponse> {
+  registerUser(request: Request): Promise<Response> {
     const userRepository = this.userRepository;
     return new Promise(function(resolve, reject) {
+      // get expected data from request
+      const username = request.data['username'];
 
-      // check that the username isn't in use
-      const newUser = request.getUser();
-      const username = newUser.getUsername();
       userRepository.getUserWithUsername(username)
           .then((user) => {
             if (user === null) {
@@ -67,7 +66,11 @@ export class UserServices extends BaseServices {
             *   that the user can supply with their requests
             *   in the future for autorization.
             */
-           const response = new RegisterUserResponse(user);
+            const response = new Response(
+                ServiceNames.User,
+                ServiceOperations.RegisterUser,
+                user,
+            );
             resolve(response);
           })
 
