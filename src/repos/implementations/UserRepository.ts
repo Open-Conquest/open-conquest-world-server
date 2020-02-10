@@ -1,7 +1,9 @@
 import {IUserRepository} from '../IUserRepository';
 import {models} from '../../models';
 import {User} from '../../domain/User';
+import * as jwt from 'jsonwebtoken';
 import * as bcrypt from 'bcryptjs';
+import * as config from '../../../config/real-config';
 
 /**
  * A Sequelize implementation of the `IUserRepository`
@@ -10,6 +12,7 @@ import * as bcrypt from 'bcryptjs';
  */
 export class UserRepository implements IUserRepository {
   private models: any;
+
   /**
    * Creates an instance of UserRepository.
    *
@@ -67,10 +70,10 @@ export class UserRepository implements IUserRepository {
    *
    * @param {string} username
    * @param {string} password
-   * @return {Promise<User>}
+   * @return {Promise<any>} jwt
    * @memberof UserRepository
    */
-  createUser(username: string, password: string): Promise<User> {
+  createUser(username: string, password: string): Promise<any> {
     const models = this.models;
     return new Promise(function(resolve, reject) {
       // check if username and password are valid
@@ -88,7 +91,6 @@ export class UserRepository implements IUserRepository {
             }
             // hash password
             const hashedPassword = bcrypt.hashSync(password, 8);
-            console.log(hashedPassword);
             // save user to database with salted password
             return models.user.create({
               username: username,
@@ -96,11 +98,13 @@ export class UserRepository implements IUserRepository {
             });
           })
           .then((registeredUser) => {
-            const newRegisteredUser = new User(
-                registeredUser.user_id,
-                registeredUser.username,
+            // generate jwt for newly registered user
+            const token = jwt.sign(
+                {userId: registeredUser.user_id, username: registeredUser.username},
+                config.secret,
+                {expiresIn: '1h'},
             );
-            resolve(newRegisteredUser);
+            resolve(token);
           })
           .catch((err) => {
             reject(err);
