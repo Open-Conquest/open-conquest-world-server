@@ -30,7 +30,7 @@ export class RegisterUserRequest extends Request {
    * @memberof RegisterUserRequest
    */
   getUser(): User {
-    return new User(new EntityId(0), 'username');
+    return new User(new EntityId(0), this.data.username);
   }
 }
 
@@ -41,8 +41,8 @@ export class RegisterUserRequest extends Request {
  * @class RegisterUserRequestData
  */
 export class RegisterUserRequestData {
-  private username: string;
-  private password: string;
+  public username: string;
+  public password: string;
 
   /**
    * Creates an instance of RegisterUserRequestData.

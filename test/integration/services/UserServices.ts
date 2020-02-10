@@ -28,10 +28,9 @@ describe('UserServices', function() {
     const request = new RegisterUserRequest(requestData);
     return userServices.registerUser(request)
         .then((response) => {
-          throw new Error(JSON.stringify(response.getData()));
           // expect that user has the same username
-          const actualUser = response.getUser();
-          assert(actualUser.getUsername() === username);
+          const actualUsername = response.getData().username;
+          assert(actualUsername === username);
         })
         .catch((err) => {
           // see what the error is or something

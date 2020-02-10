@@ -1,6 +1,7 @@
 import {Response} from '../../Response';
 import { ServiceNames } from '../ServiceNames';
 import { ServiceOperations } from '../ServiceOperations';
+import { User } from 'src/domain/User';
 
 /**
  *
@@ -15,7 +16,22 @@ export class RegisterUserResponse extends Response {
    *
    * @memberof RegisterUserResponse
    */
-  constructor() {
-    super(ServiceNames.User, ServiceOperations.RegisterUser, null);
+  constructor(user: User) {
+    super(
+        ServiceNames.User,
+        ServiceOperations.RegisterUser,
+        new RegisterUserResponseData(user),
+    );
+  }
+
+  getData(): RegisterUserResponseData {
+    return this.data;
+  }
+}
+
+export class RegisterUserResponseData {
+  public username: string;
+  constructor(user: User) {
+    this.username = user.getUsername(); 
   }
 }

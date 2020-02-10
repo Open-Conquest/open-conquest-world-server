@@ -40,7 +40,7 @@ export class UserServices extends BaseServices {
    * @return {Promise<RegisterUserResponse>}
    * @memberof UserServices
    */
-  registerUser(request: RegisterUserRequest): Promise<any> {
+  registerUser(request: RegisterUserRequest): Promise<RegisterUserResponse> {
     const userRepository = this.userRepository;
     return new Promise(function(resolve, reject) {
 
@@ -54,7 +54,7 @@ export class UserServices extends BaseServices {
               return userRepository.createUser(user);
             } else {
               // username is already taken
-              resolve(new RegisterUserRequest(false));
+              reject(new Error('username is taken'));
             }
           })
 
@@ -67,11 +67,12 @@ export class UserServices extends BaseServices {
             *   that the user can supply with their requests
             *   in the future for autorization.
             */
-            resolve(new RegisterUserRequest(user));
+           const response = new RegisterUserResponse(user);
+            resolve(response);
           })
 
           .catch((err) => {
-            reject(new RegisterUserResponse());
+            reject(err);
           });
     });
   }
