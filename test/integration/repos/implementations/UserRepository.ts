@@ -20,7 +20,7 @@ describe('UserRepository', function() {
   it('createNewUser should create a new user & return valiud JWT', async function() {
     // create a new user that would come in through a request
     const username = 'test_username';
-    const password = 'password';
+    const password = 'password12334';
 
     return userRepository.createUser(username, password)
         .then((newUser) => {

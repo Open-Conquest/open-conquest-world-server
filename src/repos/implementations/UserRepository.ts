@@ -1,6 +1,8 @@
 import {IUserRepository} from '../IUserRepository';
 import {models} from '../../models';
 import {User} from '../../domain/User';
+import * as bcrypt from 'bcryptjs';
+
 /**
  * A Sequelize implementation of the `IUserRepository`
  *
@@ -84,18 +86,21 @@ export class UserRepository implements IUserRepository {
             if (user != null) {
               reject(new Error('Username is taken'));
             }
-
-            // salt + hash password
-            const saltedPassword = '';
+            // hash password
+            const hashedPassword = bcrypt.hashSync(password, 8);
+            console.log(hashedPassword);
             // save user to database with salted password
             return models.user.create({
               username: username,
-              password: saltedPassword,
+              password: hashedPassword,
             });
           })
           .then((registeredUser) => {
-            // user was registered succesfully
-            // now return their jwt
+            const newRegisteredUser = new User(
+                registeredUser.user_id,
+                registeredUser.username,
+            );
+            resolve(newRegisteredUser);
           })
           .catch((err) => {
             reject(err);
