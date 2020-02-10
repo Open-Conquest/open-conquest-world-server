@@ -1,10 +1,13 @@
 import {BaseServices} from './BaseServices';
 import {ServiceNames} from '../services/ServiceNames';
 import {ServiceOperations} from '../services/ServiceOperations';
-import { log } from '../utils/log';
-import { IUserRepository } from '../repos/IUserRepository';
-import { Request } from '../Request';
-import { Response } from '../Response';
+import {log} from '../utils/log';
+import {IUserRepository} from '../repos/IUserRepository';
+import {Request} from '../Request';
+import {Response} from '../Response';
+import * as jwt from 'jsonwebtoken';
+import * as bcrypt from 'bcryptjs';
+import * as config from '../../config/real-config';
 
 /**
  *
@@ -43,37 +46,35 @@ export class UserServices extends BaseServices {
   registerUser(request: Request): Promise<Response> {
     const userRepository = this.userRepository;
     return new Promise(function(resolve, reject) {
-      // get expected data from request
+      // get data from expected fields in request
       const username = request.data['username'];
+      const password = request.data['password'];
 
-      userRepository.getUserWithUsername(username)
-          .then((user) => {
-            if (user === null) {
-              // username is not in use
-              return userRepository.createUser(user);
-            } else {
-              // username is already taken
-              reject(new Error('username is taken'));
-            }
-          })
+      // check if username and password are valid
+      if (username === null || password === null || username.length < 10 || password.length < 10) {
+        reject(new Error('Invalid username or password'));
+      }
 
-          // user has been created in the database
-          .then((user) => {
-            /**
-             *  the user was created in the database
-            *   now respond with the details of the user
-            *   in the future this should respond with a jwt
-            *   that the user can supply with their requests
-            *   in the future for autorization.
-            */
+      // hash password
+      const hashedPassword = bcrypt.hashSync(password, 8);
+
+      userRepository.createUser(username, hashedPassword)
+          .then((registeredUser) => {
+            // generate jwt for newly registered user
+            const token = jwt.sign(
+                {userId: registeredUser.getId(), username: registeredUser.getUsername()},
+                config.secret,
+                {expiresIn: '1h'},
+            );
+
+            // build & return response with jwt
             const response = new Response(
                 ServiceNames.User,
                 ServiceOperations.RegisterUser,
-                user,
+                token,
             );
             resolve(response);
           })
-
           .catch((err) => {
             reject(err);
           });

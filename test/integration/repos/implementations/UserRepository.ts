@@ -23,16 +23,30 @@ describe('UserRepository', function() {
     const username = 'test_username';
     const password = 'password12334';
 
-    log('What time is it?');
-
     return userRepository.createUser(username, password)
-        .then((token) => {
+        .then((newUser) => {
           // assert that the user returned has the expected username
-          // assert(newUser.getUsername() === username);
-          console.log(token);
+          assert(newUser.getUsername() === username);
         })
         .catch((err) => {
           assert.fail(err);
+        });
+  });
+
+  it('createNewUser should fail with a duplicate username', async function() {
+    // create a new user that would come in through a request
+    const username = 'test_username';
+    const password = 'password12334';
+
+    return userRepository.createUser(username, password)
+        .then((newUser) => {
+          return userRepository.createUser(username, password);
+        })
+        .then((newUser) => {
+          assert.fail('User with duplicate username shouldn\'t have been created');
+        })
+        .catch((err) => {
+          assert(err.message === 'Username is taken');
         });
   });
 

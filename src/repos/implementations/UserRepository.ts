@@ -69,18 +69,13 @@ export class UserRepository implements IUserRepository {
    * Create a new user.
    *
    * @param {string} username
-   * @param {string} password
-   * @return {Promise<any>} jwt
+   * @param {string} hashedPassword
+   * @return {Promise<User>}
    * @memberof UserRepository
    */
-  createUser(username: string, password: string): Promise<any> {
+  createUser(username: string, hashedPassword: string): Promise<User> {
     const models = this.models;
     return new Promise(function(resolve, reject) {
-      // check if username and password are valid
-      if (username === null || password === null || username.length < 10 || password.length < 10) {
-        reject(new Error('Invalid username or password'));
-      }
-
       // check if username is already taken
       models.user.findOne({
         where: {username: username},
@@ -89,8 +84,6 @@ export class UserRepository implements IUserRepository {
             if (user != null) {
               reject(new Error('Username is taken'));
             }
-            // hash password
-            const hashedPassword = bcrypt.hashSync(password, 8);
             // save user to database with salted password
             return models.user.create({
               username: username,
@@ -98,13 +91,11 @@ export class UserRepository implements IUserRepository {
             });
           })
           .then((registeredUser) => {
-            // generate jwt for newly registered user
-            const token = jwt.sign(
-                {userId: registeredUser.user_id, username: registeredUser.username},
-                config.secret,
-                {expiresIn: '1h'},
+            const user = new User(
+                registeredUser.user_id,
+                registeredUser.username,
             );
-            resolve(token);
+            resolve(user);
           })
           .catch((err) => {
             reject(err);
