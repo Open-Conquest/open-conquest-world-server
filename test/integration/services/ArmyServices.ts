@@ -7,9 +7,9 @@ import {EntityId} from '../../../src/domain/Entity';
 import {User} from '../../../src/domain/User';
 import { armyServices } from '../../../src/services';
 import { armyRepository, userRepository } from '../../../src/repos/implementations';
-import { Response } from 'src/Response';
-import { ServiceNames } from 'src/services/ServiceNames';
-import { ServiceOperations } from 'src/services/ServiceOperations';
+import { Response } from '../../../src/Response';
+import { ServiceNames } from '../../../src/services/ServiceNames';
+import { ServiceOperations } from '../../../src/services/ServiceOperations';
 
 describe('ArmyServices', function() {
   it('should return expected GetArmiesResponse for a user with a single army', async function() {
