@@ -1,7 +1,6 @@
-import {User} from '../../domain/User';
+import {IUserRepository} from '../IUserRepository';
 import {models} from '../../models';
-import { IUserRepository } from '../IUserRepository';
-
+import {User} from '../../domain/User';
 /**
  * A Sequelize implementation of the `IUserRepository`
  *
@@ -49,9 +48,7 @@ export class UserRepository implements IUserRepository {
     const models = this.models;
     return new Promise( function(resolve, reject) {
       models.user.findOne({
-        where: {
-          user_name: username,
-        },
+        where: {username: username},
       })
           .then((user) => {
             // const newUser = User.fromSequelize(user);
@@ -66,20 +63,39 @@ export class UserRepository implements IUserRepository {
   /**
    * Create a new user.
    *
-   * @param {User} user
+   * @param {string} username
+   * @param {string} password
    * @return {Promise<User>}
    * @memberof UserRepository
    */
-  createUser(user: User): Promise<User> {
+  createUser(username: string, password: string): Promise<User> {
     const models = this.models;
     return new Promise(function(resolve, reject) {
-      models.user.create({
-        user_name: user.getUsername(),
+      // check if username and password are valid
+      if (username === null || password === null || username.length < 10 || password.length < 10) {
+        reject(new Error('Invalid username or password'));
+      }
+
+      // check if username is already taken
+      models.user.findOne({
+        where: {username: username},
       })
           .then((user) => {
-            // map db response to domain user
-            const newUser = new User(user.user_id, user.user_name);
-            resolve(newUser);
+            if (user != null) {
+              reject(new Error('Username is taken'));
+            }
+
+            // salt + hash password
+            const saltedPassword = '';
+            // save user to database with salted password
+            return models.user.create({
+              username: username,
+              password: saltedPassword,
+            });
+          })
+          .then((registeredUser) => {
+            // user was registered succesfully
+            // now return their jwt
           })
           .catch((err) => {
             reject(err);
