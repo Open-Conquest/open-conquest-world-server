@@ -7,6 +7,7 @@ module.exports = {
     database: process.env.DB_NAME,
     host: process.env.DB_HOSTNAME,
     dialect: 'mysql',
+    secret: 'secret',
   },
   test: {
     username: 'root',
@@ -14,6 +15,7 @@ module.exports = {
     database: 'master',
     host: 'localhost',
     dialect: 'mysql',
+    secret: 'secret',
   },
   travis: {
     username: 'root',
@@ -21,5 +23,6 @@ module.exports = {
     database: 'master',
     host: 'localhost',
     dialect: 'mysql',
+    secret: 'secret',
   },
 };
