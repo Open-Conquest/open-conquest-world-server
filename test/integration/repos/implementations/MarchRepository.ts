@@ -10,6 +10,7 @@ describe('MarchRepository', function() {
     try {
       const marchs = await marchRepository.getAllMarches();
       expect(marchs ).to.be.not.null;
+      throw new Error('no strong assertions');
     } catch (err) {
       log(err);
       throw err;

@@ -2,8 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 const Sequelize = require('sequelize');
 const thisfile = path.basename(__filename);
-const env = process.env.NODE_ENV || 'test';
-const config = require('../../../config/real-config.js')[env];
+import * as config from '../../config/real-config';
 
 // create connection to database
 const sequelize = new Sequelize(

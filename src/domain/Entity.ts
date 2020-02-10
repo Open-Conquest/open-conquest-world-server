@@ -42,8 +42,8 @@ export class Entity {
    * @param {EntityId} id
    * @memberof Entity
    */
-  constructor(id: EntityId) {
-    this.id = id;
+  constructor(id: number) {
+    this.id = new EntityId(id);
   }
 
   /**

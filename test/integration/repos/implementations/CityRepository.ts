@@ -14,6 +14,7 @@ describe('CityRepository', function() {
     try {
       const cities = await cityRepository.getAllCities();
       expect(cities).to.be.not.null;
+      throw new Error('no strong assertions implemented');
     } catch (err) {
       log(err);
       throw err;

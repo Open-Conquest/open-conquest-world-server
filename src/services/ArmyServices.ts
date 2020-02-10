@@ -3,11 +3,11 @@ import {Response} from '../Response';
 import {Request} from '../Request';
 import {ArmyRepository} from '../repos/implementations/ArmyRepository';
 import {Army} from '../domain/Army';
-import {GetArmiesResponse} from './responses/GetArmiesResponse';
 import {User} from '../domain/User';
 import {EntityId} from '../domain/Entity';
 import { ServiceNames } from './ServiceNames';
 import { IArmyRepository } from '../repos/IArmyRepository';
+import { ServiceOperations } from './ServiceOperations';
 
 /**
  *
@@ -45,7 +45,11 @@ export class ArmyServices extends BaseServices {
     return new Promise( function(resolve, reject) {
       armyRepository.getAllArmies(user)
           .then((armies) => {
-            const response = new GetArmiesResponse(user, armies);
+            const response = new Response(
+                ServiceNames.Army,
+                ServiceOperations.GetArmies,
+                armies,
+            );
             resolve(response);
           })
           .catch((err) => {

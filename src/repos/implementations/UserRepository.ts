@@ -1,6 +1,9 @@
-import {User} from '../../domain/User';
+import {IUserRepository} from '../IUserRepository';
 import {models} from '../../models';
-import { IUserRepository } from '../IUserRepository';
+import {User} from '../../domain/User';
+import * as jwt from 'jsonwebtoken';
+import * as bcrypt from 'bcryptjs';
+import * as config from '../../../config/real-config';
 
 /**
  * A Sequelize implementation of the `IUserRepository`
@@ -9,6 +12,7 @@ import { IUserRepository } from '../IUserRepository';
  */
 export class UserRepository implements IUserRepository {
   private models: any;
+
   /**
    * Creates an instance of UserRepository.
    *
@@ -39,22 +43,59 @@ export class UserRepository implements IUserRepository {
   }
 
   /**
-   * Create a new user.
+   * Get a user with username.
    *
-   * @param {User} user
+   * @param {string} username
    * @return {Promise<User>}
    * @memberof UserRepository
    */
-  createUser(user: User): Promise<User> {
+  getUserWithUsername(username: string): Promise<User> {
     const models = this.models;
-    return new Promise(function(resolve, reject) {
-      models.user.create({
-        user_name: user.getUsername(),
+    return new Promise( function(resolve, reject) {
+      models.user.findOne({
+        where: {username: username},
       })
           .then((user) => {
-            // map db response to domain user
-            const newUser = new User(user.user_id, user.user_name);
-            resolve(newUser);
+            // const newUser = User.fromSequelize(user);
+            resolve(user);
+          })
+          .catch((err) => {
+            reject(err);
+          });
+    });
+  }
+
+  /**
+   * Create a new user.
+   *
+   * @param {string} username
+   * @param {string} hashedPassword
+   * @return {Promise<User>}
+   * @memberof UserRepository
+   */
+  createUser(username: string, hashedPassword: string): Promise<User> {
+    const models = this.models;
+    return new Promise(function(resolve, reject) {
+      // check if username is already taken
+      models.user.findOne({
+        where: {username: username},
+      })
+          .then((user) => {
+            if (user != null) {
+              reject(new Error('Username is taken'));
+            }
+            // save user to database with salted password
+            return models.user.create({
+              username: username,
+              password: hashedPassword,
+            });
+          })
+          .then((registeredUser) => {
+            const user = new User(
+                registeredUser.user_id,
+                registeredUser.username,
+            );
+            resolve(user);
           })
           .catch((err) => {
             reject(err);

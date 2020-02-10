@@ -23,7 +23,7 @@ describe('ArmyRepository', function() {
         })
         .then((armies) => {
           // assertions on armies
-          console.log(armies);
+          throw new Error('no assertions implemented');
         })
         .catch((err) => {
           log(err);

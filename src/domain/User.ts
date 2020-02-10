@@ -13,11 +13,11 @@ export class User extends Entity {
   /**
    * Creates an instance of User.
    *
-   * @param {EntityId} id
+   * @param {number} id
    * @param {string} username
    * @memberof User
    */
-  constructor(id: EntityId, username: string) {
+  constructor(id: number, username: string) {
     super(id);
     this.username = username;
   }

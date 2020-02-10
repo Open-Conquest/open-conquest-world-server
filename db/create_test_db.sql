@@ -4,10 +4,11 @@ USE master;
 
 CREATE TABLE `user` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_name` varchar(45) NOT NULL,
+  `username` varchar(45) NOT NULL,
+  `password` varchar(45),
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `user_id_UNIQUE` (`user_id`),
-  UNIQUE KEY `user_name_UNIQUE` (`user_name`)
+  UNIQUE KEY `username_UNIQUE` (`username`)
 );
 
 CREATE TABLE `map` (
@@ -94,11 +95,11 @@ CREATE TABLE `city` (
 );
 
 
-INSERT INTO user (user_name) VALUES ("test_user_1");
-INSERT INTO user (user_name) VALUES ("test_user_2");
-INSERT INTO user (user_name) VALUES ("test_user_3");
-INSERT INTO user (user_name) VALUES ("test_user_4");
-INSERT INTO user (user_name) VALUES ("test_user_5");
+INSERT INTO user (username) VALUES ("test_user_1");
+INSERT INTO user (username) VALUES ("test_user_2");
+INSERT INTO user (username) VALUES ("test_user_3");
+INSERT INTO user (username) VALUES ("test_user_4");
+INSERT INTO user (username) VALUES ("test_user_5");
 
 INSERT INTO map () VALUES ();
 

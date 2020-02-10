@@ -1,13 +1,15 @@
 import * as chai from 'chai';
 import * as mocha from 'mocha';
 import {log} from '../../../src/utils/log';
-import {GetArmiesResponse} from '../../../src/services/responses/GetArmiesResponse';
 import {ArmyUnits, UnitType} from '../../../src/domain/ArmyUnits';
 import {Army} from '../../../src/domain/Army';
 import {EntityId} from '../../../src/domain/Entity';
 import {User} from '../../../src/domain/User';
 import { armyServices } from '../../../src/services';
 import { armyRepository, userRepository } from '../../../src/repos/implementations';
+import { Response } from '../../../src/Response';
+import { ServiceNames } from '../../../src/services/ServiceNames';
+import { ServiceOperations } from '../../../src/services/ServiceOperations';
 
 describe('ArmyServices', function() {
   it('should return expected GetArmiesResponse for a user with a single army', async function() {
@@ -21,7 +23,17 @@ describe('ArmyServices', function() {
     expectedArmies.push(expectedArmy);
     const expectedUserId = new EntityId(2);
     const expectedUser = new User(expectedUserId, 'username');
-    const expectedResponse = new GetArmiesResponse(expectedUser, expectedArmies);
+
+    const expectedResponseData = {
+      user: expectedUser,
+      armies: expectedArmies,
+    };
+
+    const expectedResponse = new Response(
+        ServiceNames.Army,
+        ServiceOperations.GetArmies,
+        expectedResponseData,
+    );
 
     // insert expected data
     armyRepository.createArmy(expectedUser, expectedArmy)
@@ -65,7 +77,8 @@ describe('ArmyServices', function() {
     expectedArmies.push(expectedArmy);
     const expectedUserId = new EntityId(2);
     const expectedUser = new User(expectedUserId, 'username');
-    const expectedResponse = new GetArmiesResponse(expectedUser, expectedArmies);
+
+    throw new Error('todo with new request / response construction paradigm');
 
     // insert expected data
     armyRepository.createArmy(expectedUser, expectedArmy)
@@ -74,7 +87,7 @@ describe('ArmyServices', function() {
           armyServices.getArmies(expectedUser);
         })
         .then((response) => {
-          chai.expect(response).to.deep.equal(expectedResponse);
+          // chai.expect(response).to.deep.equal(expectedResponse);
         })
         .catch((err) => {
           log(err);

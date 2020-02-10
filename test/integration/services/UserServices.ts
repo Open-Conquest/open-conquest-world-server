@@ -1,11 +1,11 @@
 import * as chai from 'chai';
 import * as mocha from 'mocha';
 import {log} from '../../../src/utils/log';
-import {RegisterUserRequest} from '../../../src/services/requests/RegisterUserRequest';
-import {RegisterUserResponse} from '../../../src/services/responses/RegisterUserResponse';
-import {UserServices} from '../../../src/services/UserServices';
 import {models} from '../../../src/models/';
-import {User} from '../../../src/domain/User';
+import {userServices} from '../../../src/services';
+import { Request } from '../../../src/Request';
+import { ServiceNames } from '../../../src/services/ServiceNames';
+import { ServiceOperations } from '../../../src/services/ServiceOperations';
 const assert = chai.assert;
 
 describe('UserServices', function() {
@@ -20,6 +20,27 @@ describe('UserServices', function() {
   });
 
   it('registerUser should return a valid jwt for the new user', async function() {
-    // try to register a user with a new username
+    const username = 'test_username';
+    const password = 'test_password';
+    const data = {
+      'username': username,
+      'password': password,
+    };
+
+    const request = new Request(
+        ServiceNames.User,
+        ServiceOperations.RegisterUser,
+        data,
+    );
+
+    return userServices.registerUser(request)
+        .then((response) => {
+          // expect the response contains jwt
+          console.log(response);
+        })
+        .catch((err) => {
+          // see what the error is or something
+          throw err;
+        });
   });
 });

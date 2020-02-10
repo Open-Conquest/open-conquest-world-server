@@ -7,8 +7,12 @@ export default (sequelize, DataTypes) => {
       unique: true,
       autoIncrement: true,
     },
-    user_name: {
+    username: {
       type: DataTypes.STRING(45),
+      allowNull: false,
+    },
+    password: {
+      type: DataTypes.STRING(60),
       allowNull: false,
     },
   }, {
@@ -16,8 +20,7 @@ export default (sequelize, DataTypes) => {
     freezeTableName: true,
   });
 
-  user.associate = (models) => {
-  };
+  user.associate = (models) => {};
 
   return user;
 };
