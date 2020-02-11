@@ -66,6 +66,30 @@ export class UserRepository implements IUserRepository {
   }
 
   /**
+   * Get a user and their password.
+   *
+   * @param {string} username
+   * @return {Promise<User>}
+   * @memberof UserRepository
+   */
+  getUserPasswordWithUsername(username: string): Promise<User> {
+    const models = this.models;
+    return new Promise( function(resolve, reject) {
+      models.user.findOne({
+        where: {username: username},
+      })
+          .then((user) => {
+            const newUser = new User(user.user_id, user.username);
+            newUser.setPassword(user.password);
+            resolve(newUser);
+          })
+          .catch((err) => {
+            reject(err);
+          });
+    });
+  }
+
+  /**
    * Create a new user.
    *
    * @param {string} username
