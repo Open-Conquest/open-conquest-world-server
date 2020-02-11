@@ -9,6 +9,7 @@ import {Entity, EntityId} from './Entity';
  */
 export class User extends Entity {
   private username: string;
+  private password: string;
 
   /**
    * Creates an instance of User.
@@ -20,6 +21,7 @@ export class User extends Entity {
   constructor(id: number, username: string) {
     super(id);
     this.username = username;
+    this.password = null;
   }
 
   /**
@@ -30,6 +32,26 @@ export class User extends Entity {
    */
   getUsername(): string {
     return this.username;
+  }
+
+  /**
+   * Set the password for this user.
+   *
+   * @param {string} password
+   * @memberof User
+   */
+  setPassword(password: string) {
+    this.password = password;
+  }
+
+  /**
+   * Get this user's password.
+   *
+   * @return {string}
+   * @memberof User
+   */
+  getPassword(): string {
+    return this.password;
   }
 
   /**
