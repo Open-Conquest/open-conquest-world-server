@@ -18,7 +18,7 @@ describe('UserRepository', function() {
     return connection.query('ROLLBACK');
   });
 
-  it('createNewUser should create a new user & return valiud JWT', async function() {
+  it('createUser should create a new user & return expected username', async function() {
     // create a new user that would come in through a request
     const username = 'test_username';
     const password = 'password12334';
@@ -33,7 +33,7 @@ describe('UserRepository', function() {
         });
   });
 
-  it('createNewUser should fail with a duplicate username', async function() {
+  it('createUser should fail with a duplicate username', async function() {
     // create a new user that would come in through a request
     const username = 'test_username';
     const password = 'password12334';
@@ -50,41 +50,33 @@ describe('UserRepository', function() {
         });
   });
 
-  // it('createUser should fail with a duplicate username', async function() {
-  //   // create a new user that would come in through a request
-  //   const user = new User(null, 'test_username');
-  //   return userRepository.createUser(user)
-  //       .then((newUser) => {
-  //         return userRepository.createUser(newUser);
-  //       })
-  //       .then((newUser) => {
-  //         assert.fail('Expected SequelizeUniqueConstraintError');
-  //       })
-  //       .catch((err) => {
-  //         assert(err.value === 'SequelizeUniqueConstraintError');
-  //       });
-  // });
+  it('getUserWithUsername should get expected user', async function() {
+    // create a new user that would come in through a request
+    const username = 'test_username';
+    const password = 'test_password';
+    return userRepository.createUser(username, password)
+        .then((newUser) => {
+          return userRepository.getUserWithUsername(username);
+        })
+        .then((user) => {
+          assert(user.getUsername() === username);
+        })
+        .catch((err) => {
+          assert.fail(err);
+        });
+  });
 
-  // it('createNewUser should fail with a empty username', async function() {
-  //   throw new Error('no impl');
-  // });
-
-  // it('getUserWithUsername should get expected user', async function() {
-  //   // create a new user that would come in through a request
-  //   const username = 'test_username';
-  //   const user = new User(null, username);
-  //   return userRepository.createUser(user)
-  //       .then((newUser) => {
-  //         return userRepository.getUserWithUsername(username);
-  //       })
-  //       .then((user) => {
-  //         assert(user.user_name === username);
-  //       })
-  //       .catch((err) => {
-  //         log(err);
-  //         throw err;
-  //       });
-  // });
+  it('getUserWithUsername should fail with non-existent user', async function() {
+    // create a new user that would come in through a request
+    const username = 'test_username';
+    return userRepository.getUserWithUsername(username)
+        .then((user) => {
+          assert.fail('Should not have retrieved a user');
+        })
+        .catch((err) => {
+          // we did it!
+        });
+  });
 
   // it('getUserWithUsername should return no user', async function() {
   //   // create a new user that would come in through a request

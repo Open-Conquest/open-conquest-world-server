@@ -60,7 +60,7 @@ export class UserRepository implements IUserRepository {
             if (user === null) {
               reject(new Error('No user with username: ' + username));
             }
-            resolve(user);
+            resolve(new User(user.user_id, user.username));
           })
           .catch((err) => {
             reject(err);
