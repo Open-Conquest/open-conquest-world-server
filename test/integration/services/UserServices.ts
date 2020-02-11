@@ -36,11 +36,74 @@ describe('UserServices', function() {
     return userServices.registerUser(request)
         .then((response) => {
           // expect the response contains jwt
-          console.log(response);
+          throw new Error('make sure is valid jwt');
         })
         .catch((err) => {
           // see what the error is or something
           throw err;
+        });
+  });
+
+  it('registerUser should fail for a duplicate user', async function() {
+    const username = 'test_username';
+    const password = 'test_password';
+    const data = {
+      'username': username,
+      'password': password,
+    };
+
+    const request = new Request(
+        ServiceNames.User,
+        ServiceOperations.RegisterUser,
+        data,
+    );
+
+    return userServices.registerUser(request)
+        .then((response) => {
+          return userServices.registerUser(request);
+        })
+        .then((response) => {
+          assert.fail('Expected username is taken error');
+        })
+        .catch((err) => {
+          assert(err.message === 'Username is taken');
+        });
+  });
+
+  it('loginUser should return a valid jwt on succeed', async function() {
+    const username = 'test_username_login';
+    const password = 'test_password';
+    const registerData = {
+      'username': username,
+      'password': password,
+    };
+    const loginData = {
+      'username': username,
+      'password': 'not_the-password',
+    };
+
+    const registerRequest = new Request(
+        ServiceNames.User,
+        ServiceOperations.RegisterUser,
+        registerData,
+    );
+
+    const loginRequest = new Request(
+        ServiceNames.User,
+        ServiceOperations.LoginUser,
+        loginData,
+    );
+
+    return userServices.registerUser(registerRequest)
+        .then((response) => {
+          return userServices.loginUser(loginRequest);
+        })
+        .then((response) => {
+          // expect jwt
+          console.log(response);
+        })
+        .catch((err) => {
+          assert(err.message === 'Username is taken');
         });
   });
 });
