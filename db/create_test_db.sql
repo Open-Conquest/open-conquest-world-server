@@ -2,10 +2,11 @@ DROP DATABASE IF EXISTS master;
 CREATE DATABASE master;
 USE master;
 
+-- change password to char binary 60 in sequelize model
 CREATE TABLE `user` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(45) NOT NULL,
-  `password` varchar(45),
+  `password` varchar(60),
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `user_id_UNIQUE` (`user_id`),
   UNIQUE KEY `username_UNIQUE` (`username`)
