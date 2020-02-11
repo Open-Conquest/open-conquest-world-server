@@ -78,6 +78,33 @@ describe('UserRepository', function() {
         });
   });
 
+  it('getUserPasswordWithUsername should get expected user', async function() {
+    // create a new user that would come in through a request
+    const username = 'test_username';
+    const password = 'test_password';
+    return userRepository.createUser(username, password)
+        .then((newUser) => {
+          return userRepository.getUserPasswordWithUsername(username);
+        })
+        .then((user) => {
+          assert(user.getUsername() === username);
+        })
+        .catch((err) => {
+          assert.fail(err);
+        });
+  });
+
+  it('getUserPasswordWithUsername should fail with non-existent user', async function() {
+    // create a new user that would come in through a request
+    const username = 'test_username';
+    return userRepository.getUserPasswordWithUsername(username)
+        .then((user) => {
+          assert.fail('Should not have retrieved a user');
+        })
+        .catch((err) => {
+          // we did it!
+        });
+  });
   // it('getUserWithUsername should return no user', async function() {
   //   // create a new user that would come in through a request
   //   const username = 'test_username';
