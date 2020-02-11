@@ -51,7 +51,9 @@ export class UserServices extends BaseServices {
       const password = request.data['password'];
 
       // check if username and password are valid
-      if (username === null || password === null || username.length < 10 || password.length < 10) {
+      if (username === null || password === null ||
+          username.length < 10 || password.length < 10 ||
+          username.length > 20 || password.length > 20) {
         reject(new Error('Invalid username or password'));
       }
 
@@ -82,18 +84,60 @@ export class UserServices extends BaseServices {
   }
 
   /**
-   * @param {*} request
+   * Attempt to login a user.
+   *
+   * @param {Request} request
+   * @return {Promise<Response>}
    * @memberof UserServices
    */
-  getUsers(request) {
-    throw new Error('no impl');
+  loginUser(request: Request): Promise<Response> {
+    const userRepository = this.userRepository;
+    return new Promise(function(resolve, reject) {
+      // get data from expected fields in request
+      const username = request.data['username'];
+      const password = request.data['password'];
+
+      // check if username and password are valid
+      if (username === null || password === null ||
+        username.length < 10 || password.length < 10 ||
+        username.length > 20 || password.length > 20) {
+        reject(new Error('Invalid username or password'));
+      }
+
+      // check to see if combination matches
+      userRepository.getUserPasswordWithUsername(username)
+          .then((user) => {
+            // check to see if password matches
+            if (!bcrypt.compareSync(password, user.getPassword())) {
+              // generate jwt for newly registered user
+              const token = jwt.sign(
+                  {userId: user.getId(), username: user.getUsername()},
+                  config.secret,
+                  {expiresIn: '1h'},
+              );
+              // build & return response with jwt
+              const response = new Response(
+                  ServiceNames.User,
+                  ServiceOperations.LoginUser,
+                  token,
+              );
+              resolve(response);
+            } else {
+              // error invalid login
+              throw new Error('Invalid credentials');
+            }
+          })
+          .catch((err) => {
+            reject(err);
+          });
+    });
   }
 
   /**
    * @param {*} request
    * @memberof UserServices
    */
-  loginUser(request) {
+  getUsers(request) {
     throw new Error('no impl');
   }
 }
