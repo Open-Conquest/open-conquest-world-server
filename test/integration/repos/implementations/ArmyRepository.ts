@@ -9,17 +9,20 @@ const assert = chai.assert;
 
 describe('ArmyRepository', function() {
   it('getAllArmies should return an array of domain armies', async function() {
-    // setup a new test user
-    let newUser = new User(null, 'username');
-    userRepository.createUser(newUser)
+    throw new Error('no impl');
+    // create a new user
+    let createdUser;
+    const username = 'test_username';
+    const password = 'test_password';
+    userRepository.createUser(username, password)
         .then((user) => {
-          newUser = user;
+          createdUser = user;
           // setup new armies for test user
-          armyRepository.createEmptyArmy(newUser);
+          armyRepository.createEmptyArmy(createdUser);
         })
         .then((army) => {
           // get response form getAllArmies
-          armyRepository.getAllArmies(newUser);
+          armyRepository.getAllArmies(createdUser);
         })
         .then((armies) => {
           // assertions on armies
@@ -29,6 +32,5 @@ describe('ArmyRepository', function() {
           log(err);
           throw err;
         });
-    // cleanup after test
   });
 });

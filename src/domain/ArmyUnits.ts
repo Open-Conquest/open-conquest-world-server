@@ -24,12 +24,12 @@ export class ArmyUnits extends Entity {
   /**
    * Creates an instance of ArmyUnits.
    *
-   * @param {EntityId} id
+   * @param {number} id
    * @param {UnitType} unitType
    * @param {number} count
    * @memberof ArmyUnits
    */
-  constructor(id: EntityId, unitType: UnitType, count: number) {
+  constructor(id: number, unitType: UnitType, count: number) {
     super(id);
     this.unitType = unitType;
     this.count = count;

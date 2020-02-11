@@ -1,5 +1,4 @@
 import {Entity} from './Entity';
-import {EntityId} from './Entity';
 import {Tile} from './Tile';
 
 /**
@@ -17,14 +16,14 @@ export class March extends Entity {
 
   /**
    * Creates an instance of March.
-   * @param {EntityId} id
+   * @param {number} id
    * @param {Tile} startTile
    * @param {Tile} endTile
    * @param {Date} startTime
    * @param {Date} endTime
    * @memberof March
    */
-  constructor(id: EntityId, startTile: Tile, endTile: Tile, startTime: Date, endTime: Date) {
+  constructor(id: number, startTile: Tile, endTile: Tile, startTime: Date, endTime: Date) {
     super(id);
     this.startTile = startTile;
     this.endTile = endTile;

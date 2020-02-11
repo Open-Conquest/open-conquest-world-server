@@ -14,10 +14,10 @@ export class Map extends Entity {
   /**
    * Creates an instance of Map.
    *
-   * @param {EntityId} id
+   * @param {number} id
    * @memberof Map
    */
-  constructor(id: EntityId) {
+  constructor(id: number) {
     super(id);
   }
 }

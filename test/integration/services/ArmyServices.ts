@@ -13,85 +13,10 @@ import { ServiceOperations } from '../../../src/services/ServiceOperations';
 
 describe('ArmyServices', function() {
   it('should return expected GetArmiesResponse for a user with a single army', async function() {
-    // create expected data
-    const unitId = new EntityId(0);
-    const expectedUnit = new ArmyUnits(unitId, UnitType.Wizard, 10);
-    const expectedUnits = [];
-    expectedUnits.push(expectedUnit);
-    const expectedArmy = new Army(expectedUnits);
-    const expectedArmies = [];
-    expectedArmies.push(expectedArmy);
-    const expectedUserId = new EntityId(2);
-    const expectedUser = new User(expectedUserId, 'username');
-
-    const expectedResponseData = {
-      user: expectedUser,
-      armies: expectedArmies,
-    };
-
-    const expectedResponse = new Response(
-        ServiceNames.Army,
-        ServiceOperations.GetArmies,
-        expectedResponseData,
-    );
-
-    // insert expected data
-    armyRepository.createArmy(expectedUser, expectedArmy)
-        .then((army) => {
-          // call get armies with expected user
-          armyServices.getArmies(expectedUser);
-        })
-        .then((response) => {
-          chai.expect(response).to.deep.equal(expectedResponse);
-        })
-        .catch((err) => {
-          log(err);
-          throw err;
-        });
+    throw new Error('no impl');
   });
 
   it('should return expected GetArmiesResponse for a user with multiple armies', async function() {
-    // create expected data
-    const user = new User(null, 'username');
-
-    // create new user
-    userRepository.createUser(user)
-        .then((user) => {
-          // create new armies for user
-          armyRepository.createEmptyArmy(user);
-        })
-        .catch((err) => {
-          log(err);
-          throw err;
-        });
-    // create new armies for user
-
-    // add units to the armies for user
-
-    const wizardId = new EntityId(0);
-    const expectedUnit = new ArmyUnits(wizardId, UnitType.Wizard, 10);
-    const expectedUnits = [];
-    expectedUnits.push(expectedUnit);
-    const expectedArmy = new Army(expectedUnits);
-    const expectedArmies = [];
-    expectedArmies.push(expectedArmy);
-    const expectedUserId = new EntityId(2);
-    const expectedUser = new User(expectedUserId, 'username');
-
-    throw new Error('todo with new request / response construction paradigm');
-
-    // insert expected data
-    armyRepository.createArmy(expectedUser, expectedArmy)
-        .then((army) => {
-          // call get armies with expected user
-          armyServices.getArmies(expectedUser);
-        })
-        .then((response) => {
-          // chai.expect(response).to.deep.equal(expectedResponse);
-        })
-        .catch((err) => {
-          log(err);
-          throw err;
-        });
+    throw new Error('no impl');
   });
 });

@@ -1,5 +1,4 @@
 import {Entity} from './Entity';
-import {EntityId} from './Entity';
 
 /**
  * Enum for tile terrain types.
@@ -26,10 +25,10 @@ export class Tile extends Entity {
   private col: number;
   /**
    *Creates an instance of Tile.
-   * @param {EntityId} id
+   * @param {number} id
    * @memberof Tile
    */
-  constructor(id: EntityId) {
+  constructor(id: number) {
     super(id);
   }
 }
