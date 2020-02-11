@@ -56,7 +56,10 @@ export class UserRepository implements IUserRepository {
         where: {username: username},
       })
           .then((user) => {
-            // const newUser = User.fromSequelize(user);
+            // if there is no user with username
+            if (user === null) {
+              reject(new Error('No user with username: ' + username));
+            }
             resolve(user);
           })
           .catch((err) => {
@@ -79,6 +82,10 @@ export class UserRepository implements IUserRepository {
         where: {username: username},
       })
           .then((user) => {
+            // if there is no user
+            if (user === null) {
+              reject(new Error('No user with username: ' + username));
+            }
             const newUser = new User(user.user_id, user.username);
             newUser.setPassword(user.password);
             resolve(newUser);

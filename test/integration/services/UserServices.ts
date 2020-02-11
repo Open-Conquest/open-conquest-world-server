@@ -79,7 +79,7 @@ describe('UserServices', function() {
     };
     const loginData = {
       'username': username,
-      'password': 'not_the-password',
+      'password': password,
     };
 
     const registerRequest = new Request(
@@ -104,6 +104,29 @@ describe('UserServices', function() {
         })
         .catch((err) => {
           assert(err.message === 'Username is taken');
+        });
+  });
+
+  it('loginUser should fail on non-existent user', async function() {
+    const username = 'test_username_login';
+    const password = 'test_password';
+    const loginData = {
+      'username': username,
+      'password': password,
+    };
+
+    const loginRequest = new Request(
+        ServiceNames.User,
+        ServiceOperations.LoginUser,
+        loginData,
+    );
+
+    return userServices.loginUser(loginRequest)
+        .then((response) => {
+          assert.fail('Expected error for non-existent user.');
+        })
+        .catch((err) => {
+          assert(err.message = 'No user with username: ' + username);
         });
   });
 });

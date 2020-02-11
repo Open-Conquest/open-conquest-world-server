@@ -104,11 +104,10 @@ export class UserServices extends BaseServices {
         reject(new Error('Invalid username or password'));
       }
 
-      // check to see if combination matches
       userRepository.getUserPasswordWithUsername(username)
           .then((user) => {
             // check to see if password matches
-            if (!bcrypt.compareSync(password, user.getPassword())) {
+            if (bcrypt.compareSync(password, user.getPassword())) {
               // generate jwt for newly registered user
               const token = jwt.sign(
                   {userId: user.getId(), username: user.getUsername()},
@@ -124,7 +123,7 @@ export class UserServices extends BaseServices {
               resolve(response);
             } else {
               // error invalid login
-              throw new Error('Invalid credentials');
+              reject(new Error('Invalid credentials'));
             }
           })
           .catch((err) => {
