@@ -24,25 +24,6 @@ export class UserRepository implements IUserRepository {
   }
 
   /**
-   * Gets all of the users in this world.
-   *
-   * @return {Promise<Array<User>>}
-   * @memberof UserRepository
-   */
-  getAllUsers(): Promise<Array<User>> {
-    const models = this.models;
-    return new Promise(function(resolve, reject) {
-      models.user.findAll({})
-          .then((users) => {
-            resolve(users);
-          })
-          .catch((err) => {
-            reject(err);
-          });
-    });
-  }
-
-  /**
    * Get a user with username.
    *
    * @param {string} username

@@ -105,21 +105,4 @@ describe('UserRepository', function() {
           // we did it!
         });
   });
-  // it('getUserWithUsername should return no user', async function() {
-  //   // create a new user that would come in through a request
-  //   const username = 'test_username';
-  //   const notusername = 'not_username';
-  //   const user = new User(null, username);
-  //   return userRepository.createUser(user)
-  //       .then((newUser) => {
-  //         return userRepository.getUserWithUsername(notusername);
-  //       })
-  //       .then((user) => {
-  //         assert(user === null);
-  //       })
-  //       .catch((err) => {
-  //         log(err);
-  //         throw err;
-  //       });
-  // });
 });
