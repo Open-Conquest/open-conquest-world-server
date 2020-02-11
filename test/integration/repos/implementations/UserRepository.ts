@@ -74,7 +74,7 @@ describe('UserRepository', function() {
           assert.fail('Should not have retrieved a user');
         })
         .catch((err) => {
-          // we did it!
+          assert(err.message === 'No user with username: ' + username);
         });
   });
 
@@ -102,7 +102,7 @@ describe('UserRepository', function() {
           assert.fail('Should not have retrieved a user');
         })
         .catch((err) => {
-          // we did it!
+          assert(err.message === 'No user with username: ' + username);
         });
   });
 });
