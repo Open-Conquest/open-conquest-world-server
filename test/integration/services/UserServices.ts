@@ -36,7 +36,7 @@ describe('UserServices', function() {
     return userServices.registerUser(request)
         .then((response) => {
           // expect the response contains jwt
-          throw new Error('make sure is valid jwt');
+          assert.fail('Implement jwt validation');
         })
         .catch((err) => {
           // see what the error is or something
@@ -100,7 +100,7 @@ describe('UserServices', function() {
         })
         .then((response) => {
           // expect jwt
-          console.log(response);
+          assert.fail('Implement jwt validation');
         })
         .catch((err) => {
           assert(err.message === 'Username is taken');
