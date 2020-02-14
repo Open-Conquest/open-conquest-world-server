@@ -13,8 +13,8 @@
     "start-test": "NODE_ENV=test node dist/src/WorldServer.js"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Zachary Wild",
+  "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "jsonwebtoken": "^8.5.1",
