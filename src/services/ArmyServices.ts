@@ -8,6 +8,7 @@ import {EntityId} from '../domain/Entity';
 import {ServiceNames} from './ServiceNames';
 import {IArmyRepository} from '../repos/IArmyRepository';
 import {ServiceOperations} from './ServiceOperations';
+import { armyRepository } from 'src/repos/implementations';
 
 /**
  *
@@ -29,7 +30,7 @@ export class ArmyServices extends BaseServices {
     this.armyRepository = armyRepository;
     this.serviceName = ServiceNames.Army;
     this.handlers = {
-      'get': this.getArmies,
+      'getArmies': this.getArmies,
     };
   }
 
@@ -55,6 +56,21 @@ export class ArmyServices extends BaseServices {
           .catch((err) => {
             reject(err);
           });
+    });
+  }
+
+  /**
+   *
+   *
+   * @param {User} user
+   * @return {Promise<Array<Army>>}
+   * @memberof ArmyServices
+   */
+  getArmiesForUser(user: User): Promise<Array<Army>> {
+    // get all of the armies from the database associated with this user
+    return new Promise( function(resolve, reject) {
+      armyRepository.getArmiesForUser(user)
+          .then()
     });
   }
 }
