@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 /**
  * Script that uses json-schema-to-typescript to compile json schemas
  * to TypeScript.

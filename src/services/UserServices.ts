@@ -8,6 +8,7 @@ import {Response} from '../Response';
 import * as jwt from 'jsonwebtoken';
 import * as bcrypt from 'bcryptjs';
 import * as config from '../../config/real-config';
+import { RegisterUserRequest } from '../schemas/RegisterUserRequest';
 
 /**
  *
@@ -44,7 +45,7 @@ export class UserServices extends BaseServices {
    * @return {Promise<Response>}
    * @memberof UserServices
    */
-  registerUser(request: Request): Promise<Response> {
+  registerUser(request: RegisterUserRequest): Promise<Response> {
     const userRepository = this.userRepository;
     return new Promise(function(resolve, reject) {
       // get data from expected fields in request

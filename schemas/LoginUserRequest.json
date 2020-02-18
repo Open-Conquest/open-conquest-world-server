@@ -1,0 +1,24 @@
+{
+  "title": "LoginUserRequest",
+  "type": "object",
+  "properties": {
+    "service": {
+      "type": "string"
+    },
+    "operation": {
+      "type": "string"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "required": ["service", "operation", "data"]
+}

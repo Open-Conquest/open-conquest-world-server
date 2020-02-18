@@ -69,8 +69,7 @@ export class ArmyServices extends BaseServices {
   getArmiesForUser(user: User): Promise<Array<Army>> {
     // get all of the armies from the database associated with this user
     return new Promise( function(resolve, reject) {
-      armyRepository.getArmiesForUser(user)
-          .then()
+      reject(new Error('no impl'));
     });
   }
 }

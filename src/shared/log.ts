@@ -1,3 +1,4 @@
+/* eslint-disable */
 const {createLogger, format, transports} = require('winston');
 const {combine, timestamp, printf} = format;
 
