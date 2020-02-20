@@ -22,7 +22,7 @@ async function generate() {
       .forEach(async (file) => {
         // compile & write ts file for each json schema file
         fs.writeFileSync(
-            __dirname + '/../src/schemas/' + file.substring(0, file.length-5) + '.ts',
+            __dirname + '/../src/shared/schemas/' + file.substring(0, file.length-5) + '.ts',
             await compileFromFile(file),
         );
       });

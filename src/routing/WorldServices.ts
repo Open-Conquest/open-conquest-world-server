@@ -5,9 +5,6 @@ import {ServiceNames} from '../services/ServiceNames';
 
 /**
  * WorldServices is meant to route jsons to the appropriate services.
- *
- * @export
- * @class WorldServices
  */
 export class WorldServices {
   private services: Map<ServiceNames, BaseServices>;

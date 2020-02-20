@@ -2,23 +2,10 @@
   "title": "LoginUserRequest",
   "type": "object",
   "properties": {
-    "service": {
-      "type": "string"
-    },
-    "operation": {
-      "type": "string"
-    },
-    "data": {
-      "type": "object",
-      "properties": {
-        "username": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
-        }
-      }
+    "credentials": {
+      "$ref": "UserCredentials.json"
     }
   },
-  "required": ["service", "operation", "data"]
+  "required": ["credentials"],
+  "additionalProperties": false
 }
