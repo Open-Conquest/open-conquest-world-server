@@ -28,5 +28,4 @@ describe('RegisterUserController', function() {
   /**
    * Test all expected successful cases for registering a user.
    */
-  it('')
 });

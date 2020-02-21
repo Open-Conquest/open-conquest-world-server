@@ -42,7 +42,7 @@ export class LoginUserService {
     try {
       // get user from database, compare hashed password
       const hashedPassword = await this.userRepository.getUserPasswordWithUsername(
-          credentials.getUsernameString(),
+          credentials.getUsername(),
       );
 
       // return jwt if user has valid credentials

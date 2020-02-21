@@ -1,11 +1,14 @@
 /* eslint-disable max-len */
 import * as chai from 'chai';
 import * as mocha from 'mocha';
+import {UserFactory} from '../../../../../../src/modules/user/factories/UserFactory';
 import {userRepository} from '../../../../../../src/modules/user/repos/implementations';
 import {models} from '../../../../../../src/shared/infra/sequelize/models';
 import {log} from '../../../../../../src/shared/utils/log';
 
-describe('UserRepository', function() {
+const userFactory = new UserFactory();
+
+describe('UserRepository:createUser', function() {
   const assert = chai.assert;
 
   // Start transaction before each test
@@ -18,12 +21,13 @@ describe('UserRepository', function() {
     return connection.query('ROLLBACK');
   });
 
-  it('createNewUser should create a new user & return valiud JWT', async function() {
-    // create a new user that would come in through a request
+  it('should create a new user', async function() {
+    // create a new user entity
     const username = 'test_username';
-    const password = 'test_password';
+    const password = 'hashed_password32f14edfq';
+    const user = userFactory.createUserWithHashedPassword(username, password);
 
-    return userRepository.createUser(username, password)
+    return userRepository.createUser(user)
         .then((newUser) => {
           // assert that the user returned has the expected username
           assert(newUser.getUsername().getString() === username);
@@ -33,14 +37,15 @@ describe('UserRepository', function() {
         });
   });
 
-  it('createNewUser should fail with a duplicate username', async function() {
-    // create a new user that would come in through a request
+  it('should fail with a duplicate username', async function() {
+    // create a new user entity
     const username = 'test_username';
-    const password = '143f13edxex1x1fg43f3sdfg215g';
+    const password = 'hashed_password32f14edfq';
+    const user = userFactory.createUserWithHashedPassword(username, password);
 
-    return userRepository.createUser(username, password)
+    return userRepository.createUser(user)
         .then((newUser) => {
-          return userRepository.createUser(username, password);
+          return userRepository.createUser(user);
         })
         .then((newUser) => {
           assert.fail('User with duplicate username shouldn\'t have been created');

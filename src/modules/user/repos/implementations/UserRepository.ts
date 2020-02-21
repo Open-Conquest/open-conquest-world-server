@@ -4,6 +4,7 @@ import {UserMapper} from '../../mappers/UserMapper';
 import { Password } from '../../domain/Password';
 import { log } from '../../../../shared/utils/log';
 import { HashedPassword } from '../../domain/HashedPassword';
+import { Username } from '../../domain/Username';
 
 /**
  * A Sequelize implementation of the `IUserRepository`
@@ -33,12 +34,38 @@ export class UserRepository implements IUserRepository {
    * @return {Promise<User>}
    * @memberof UserRepository
    */
-  async createUser(username: string, hashedPassword: string): Promise<User> {
+  // async createUser(username: string, hashedPassword: string): Promise<User> {
+  //   // try to save user to database
+  //   try {
+  //     const dbUser = await this.models.user.create({
+  //       username: username,
+  //       password: hashedPassword,
+  //     });
+  //     // map from db to domain and return
+  //     return this.userMapper.fromPersistence(dbUser);
+  //   } catch (err) {
+  //     // check to see what type of error was returned
+  //     if (err.name === 'SequelizeUniqueConstraintError') {
+  //       throw new Error('Duplicate username error');
+  //     } else {
+  //       throw new Error('Unexpected error');
+  //     }
+  //   }
+  // }
+
+  /**
+   * Save the user in the database.
+   *
+   * @param {User} user
+   * @return {Promise<User>}
+   * @memberof UserRepository
+   */
+  async createUser(user: User): Promise<User> {
     // try to save user to database
     try {
       const dbUser = await this.models.user.create({
-        username: username,
-        password: hashedPassword,
+        username: user.getUsernameString(),
+        password: user.getHashedPasswordString(),
       });
       // map from db to domain and return
       return this.userMapper.fromPersistence(dbUser);
@@ -59,11 +86,11 @@ export class UserRepository implements IUserRepository {
    * @return {Promise<HashedPassword>}
    * @memberof UserRepository
    */
-  async getUserPasswordWithUsername(username: string): Promise<HashedPassword> {
+  async getUserPasswordWithUsername(username: Username): Promise<HashedPassword> {
     try {
       // try to find user in database with username
       const dbUser = await this.models.user.findOne({
-        where: {username: username},
+        where: {username: username.getString()},
       });
 
       if (dbUser === null) {

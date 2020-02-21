@@ -7,6 +7,7 @@ import * as jwt from 'jsonwebtoken';
 import * as bcrypt from 'bcryptjs';
 import * as config from '../../../../shared/config/real-config';
 import {log} from '../../../../shared/log';
+import { UserFactory } from '../../factories/UserFactory';
 
 /**
  *
@@ -16,6 +17,7 @@ import {log} from '../../../../shared/log';
  */
 export class RegisterUserService {
   private userRepository: IUserRepository;
+  private userFactory: UserFactory;
 
   /**
    * Creates an instance of UserServices.
@@ -26,6 +28,7 @@ export class RegisterUserService {
   constructor(userRepository: IUserRepository) {
     // set repos from construtor
     this.userRepository = userRepository;
+    this.userFactory = new UserFactory();
   }
 
   /**
@@ -36,19 +39,25 @@ export class RegisterUserService {
    * @memberof UserServices
    */
   async registerUser(credentials: UserCredentials): Promise<JWT> {
+    // try to register a new user
     try {
       // hash password
-      const hashedPassword = bcrypt.hashSync(credentials.getPasswordString(), 8);
-
-      // save new user to database
-      const newUser = await this.userRepository.createUser(
+      const hashedPassword = bcrypt.hashSync(
+          credentials.getPasswordString(),
+          8,
+      );
+      // create new user entity
+      const user = this.userFactory.createUserWithHashedPassword(
           credentials.getUsernameString(),
           hashedPassword,
       );
-
+      // save new user to database
+      const newUser = await this.userRepository.createUser(user);
+      // create jwt for new user and return
       return jwtMiddleware.createJWT(newUser);
+
+    // check for any errors
     } catch (err) {
-      // check the error type and return a relevant error
       if (err.message === 'Duplicate username error') {
         throw err;
       }
