@@ -12,6 +12,16 @@ CREATE TABLE `user` (
   UNIQUE KEY `username_UNIQUE` (`username`)
 );
 
+CREATE TABLE `player` (
+  `player_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `name` varchar(45) NOT NULL,
+  PRIMARY KEY (`player_id`),
+  UNIQUE KEY `player_id_UNIQUE` (`player_id`),
+  KEY `player_user_idx` (`user_id`),
+  CONSTRAINT `player_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
+);
+
 CREATE TABLE `map` (
   `map_id` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`map_id`)

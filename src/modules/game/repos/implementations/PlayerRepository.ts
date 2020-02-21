@@ -24,19 +24,17 @@ export class PlayerRepository implements IPlayerRepository {
   }
 
   /**
-   * Save a new player to the database.
+   * Create a new player in the database.
    *
-   * @param {string} playername
-   * @param {string} hashedPassword
+   * @param {string} name
    * @return {Promise<Player>}
    * @memberof PlayerRepository
    */
-  async createPlayer(playername: string, hashedPassword: string): Promise<Player> {
+  async createPlayer(name: string): Promise<Player> {
     // try to save player to database
     try {
       const dbPlayer = await this.models.player.create({
-        playername: playername,
-        password: hashedPassword,
+        name: name,
       });
       // map from db to domain and return
       return this.playerMapper.fromPersistence(dbPlayer);
