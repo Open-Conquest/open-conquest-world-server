@@ -1,0 +1,11 @@
+{
+  "title": "CreatePlayerRequest",
+  "type": "object",
+  "properties": {
+    "playerName": {
+      "type": "string"
+    }
+  },
+  "required": ["playerName"],
+  "additionalProperties": false
+}
