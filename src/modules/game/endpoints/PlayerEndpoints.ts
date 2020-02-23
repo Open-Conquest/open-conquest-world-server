@@ -32,6 +32,8 @@ export class PlayerEndpoints {
    * @memberof PlayerEndpoints
    */
   async createPlayer(message: MessageDTO): Promise<MessageDTO> {
+    // get user from jwt
+
     // assemble CreatePlayerRequestDTO from MessageDTO
     const createPlayerDTO = CreatePlayerRequestDTO.fromJSON(
         message.getData(),

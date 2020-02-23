@@ -23,4 +23,8 @@ export class CreatePlayerResponseDTO implements CreatePlayerRequest {
     this.token = token;
     this.playerName = playerName;
   }
+
+  toJSON(): any {
+    return this;
+  }
 }

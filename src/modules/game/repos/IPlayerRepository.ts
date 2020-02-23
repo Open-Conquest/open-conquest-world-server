@@ -1,7 +1,6 @@
 import {Player} from '../domain/Player';
-import {HashedPassword} from '../domain/HashedPassword';
+import {User} from '../../user/domain/User';
 
 export interface IPlayerRepository {
-  createPlayer(playername: string, hashedPassword: string): Promise<Player>
-  getPlayerPasswordWithPlayername(playername: string): Promise<HashedPassword>
+  createPlayer(user: User, newPlayer: Player): Promise<Player>
 }

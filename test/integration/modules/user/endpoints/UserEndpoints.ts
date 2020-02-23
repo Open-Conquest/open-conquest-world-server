@@ -2,7 +2,7 @@
 /* eslint-disable max-len */
 import * as chai from 'chai';
 import * as mocha from 'mocha';
-import {log} from '../../../../../src/shared/log';
+import {log} from '../../../../../src/shared/utils/log';
 import {models} from '../../../../../src/shared/infra/sequelize/models';
 import {ServiceNames} from '../../../../../src/shared/infra/ws/routing/ServiceNames';
 import {ServiceOperations} from '../../../../../src/shared/infra/ws/routing/ServiceOperations';

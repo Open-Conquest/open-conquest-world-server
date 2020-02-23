@@ -1,11 +1,15 @@
 /* eslint-disable require-jsdoc */
 
 export class Password {
-  private _password: string;
+  private password: string;
 
   constructor(password: string) {
+    if (password === null) {
+      return null;
+    }
+
     if (this.isValidPassword(password)) {
-      this._password = password;
+      this.password = password;
     } else {
       throw new Error('Invalid password, does not meet requirements');
     }
@@ -19,6 +23,6 @@ export class Password {
   }
 
   getString(): string {
-    return this._password;
+    return this.password;
   }
 }

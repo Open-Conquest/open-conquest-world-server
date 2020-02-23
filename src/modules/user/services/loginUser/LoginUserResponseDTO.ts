@@ -3,7 +3,7 @@ import {IDTO} from '../../../../shared/dtos/IDTO';
 import { JWTDTO } from '../../../../shared/dtos/JWTDTO';
 import { LoginUserResponse } from '../../../../shared/schemas/LoginUserResponse';
 import { JWT } from '../../domain/JWT';
-import { log } from 'src/shared/log';
+import { log } from 'src/shared/utils/log';
 
 /**
  * Class is meant to represent the response to the loginUser request.

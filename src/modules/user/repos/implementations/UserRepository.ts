@@ -1,10 +1,10 @@
 import {IUserRepository} from '../IUserRepository';
 import {User} from '../../domain/User';
+import {Password} from '../../domain/Password';
+import {HashedPassword} from '../../domain/HashedPassword';
+import {Username} from '../../domain/Username';
 import {UserMapper} from '../../mappers/UserMapper';
-import { Password } from '../../domain/Password';
-import { log } from '../../../../shared/utils/log';
-import { HashedPassword } from '../../domain/HashedPassword';
-import { Username } from '../../domain/Username';
+import {log} from '../../../../shared/utils/log';
 
 /**
  * A Sequelize implementation of the `IUserRepository`
@@ -25,33 +25,6 @@ export class UserRepository implements IUserRepository {
     this.models = models;
     this.userMapper = new UserMapper();
   }
-
-  /**
-   * Save a new user to the database.
-   *
-   * @param {string} username
-   * @param {string} hashedPassword
-   * @return {Promise<User>}
-   * @memberof UserRepository
-   */
-  // async createUser(username: string, hashedPassword: string): Promise<User> {
-  //   // try to save user to database
-  //   try {
-  //     const dbUser = await this.models.user.create({
-  //       username: username,
-  //       password: hashedPassword,
-  //     });
-  //     // map from db to domain and return
-  //     return this.userMapper.fromPersistence(dbUser);
-  //   } catch (err) {
-  //     // check to see what type of error was returned
-  //     if (err.name === 'SequelizeUniqueConstraintError') {
-  //       throw new Error('Duplicate username error');
-  //     } else {
-  //       throw new Error('Unexpected error');
-  //     }
-  //   }
-  // }
 
   /**
    * Save the user in the database.

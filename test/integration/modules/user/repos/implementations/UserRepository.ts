@@ -25,7 +25,7 @@ describe('UserRepository:createUser', function() {
     // create a new user entity
     const username = 'test_username';
     const password = 'hashed_password32f14edfq';
-    const user = userFactory.createUserWithHashedPassword(username, password);
+    const user = userFactory.createUserWithHashedPassword(null, username, password);
 
     return userRepository.createUser(user)
         .then((newUser) => {
@@ -41,7 +41,7 @@ describe('UserRepository:createUser', function() {
     // create a new user entity
     const username = 'test_username';
     const password = 'hashed_password32f14edfq';
-    const user = userFactory.createUserWithHashedPassword(username, password);
+    const user = userFactory.createUserWithHashedPassword(null, username, password);
 
     return userRepository.createUser(user)
         .then((newUser) => {

@@ -1,15 +1,16 @@
-import { User } from "../domain/User";
-import { UserFactory } from '../factories/UserFactory';
+import {User} from '../domain/User';
+import {UserFactory} from '../factories/UserFactory';
 
 /**
- * UserMapper is responsible for mappings between the domain `User` and `DTO`s
- * and the domain `User` and its sequelize representation.
+ * UserMapper is responsible for mappings between the domain `User` and the
+ * Sequelize persistence representation of user.
  */
 export class UserMapper {
-  private _userFactory: UserFactory
+  private userFactory: UserFactory
+
   /** Creates an instance of UserMapper. */
   constructor() {
-    this._userFactory = new UserFactory();
+    this.userFactory = new UserFactory();
   }
 
   /**
@@ -20,6 +21,11 @@ export class UserMapper {
    * @memberof UserMapper
    */
   fromPersistence(dbUser: any): User {
-    return this._userFactory.createUserWithUsername(dbUser.username);
+    return this.userFactory.createUser(
+        dbUser.user_id,
+        dbUser.username,
+        null,
+        null,
+    );
   }
 }

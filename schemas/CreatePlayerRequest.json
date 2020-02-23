@@ -5,10 +5,10 @@
     "token": {
       "$ref": "JWT.json"
     },
-    "playerName": {
-      "type": "string"
+    "player": {
+      "$ref": "Player.json"
     }
   },
-  "required": ["token", "playerName"],
+  "required": ["token", "player"],
   "additionalProperties": false
 }

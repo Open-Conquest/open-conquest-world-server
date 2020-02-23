@@ -1,56 +1,50 @@
-import {LoginPlayerRequestDTO} from './LoginPlayerRequestDTO';
-import {LoginPlayerResponseDTO} from './LoginPlayerResponseDTO';
-import {LoginPlayerService} from './LoginPlayerService';
+import {CreatePlayerRequestDTO} from './CreatePlayerRequestDTO';
+import {CreatePlayerResponseDTO} from './CreatePlayerResponseDTO';
+import {CreatePlayerService} from './CreatePlayerService';
+import {PlayerMapper} from '../../mappers/PlayerMapper';
 import {log} from '../../../../shared/utils/log';
-import { PlayerCredentials } from '../../domain/PlayerCredentials';
-import { PlayerCredentialsMapper } from '../../mappers/PlayerCredentialsMapper';
-import { JWTMapper } from '../../mappers/JWTMapper';
 
 /**
  *
  *
  * @export
- * @class LoginPlayerController
+ * @class CreatePlayerController
  * @extends {BaseServices}
  */
-export class LoginPlayerController {
-  private loginPlayerService: LoginPlayerService;
-  private playerCredentialsMapper: PlayerCredentialsMapper;
-  private jwtMapper: JWTMapper;
+export class CreatePlayerController {
+  private createPlayerService: CreatePlayerService;
+  private playerMapper: PlayerMapper;
 
   /**
-   * Creates an instance of LoginPlayerController.
+   * Creates an instance of CreatePlayerController.
    *
-   * @param {LoginPlayerService} loginPlayerService
+   * @param {CreatePlayerService} createPlayerService
    * @memberof PlayerServices
    */
-  constructor(loginPlayerService: LoginPlayerService) {
-    this.loginPlayerService = loginPlayerService;
-    this.playerCredentialsMapper = new PlayerCredentialsMapper();
-    this.jwtMapper = new JWTMapper();
+  constructor(createPlayerService: CreatePlayerService) {
+    this.createPlayerService = createPlayerService;
   }
 
   /**
-   * This method accepts a `LoginPlayerRequestDTO`, maps the incoming DTO to
+   * This method accepts a `CreatePlayerRequestDTO`, maps the incoming DTO to
    * a domain model, and calls the appropriate services to fulfill the
    * request.
    *
-   * @param {LoginPlayerRequestDTO} incomingDTO
-   * @return {Promise<LoginPlayerResponseDTO>}
+   * @param {CreatePlayerRequestDTO} incomingDTO
+   * @return {Promise<CreatePlayerResponseDTO>}
    * @memberof PlayerServices
    */
-  async loginPlayer(incomingDTO: LoginPlayerRequestDTO): Promise<LoginPlayerResponseDTO> {
-    // get domain objects from dtos
-    const credentials = this.playerCredentialsMapper.fromDTO(incomingDTO.credentials);
-
-    // call services with domain objects
-    const jwt = await this.loginPlayerService.loginPlayer(credentials);
-
-    // map domain responses to dtos
-    const jwtDto = this.jwtMapper.toDTO(jwt);
-    return new LoginPlayerResponseDTO(
-        credentials.getPlayernameString(),
-        jwtDto,
+  async createPlayer(incomingDTO: CreatePlayerRequestDTO): Promise<CreatePlayerResponseDTO> {
+    // get player dto from incoming request
+    const playerDTO = incomingDTO.player;
+    // get player entity from dto
+    const player = this.playerMapper.fromDTO(playerDTO);
+    // call services
+    const result = await this.createPlayerService.createPlayer(player);
+    // create response dto from results
+    return new CreatePlayerResponseDTO(
+        null,
+        null,
     );
   }
 }

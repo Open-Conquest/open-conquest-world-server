@@ -2,7 +2,7 @@
 /* eslint-disable require-jsdoc */
 import {CreatePlayerRequest} from '../../../../shared/schemas/CreatePlayerRequest';
 import {JWTDTO} from '../../../../shared/dtos/JWTDTO';
-import { CreatePlayerResponseDTO } from './CreatePlayerResponseDTO';
+import {PlayerDTO} from '../../dtos/PlayerDTO';
 
 /**
  * DTO implementation of CreatePlayerRequest.
@@ -13,17 +13,17 @@ import { CreatePlayerResponseDTO } from './CreatePlayerResponseDTO';
  */
 export class CreatePlayerRequestDTO implements CreatePlayerRequest {
   token: JWTDTO;
-  playerName: string;
+  player: PlayerDTO;
 
-  constructor(token: JWTDTO, playerName: string) {
+  constructor(token: JWTDTO, player: PlayerDTO) {
     this.token = token;
-    this.playerName = playerName;
+    this.player = player;
   }
 
   static fromJSON(json: any): CreatePlayerRequestDTO {
-    return new CreatePlayerResponseDTO(
+    return new CreatePlayerRequestDTO(
         new JWTDTO(json.token.value),
-        json.playerName,
+        new PlayerDTO(json.player.name),
     );
   }
 }

@@ -1,21 +1,16 @@
 import {IPlayerRepository} from '../../repos/IPlayerRepository';
 import {PlayerFactory} from '../../factories/PlayerFactory';
-import {PlayerCredentials} from '../../domain/PlayerCredentials';
 import {Player} from '../../domain/Player';
-import {JWT} from '../../domain/JWT';
-import {jwtMiddleware} from '../../../../shared/middleware';
-import * as jwt from 'jsonwebtoken';
-import * as bcrypt from 'bcryptjs';
-import * as config from '../../../../shared/config/real-config';
-import {log} from '../../../../shared/log';
+import {User} from '../../../../modules/user/domain/User';
+import {log} from '../../../../shared/utils/log';
 
 /**
- *
+ * Coordinate between domain and persistence layers to create player entities.
  *
  * @export
  * @class PlayerServices
  */
-export class LoginPlayerService {
+export class CreatePlayerService {
   private playerRepository: IPlayerRepository;
   private playerFactory: PlayerFactory;
 
@@ -26,38 +21,25 @@ export class LoginPlayerService {
    * @memberof PlayerServices
    */
   constructor(playerRepository: IPlayerRepository) {
-    // set repos from construtor
     this.playerRepository = playerRepository;
     this.playerFactory = new PlayerFactory();
   }
 
   /**
-   * Service for handling logining a new player.
+   * Create a new player for a user.
    *
-   * @param {PlayerCredentials} credentials
+   * @param {User} user
+   * @param {Player} player
    * @return {Promise<Response>}
    * @memberof PlayerServices
    */
-  async loginPlayer(credentials: PlayerCredentials): Promise<JWT> {
+  async createPlayer(user: User, player: Player): Promise<Player> {
     try {
-      // get player from database, compare hashed password
-      const hashedPassword = await this.playerRepository.getPlayerPasswordWithPlayername(
-          credentials.getPlayernameString(),
-      );
-
-      // return jwt if player has valid credentials
-      if (bcrypt.compareSync(credentials.getPasswordString(), hashedPassword.getString())) {
-        // create a player domain entity
-        const loggedInPlayer = this.playerFactory.createPlayerWithPlayername(
-            credentials.getPlayernameString(),
-        );
-        // create a jwt for this player and return
-        return jwtMiddleware.createJWT(loggedInPlayer);
-      } else {
-        throw new Error('Invalid credentials');
-      }
+      // try to create player entity in database
+      return await this.playerRepository.createPlayer(user, player);
     } catch (err) {
-      throw new Error('Invalid login');
+      // check if an expected eror was thrown
+      throw new Error('Error while creating player');
     }
   }
 }

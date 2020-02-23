@@ -6,7 +6,7 @@ import {jwtMiddleware} from '../../../../shared/middleware';
 import * as jwt from 'jsonwebtoken';
 import * as bcrypt from 'bcryptjs';
 import * as config from '../../../../shared/config/real-config';
-import {log} from '../../../../shared/log';
+import {log} from '../../../../shared/utils/log';
 import { UserFactory } from '../../factories/UserFactory';
 
 /**
@@ -48,6 +48,7 @@ export class RegisterUserService {
       );
       // create new user entity
       const user = this.userFactory.createUserWithHashedPassword(
+          null,
           credentials.getUsernameString(),
           hashedPassword,
       );

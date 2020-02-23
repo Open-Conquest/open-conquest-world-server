@@ -1,5 +1,5 @@
 export default (sequelize, DataTypes) => {
-  const user = sequelize.define('player', {
+  const player = sequelize.define('player', {
     player_id: {
       type: DataTypes.INTEGER(11),
       primaryKey: true,
@@ -20,13 +20,11 @@ export default (sequelize, DataTypes) => {
     freezeTableName: true,
   });
 
-  user.associate = (models) => {
+  player.associate = (models) => {
     models.player.belongsTo(models.user, {
-      foreignKey: {
-        name: 'user_id',
-      },
+      foreignKey: 'user_id',
     });
   };
 
-  return user;
+  return player;
 };

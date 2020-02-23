@@ -9,7 +9,7 @@ import {JWT} from '../../../../../../src/modules/user/domain/JWT';
 import {registerUserService} from '../../../../../../src/modules/user/services/registerUser/';
 import {models} from '../../../../../../src/shared/infra/sequelize/models';
 import {jwtMiddleware} from '../../../../../../src/shared/middleware/';
-import {log} from '../../../../../../src/shared/log';
+import {log} from '../../../../../../src/shared/utils/log';
 
 /**
  * These are the integration tests for RegisterUserService

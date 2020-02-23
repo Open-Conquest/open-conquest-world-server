@@ -1,21 +1,12 @@
-// CREATE WORLD SERVICES
-import {WorldServices} from './WorldServices';
+import {WorldRouter} from './WorldRouter';
+import {ServiceNames} from './ServiceNames';
 
-import {
-  armyServices,
-  cityServices,
-  mapServices,
-  marchServices,
-  tileServices,
-  userServices,
-} from '../services';
+import {userEndpoints} from '../../../../modules/user/endpoints';
+import {playerEndpoints} from '../../../../modules/game/endpoints';
 
-const worldServices = new WorldServices();
-worldServices.registerService(armyServices);
-worldServices.registerService(cityServices);
-worldServices.registerService(mapServices);
-worldServices.registerService(marchServices);
-worldServices.registerService(tileServices);
-worldServices.registerService(userServices);
+const worldRouter = new WorldRouter();
 
-export {worldServices};
+// worldRouter.registerEndpoints(ServiceNames.User, userEndpoints);
+// worldRouter.registerEndpoints(ServiceNames.Player, playerEndpoints);
+
+export {worldRouter};

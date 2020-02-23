@@ -1,7 +1,8 @@
 import {IPlayerRepository} from '../IPlayerRepository';
 import {Player} from '../../domain/Player';
+import {User} from '../../../user/domain/User';
 import {PlayerMapper} from '../../mappers/PlayerMapper';
-import { log } from '../../../../shared/utils/log';
+import {log} from '../../../../shared/utils/log';
 
 /**
  * A Sequelize implementation of the `IPlayerRepository`
@@ -26,51 +27,29 @@ export class PlayerRepository implements IPlayerRepository {
   /**
    * Create a new player in the database.
    *
-   * @param {string} name
+   * @param {User} user
+   * @param {Player} newPlayer
    * @return {Promise<Player>}
    * @memberof PlayerRepository
    */
-  async createPlayer(name: string): Promise<Player> {
+  async createPlayer(user: User, newPlayer: Player): Promise<Player> {
     // try to save player to database
     try {
+      log.info(user);
       const dbPlayer = await this.models.player.create({
-        name: name,
+        name: newPlayer.getNameString(),
+        user_id: user.getId().getValue(),
       });
       // map from db to domain and return
       return this.playerMapper.fromPersistence(dbPlayer);
     } catch (err) {
+      log.error(err);
       // check to see what type of error was returned
       if (err.name === 'SequelizeUniqueConstraintError') {
         throw new Error('Duplicate playername error');
       } else {
         throw new Error('Unexpected error');
       }
-    }
-  }
-
-  /**
-   * Get a player's password based on their playername.
-   *
-   * @param {string} playername
-   * @return {Promise<HashedPassword>}
-   * @memberof PlayerRepository
-   */
-  async getPlayerPasswordWithPlayername(playername: string): Promise<HashedPassword> {
-    try {
-      // try to find player in database with playername
-      const dbPlayer = await this.models.player.findOne({
-        where: {playername: playername},
-      });
-
-      if (dbPlayer === null) {
-        // if no player was found
-        throw new Error('No player found');
-      } else {
-        // return password hash
-        return new HashedPassword(dbPlayer.password);
-      }
-    } catch (err) {
-      throw new Error('No player found');
     }
   }
 }

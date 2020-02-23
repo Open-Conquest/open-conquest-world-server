@@ -4,6 +4,10 @@ export class Username {
   private value: string;
 
   constructor(username: string) {
+    if (username === null) {
+      return null;
+    }
+
     if (this.isValidUsername(username)) {
       this.value = username;
     } else {

@@ -20,7 +20,8 @@ export default (sequelize, DataTypes) => {
     freezeTableName: true,
   });
 
-  user.associate = (models) => {};
+  user.associate = (models) => {
+  };
 
   return user;
 };

@@ -6,5 +6,8 @@
  */
 
 export interface CreatePlayerRequest {
-  playerName: string;
+  player: Player;
+}
+export interface Player {
+  name: string;
 }
