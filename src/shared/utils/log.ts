@@ -3,7 +3,12 @@ const {createLogger, format, transports} = require('winston');
 const {combine, timestamp, printf} = format;
 
 const myFormat = printf(({level, message, timestamp}) => {
-  return `{\n "time":"${timestamp}",\n "level":"${level}",\n "message":"${JSON.stringify(message)}"\n}`;
+  // return JSON.stringify(message, null, '\t');
+  return `{
+    "time" : "${timestamp}",
+    "level" : "${level}",
+    "message" : ${message}
+}\n`;
 });
 
 const logger = createLogger({
@@ -12,7 +17,41 @@ const logger = createLogger({
       timestamp(),
       myFormat,
   ),
-  transports: [new transports.Console()],
+  transports: [
+    new transports.Console({
+      json: true
+    })
+  ],
 });
 
-export {logger as log};
+function info(message: string, data?: any) {
+  if (data === undefined) {
+    logger.info(message);
+  } else {
+    const textJSON =  {
+      'message': message,
+      'data': data 
+    };
+    logger.info(JSON.stringify(textJSON, null, '\t'));
+  }
+}
+
+
+function error(message: string, data?: any) {
+  if (data === undefined) {
+    logger.error(message);
+  } else {
+    const textJSON =  {
+      'message': message,
+      'data': data
+    };
+    logger.error(JSON.stringify(textJSON, null, '\t'));
+  }
+}
+
+const log = {
+  info,
+  error
+}
+
+export {log};
