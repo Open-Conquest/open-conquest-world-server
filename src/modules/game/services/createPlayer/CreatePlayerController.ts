@@ -48,7 +48,11 @@ export class CreatePlayerController {
     const player = this.playerMapper.fromDTO(playerDTO);
     const user = this.userMapper.fromDTO(userDTO);
 
-    // call services
+    // coordinate servicesto create a new player in the world
+    // 1. create player
+    // 2. create city for player
+    // 3. give starting resources to player
+    // 4. give starting army to player
     const newPlayer = await this.createPlayerService.createPlayer(user, player);
 
     // convert domain entities to dtos

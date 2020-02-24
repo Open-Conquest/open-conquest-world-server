@@ -1,36 +1,32 @@
-import { CreatePlayerService } from 'src/modules/game/services/createPlayer/CreatePlayerService';
-import { CreatePlayerResponseDTO } from 'src/modules/game/services/createPlayer/CreatePlayerResponseDTO';
-import { CreatePlayerRequestDTO } from 'src/modules/game/services/createPlayer/CreatePlayerRequestDTO';
+/* eslint-disable max-len */
+
+
+import * as chai from 'chai';
+import * as mocha from 'mocha';
+import {log} from '../../../../../../src/shared/utils/log';
+import {models} from '../../../../../../src/shared/infra/sequelize/models';
+
+import {createPlayerController} from '../../../../../../src/modules/game/services/createPlayer';
 
 /**
- *
- *
- * @export
- * @class CreatePlayerController
+ * Summary of tests for CreatePlayerController:createPlayer
+ * 1.
  */
-export class CreatePlayerController {
-  private createPlayerService: CreatePlayerService;
 
-  /**
-   * Creates an instance of CreatePlayerController.
-   *
-   * @param {CreatePlayerService} createPlayerService
-   * @memberof CreatePlayerController
-   */
-  constructor(createPlayerService: CreatePlayerService) {
-    this.createPlayerService = createPlayerService;
-  }
+describe('CreatePlayerController:createPlayer', function() {
+  const assert = chai.assert;
 
-  /**
-   * Accepts a CreatePlayerRequestDTO
-   *
-   * @param {CreatePlayerRequestDTO} request
-   * @returns {CreatePlayerResponseDTO}
-   * @memberof CreatePlayerController
-   */
-  createPlayer(request: CreatePlayerRequestDTO): CreatePlayerResponseDTO {
-    // map dto to domain
-    // call services
-    // return dto
-  }
-}
+  // Start transaction before each test & rollback changes made while testing
+  const connection = models.sequelize;
+  beforeEach(() => {
+    return connection.query('START TRANSACTION');
+  });
+  afterEach(() => {
+    return connection.query('ROLLBACK');
+  });
+
+  // 1.
+  it('', async function() {
+    assert.fail('no tests');
+  });
+});

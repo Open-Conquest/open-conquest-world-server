@@ -78,7 +78,7 @@ describe('WorldRouter:handle', function() {
     credentials.$username = username;
     credentials.$password = password;
 
-    const createPlayerData = new CreatePlayerRequestDTO(null, null);
+    const createPlayerData = new CreatePlayerRequestDTO(null);
 
     const message = new MessageDTO(null, null, null, null, null);
     message.$service = ServiceNames.Player;

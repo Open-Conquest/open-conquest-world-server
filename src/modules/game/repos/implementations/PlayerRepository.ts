@@ -35,7 +35,6 @@ export class PlayerRepository implements IPlayerRepository {
   async createPlayer(user: User, newPlayer: Player): Promise<Player> {
     // try to save player to database
     try {
-      log.info('createPlayer user', user);
       const dbPlayer = await this.models.player.create({
         name: newPlayer.getNameString(),
         user_id: user.getId().getValue(),
@@ -43,13 +42,39 @@ export class PlayerRepository implements IPlayerRepository {
       // map from db to domain and return
       return this.playerMapper.fromPersistence(dbPlayer);
     } catch (err) {
-      log.error(err.stack);
       // check to see what type of error was returned
       if (err.name === 'SequelizeUniqueConstraintError') {
         throw new Error('Duplicate playername error');
+      } else if (err.name === 'SequelizeForeignKeyConstraintError') {
+        throw new Error('User does not exist');
       } else {
         throw new Error('Unexpected error');
       }
+    }
+  }
+
+  /**
+   * Get a player from the database that is the Player entity passed as an
+   * argument.
+   *
+   * @param {Player} player
+   * @return {Promise<Player>}
+   * @memberof PlayerRepository
+   */
+  async getPlayer(player: Player): Promise<Player> {
+    // try to find the player in the database
+    const dbPlayer = await this.models.player.findOne({
+      where: {
+        name: player.$name.$value,
+      },
+    });
+
+    // if player exists return player
+    if (dbPlayer !== null) {
+      return this.playerMapper.fromPersistence(dbPlayer);
+    } else {
+      // if player doesn't exist return null
+      return null;
     }
   }
 }

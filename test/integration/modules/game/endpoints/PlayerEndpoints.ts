@@ -23,7 +23,7 @@ describe('PlayerEndpoints createPlayer', function() {
 
   /**
    * Start a transaction before each test then rollback any changes after
-   * the test finishes running. This ensure that no changes made to the
+   * the test finishes running. This ensures that no changes made to the
    * database during the tests are kept.
    */
   const connection = models.sequelize;
@@ -39,23 +39,25 @@ describe('PlayerEndpoints createPlayer', function() {
    */
 
   it('should get a CreatePlayerResponseDTO', async function() {
+    assert.fail('no real testing');
+
     // register a new user
-    const creds = new UserCredentialsDTO(
-        'test_username',
-        'test_password',
-    );
-    const data = new RegisterUserRequestDTO(
-        creds,
-    );
-    const registerMessage = new MessageDTO();
-    registerMessage.$service = ServiceNames.User;
-    registerMessage.$operation = ServiceOperations.RegisterUser;
-    registerMessage.$data = data;
+    // const creds = new UserCredentialsDTO(
+    //     'test_username',
+    //     'test_password',
+    // );
+    // const data = new RegisterUserRequestDTO(
+    //     creds,
+    // );
+    // const registerMessage = new MessageDTO();
+    // registerMessage.$service = ServiceNames.User;
+    // registerMessage.$operation = ServiceOperations.RegisterUser;
+    // registerMessage.$data = data;
 
-    const registerResponse = await userEndpoints.registerUser(registerMessage);
-    // create register response dto from generic message dto
-    const registerResponseDTO = RegisterUserResponseDTO.fromJSON(registerResponse.$data);
+    // const registerResponse = await userEndpoints.registerUser(registerMessage);
+    // // create register response dto from generic message dto
+    // const registerResponseDTO = RegisterUserResponseDTO.fromJSON(registerResponse.$data);
 
-    // create player for new user
+    // // create player for new user
   });
 });

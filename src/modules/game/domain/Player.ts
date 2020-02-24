@@ -20,4 +20,13 @@ export class Player extends Entity {
   getNameString(): string {
     return this.name.getString();
   }
+
+  public get $name(): Playername {
+    return this.name;
+  }
+
+  public set $name(value: Playername) {
+    this.name = value;
+  }
+
 }

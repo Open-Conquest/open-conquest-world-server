@@ -34,13 +34,14 @@ export class CreatePlayerService {
    * @memberof PlayerServices
    */
   async createPlayer(user: User, player: Player): Promise<Player> {
-    try {
-      // try to create player entity in database
-      return await this.playerRepository.createPlayer(user, player);
-    } catch (err) {
-      log.error(err.stack);
-      // check if an expected eror was thrown
-      throw new Error('Error while creating player');
+    // see if a player with the name exists
+    const existingPlayer = await this.playerRepository.getPlayer(player);
+    if (existingPlayer !== null) {
+      // player with name already exists
+      throw new Error('Playername taken');
     }
+
+    // if the name isn't taken save player to database & return new player
+    return await this.playerRepository.createPlayer(user, player);
   }
 }
