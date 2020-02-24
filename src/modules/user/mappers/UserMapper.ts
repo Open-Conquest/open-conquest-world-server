@@ -27,6 +27,7 @@ export class UserMapper {
         dbUser.username,
         null,
         null,
+        dbUser.password,
     );
   }
 
@@ -38,8 +39,12 @@ export class UserMapper {
    * @memberof UserMapper
    */
   fromDTO(userDTO: UserDTO): User {
-    return this.userFactory.createUserWithUsername(
+    return this.userFactory.createUser(
+        userDTO.$userID,
         userDTO.$username,
+        null,
+        null,
+        null,
     );
   }
 }

@@ -49,7 +49,7 @@ describe('WorldRouter:handle', function() {
     const registerUserData = new RegisterUserRequestDTO(null);
     registerUserData.$credentials = credentials;
 
-    const message = new MessageDTO();
+    const message = new MessageDTO(null, null, null, null, null);
     message.$service = ServiceNames.User;
     message.$operation = ServiceOperations.RegisterUser;
     message.$data = registerUserData;
@@ -80,7 +80,7 @@ describe('WorldRouter:handle', function() {
 
     const createPlayerData = new CreatePlayerRequestDTO(null, null);
 
-    const message = new MessageDTO();
+    const message = new MessageDTO(null, null, null, null, null);
     message.$service = ServiceNames.Player;
     message.$operation = ServiceOperations.CreatePlayer;
     message.$data = createPlayerData;
@@ -109,7 +109,7 @@ describe('WorldRouter:handle', function() {
     const registerUserData = new RegisterUserRequestDTO(null);
     registerUserData.$credentials = credentials;
 
-    const registerMessage = new MessageDTO();
+    const registerMessage = new MessageDTO(null, null, null, null, null);
     registerMessage.$service = ServiceNames.User;
     registerMessage.$operation = ServiceOperations.RegisterUser;
     registerMessage.$data = registerUserData;
@@ -124,14 +124,14 @@ describe('WorldRouter:handle', function() {
 
     // create a new player dto
     const playerName = 'new_playername';
-    const player = new PlayerDTO();
+    const player = new PlayerDTO(null);
     player.$name = playerName;
 
     // create a player for newly registered user
-    const createPlayerData = new CreatePlayerRequestDTO(null, null);
+    const createPlayerData = new CreatePlayerRequestDTO(null);
     createPlayerData.$player = player;
 
-    const message = new MessageDTO();
+    const message = new MessageDTO(null, null, null, null, null);
     message.$service = ServiceNames.Player;
     message.$operation = ServiceOperations.CreatePlayer;
     message.$token = token;
@@ -139,10 +139,10 @@ describe('WorldRouter:handle', function() {
 
     // attempt to dispatch message
     try {
-      await worldRouter.handle(message.toJSON());
-      assert.fail('Expected invalid token error');
+      const response = await worldRouter.handle(message.toJSON());
+      assert(response.$data.player.name === playerName, 'Bad playername');
     } catch (err) {
-      assert(err.message === 'Invalid token', 'Unexpected error message: ' + err.message);
+      assert.fail('Didn\'t expect error', err.message);
     }
   });
 });

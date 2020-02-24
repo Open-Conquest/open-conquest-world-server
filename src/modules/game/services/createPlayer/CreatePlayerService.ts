@@ -38,6 +38,7 @@ export class CreatePlayerService {
       // try to create player entity in database
       return await this.playerRepository.createPlayer(user, player);
     } catch (err) {
+      log.error(err.stack);
       // check if an expected eror was thrown
       throw new Error('Error while creating player');
     }

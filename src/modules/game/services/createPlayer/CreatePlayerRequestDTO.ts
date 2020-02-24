@@ -12,31 +12,20 @@ import {PlayerDTO} from '../../dtos/PlayerDTO';
  * @implements {CreatePlayerRequest}
  */
 export class CreatePlayerRequestDTO implements CreatePlayerRequest {
-  private token: JWTDTO;
   private player: PlayerDTO;
 
-  constructor(token: JWTDTO, player: PlayerDTO) {
-    this.token = token;
+  constructor(player: PlayerDTO) {
     this.player = player;
   }
 
   static fromJSON(json: any): CreatePlayerRequestDTO {
     return new CreatePlayerRequestDTO(
-        new JWTDTO(json.token.value),
         new PlayerDTO(json.player.name),
     );
   }
 
-  public get $token(): JWTDTO {
-    return this.token;
-  }
-
   public get $player(): PlayerDTO {
     return this.player;
-  }
-
-  public set $token(value: JWTDTO) {
-    this.token = value;
   }
 
   public set $player(value: PlayerDTO) {

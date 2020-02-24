@@ -59,7 +59,7 @@ export class UserRepository implements IUserRepository {
    * @return {Promise<HashedPassword>}
    * @memberof UserRepository
    */
-  async getUserPasswordWithUsername(username: Username): Promise<HashedPassword> {
+  async getUserPasswordWithUsername(username: Username): Promise<User> {
     try {
       // try to find user in database with username
       const dbUser = await this.models.user.findOne({
@@ -71,7 +71,7 @@ export class UserRepository implements IUserRepository {
         throw new Error('No user found');
       } else {
         // return password hash
-        return new HashedPassword(dbUser.password);
+        return this.userMapper.fromPersistence(dbUser);
       }
     } catch (err) {
       throw new Error('No user found');

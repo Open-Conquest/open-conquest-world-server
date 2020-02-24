@@ -21,13 +21,13 @@ export class UserFactory {
    */
   constructor() {}
 
-  createUser(id: number, username: string, password: string, token: string): User {
+  createUser(id: number, username: string, password: string, token: string, hashedPassword: string): User {
     return new User(
         new EntityID(id),
         new Username(username),
         new Password(password),
         new JWT(token),
-        null,
+        new HashedPassword(hashedPassword),
     );
   }
 

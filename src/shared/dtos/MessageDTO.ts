@@ -23,14 +23,19 @@ export class MessageDTO implements IDTO {
   /**
    * Creates an instance of MessageDTO.
    *
+   * @param {ServiceNames} service
+   * @param {ServiceOperations} operation
+   * @param {JWTDTO} token
+   * @param {UserDTO} user
+   * @param {any} data
    * @memberof MessageDTO
    */
-  constructor() {
-    this.$service = null;
-    this.$operation = null;
-    this.$token = null;
-    this.$user = null;
-    this.$data = null;
+  constructor(service: ServiceNames, operation: ServiceOperations, token: JWTDTO, user: UserDTO, data: any) {
+    this.$service = service;
+    this.$operation = operation;
+    this.$token = token;
+    this.$user = user;
+    this.$data = data;
   }
 
   public get $service(): ServiceNames {

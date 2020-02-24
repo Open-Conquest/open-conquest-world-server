@@ -10,7 +10,8 @@ import {ServiceOperations} from '../../../shared/infra/ws/routing/ServiceOperati
 import {log} from '../../../shared/utils/log';
 
 /**
- *
+ * PlayerEndpoints implements all of the endpoints responsible for handling
+ * the operations housed under the Player service.
  *
  * @export
  * @class PlayerEndpoints
@@ -38,25 +39,32 @@ export class PlayerEndpoints extends BaseEndpoints {
    * @memberof PlayerEndpoints
    */
   async createPlayer(message: MessageDTO): Promise<MessageDTO> {
-    // get user from message
+    // get the acting user from message
     const userDTO = message.$user;
 
-    // assemble CreatePlayerRequestDTO from MessageDTO
+    // assemble CreatePlayerRequestDTO from incoming message
     const createPlayerDTO = CreatePlayerRequestDTO.fromJSON(
         message.$data,
     );
 
-    // call creatPlayerController with DTO
+    // TODO: maybe some error handling around this failing?
     const responseDTO = await this.createPlayerController.createPlayer(
         userDTO,
         createPlayerDTO,
     );
 
-    // get CreatePlayerResponseDTO & map to generic MessageDTO
-    const response = new MessageDTO();
-    response.$service = ServiceNames.Player;
-    response.$operation = ServiceOperations.CreatePlayer;
-    response.$data = responseDTO.toJSON();
+    log.info('ugh', responseDTO);
+
+    const response = new MessageDTO(
+        ServiceNames.Player,
+        ServiceOperations.CreatePlayer,
+        null,
+        null,
+        responseDTO,
+    );
+
+    log.info('ugh', response);
+
     return response;
   }
 }

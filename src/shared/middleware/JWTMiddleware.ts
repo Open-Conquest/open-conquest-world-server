@@ -38,10 +38,15 @@ export class JWTMiddleware {
     try {
       // check if token is valid
       const payload = jwt.verify(token.getTokenString(), config.secret);
-      // get username from payload
-      const username = payload.username;
-      // instantiate user with username
-      return this.userFactory.createUserWithUsername(username);
+      log.info('jwt payload', payload);
+      // instantiate user from jwt claims
+      return this.userFactory.createUser(
+          payload.user_id,
+          payload.username,
+          null,
+          null,
+          null,
+      );
     } catch (err) {
       if (err.message === 'jwt malformed') {
         throw new Error('Access denied, invalid authorization token.');
@@ -77,6 +82,7 @@ export class JWTMiddleware {
       // create userDTO from validated claims
       const userDTO = new UserDTO();
       userDTO.$username = user.getUsername().getString();
+      userDTO.$userID = user.getId().getValue();
 
       // set acting user property in message
       message.$user = userDTO;
@@ -105,7 +111,10 @@ export class JWTMiddleware {
   createJWT(user: User): JWT {
     // generate jwt for newly registered user
     const token = jwt.sign(
-        {username: user.getUsernameString()},
+        {
+          username: user.getUsernameString(),
+          user_id: user.getId().getValue(),
+        },
         config.secret,
         {expiresIn: '1h'},
     );

@@ -41,12 +41,14 @@ export class LoginUserService {
   async loginUser(credentials: UserCredentials): Promise<JWT> {
     try {
       // get user from database, compare hashed password
-      const hashedPassword = await this.userRepository.getUserPasswordWithUsername(
+      const user = await this.userRepository.getUserPasswordWithUsername(
           credentials.getUsername(),
       );
 
+      const hashedPassword = user.getHashedPasswordString();
+
       // return jwt if user has valid credentials
-      if (bcrypt.compareSync(credentials.getPasswordString(), hashedPassword.getString())) {
+      if (bcrypt.compareSync(credentials.getPasswordString(), hashedPassword)) {
         // create a user domain entity
         const loggedInUser = this.userFactory.createUserWithUsername(
             credentials.getUsernameString(),

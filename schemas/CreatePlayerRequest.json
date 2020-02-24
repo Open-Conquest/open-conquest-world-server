@@ -2,13 +2,10 @@
   "title": "CreatePlayerRequest",
   "type": "object",
   "properties": {
-    "token": {
-      "$ref": "JWT.json"
-    },
     "player": {
       "$ref": "Player.json"
     }
   },
-  "required": ["token", "player"],
+  "required": ["player"],
   "additionalProperties": false
 }

@@ -35,6 +35,7 @@ export class PlayerRepository implements IPlayerRepository {
   async createPlayer(user: User, newPlayer: Player): Promise<Player> {
     // try to save player to database
     try {
+      log.info('createPlayer user', user);
       const dbPlayer = await this.models.player.create({
         name: newPlayer.getNameString(),
         user_id: user.getId().getValue(),
@@ -42,7 +43,7 @@ export class PlayerRepository implements IPlayerRepository {
       // map from db to domain and return
       return this.playerMapper.fromPersistence(dbPlayer);
     } catch (err) {
-      log.error(err);
+      log.error(err.stack);
       // check to see what type of error was returned
       if (err.name === 'SequelizeUniqueConstraintError') {
         throw new Error('Duplicate playername error');
