@@ -26,7 +26,10 @@ const logger = createLogger({
 
 function info(message: string, data?: any) {
   if (data === undefined) {
-    logger.info(message);
+    const textJSON =  {
+      'message': message,
+    };
+    logger.info(JSON.stringify(textJSON, null, '\t'));
   } else {
     const textJSON =  {
       'message': message,
@@ -36,10 +39,12 @@ function info(message: string, data?: any) {
   }
 }
 
-
 function error(message: string, data?: any) {
   if (data === undefined) {
-    logger.error(message);
+    const textJSON =  {
+      'message': message,
+    };
+    logger.error(JSON.stringify(textJSON, null, '\t'));
   } else {
     const textJSON =  {
       'message': message,

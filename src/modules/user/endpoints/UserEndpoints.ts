@@ -1,3 +1,4 @@
+import {BaseEndpoints} from '../../../shared/infra/ws/routing/BaseEndpoints';
 import {ServiceNames} from '../../../shared/infra/ws/routing/ServiceNames';
 import {ServiceOperations} from '../../../shared/infra/ws/routing/ServiceOperations';
 import {MessageDTO} from '../../../shared/dtos/MessageDTO';
@@ -15,7 +16,7 @@ import {log} from '../../../shared/utils/log';
  * method which expects a generic `Request` object. This request object will be
  * delivered from `WorldServices` routing. Inside handle a
  */
-export class UserEndpoints {
+export class UserEndpoints extends BaseEndpoints {
   private registerUserController: RegisterUserController;
   private loginUserController: LoginUserController;
 
@@ -27,8 +28,9 @@ export class UserEndpoints {
    * @memberof UserEndpoints
    */
   constructor(registerUserController: RegisterUserController, loginUserController: LoginUserController) {
-    // set properties for this specific service
-    // this.serviceName = ServiceNames.User;
+    super();
+    this.serviceName = ServiceNames.User;
+    this.handlers[ServiceOperations.RegisterUser] = this.registerUser.bind(this);
     this.registerUserController = registerUserController;
     this.loginUserController = loginUserController;
   }
@@ -43,7 +45,7 @@ export class UserEndpoints {
   async loginUser(incomingMessage: MessageDTO): Promise<MessageDTO> {
     // create DTO from incoming message's json data
     const requestDTO = LoginUserRequestDTO.fromJSON(
-        incomingMessage.getData(),
+        incomingMessage.$data,
     );
 
     // call registerUser service and get response DTO
@@ -52,11 +54,11 @@ export class UserEndpoints {
     );
 
     // create response from DTO
-    return new MessageDTO(
-        ServiceNames.User,
-        ServiceOperations.LoginUser,
-        responseDTO.toJSON(),
-    );
+    const response = new MessageDTO();
+    response.$service = ServiceNames.User;
+    response.$operation = ServiceOperations.LoginUser;
+    response.$data = responseDTO.toJSON();
+    return response;
   }
 
   /**
@@ -69,7 +71,7 @@ export class UserEndpoints {
   async registerUser(incomingMessage: MessageDTO): Promise<MessageDTO> {
     // create DTO from incoming message's json data
     const requestDTO = RegisterUserRequestDTO.fromJSON(
-        incomingMessage.getData(),
+        incomingMessage.$data,
     );
 
     // call registerUser service and get response DTO
@@ -78,10 +80,10 @@ export class UserEndpoints {
     );
 
     // create response from DTO
-    return new MessageDTO(
-        ServiceNames.User,
-        ServiceOperations.RegisterUser,
-        responseDTO.toJSON(),
-    );
+    const response = new MessageDTO();
+    response.$service = ServiceNames.User;
+    response.$operation = ServiceOperations.RegisterUser;
+    response.$data = responseDTO.toJSON();
+    return response;
   }
 }

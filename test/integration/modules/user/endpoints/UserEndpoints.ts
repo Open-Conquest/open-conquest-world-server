@@ -49,30 +49,25 @@ describe('UserEndpoints registerUser', function() {
     const data = new RegisterUserRequestDTO(
         creds,
     );
-    const registerMessage = new MessageDTO(
-        ServiceNames.User,
-        ServiceOperations.RegisterUser,
-        data.toJSON(),
-    );
+    const registerMessage = new MessageDTO();
+    registerMessage.$service = ServiceNames.User;
+    registerMessage.$operation = ServiceOperations.RegisterUser;
+    registerMessage.$data = data;
 
     // register user
     const registerResponse = await userEndpoints.registerUser(registerMessage);
 
     // create register response dto from generic message dto
-    const registerResponseDTO = RegisterUserResponseDTO.fromJSON(registerResponse.getData());
+    const registerResponseDTO = RegisterUserResponseDTO.fromJSON(registerResponse.$data);
 
     // get jwt from register response dto
-    const jwt = new JWT(registerResponseDTO.token.value);
-
-    log.error(jwt);
+    const jwt = new JWT(registerResponseDTO.token.$value);
 
     // check if jwt is valid
     const user = jwtMiddleware.validateJwt(jwt);
 
-    log.error(user);
-
     // assert username in jwt claims equals registered username
-    assert(user.getUsername().getString() === creds.username);
+    assert(user.getUsername().getString() === creds.$username);
   });
 
   it('should do schema validation at register user endpoint', async function() {
@@ -112,16 +107,15 @@ describe('UserEndpoints loginUser', function() {
     const loginData = new LoginUserRequestDTO(
         creds,
     );
-    const registerMessage = new MessageDTO(
-        ServiceNames.User,
-        ServiceOperations.RegisterUser,
-        registerData.toJSON(),
-    );
-    const loginMessage = new MessageDTO(
-        ServiceNames.User,
-        ServiceOperations.LoginUser,
-        loginData.toJSON(),
-    );
+    const registerMessage = new MessageDTO();
+    registerMessage.$service = ServiceNames.User;
+    registerMessage.$operation = ServiceOperations.RegisterUser;
+    registerMessage.$data = registerData.toJSON();
+
+    const loginMessage = new MessageDTO();
+    loginMessage.$service = ServiceNames.User;
+    loginMessage.$operation = ServiceOperations.LoginUser,
+    loginMessage.$data = loginData.toJSON();
 
     // register user
     const registerResponse = await userEndpoints.registerUser(registerMessage);
@@ -130,16 +124,16 @@ describe('UserEndpoints loginUser', function() {
     const loginResponse = await userEndpoints.loginUser(loginMessage);
 
     // create login response dto from generic message dto
-    const loginResponseDTO = LoginUserResponseDTO.fromJSON(loginResponse.getData());
+    const loginResponseDTO = LoginUserResponseDTO.fromJSON(loginResponse.$data);
 
     // get jwt from login response dto
-    const jwt = new JWT(loginResponseDTO.token.value);
+    const jwt = new JWT(loginResponseDTO.token.$value);
 
     // check if jwt is valid
     const user = jwtMiddleware.validateJwt(jwt);
 
     // assert username in jwt claims equals username logged in with
-    assert(user.getUsername().getString() === creds.username);
+    assert(user.getUsername().getString() === creds.$username);
   });
 
   it('should fail when a user hasn\'t been registered', async function() {
@@ -150,11 +144,10 @@ describe('UserEndpoints loginUser', function() {
     const loginData = new LoginUserRequestDTO(
         creds,
     );
-    const loginMessage = new MessageDTO(
-        ServiceNames.User,
-        ServiceOperations.LoginUser,
-        loginData.toJSON(),
-    );
+    const loginMessage = new MessageDTO();
+    loginMessage.$service = ServiceNames.User;
+    loginMessage.$operation = ServiceOperations.LoginUser;
+    loginMessage.$data = loginData.toJSON();
 
     try {
       const loginResponse = await userEndpoints.loginUser(loginMessage);

@@ -1,5 +1,7 @@
 import {ServiceOperations} from './ServiceOperations';
 import {MessageDTO} from '../../../dtos/MessageDTO';
+import {ServiceNames} from './ServiceNames';
+import {log} from '../../../utils/log';
 
 /**
  * The purpose of this class is to act as a parent class for all endpoint
@@ -11,7 +13,8 @@ import {MessageDTO} from '../../../dtos/MessageDTO';
  * @class BaseEndpoints
  */
 export class BaseEndpoints {
-  handlers;
+  handlers: any;
+  serviceName: ServiceNames;
 
   /**
    * Creates an instance of BaseEndpoints. Initialize the operation -> method
@@ -37,13 +40,24 @@ export class BaseEndpoints {
    * @return {MessageDTO}
    * @memberof BaseEndpoints
    */
-  handle(message: MessageDTO): MessageDTO {
-    // steps
-    // receive request in world server
-    // dispatch request to world endpoints
-    // now goal is finding which endpoints to dispatch request to
-    // does request need authentication? (any service besides user services at this point)
-    // check if jwt is valid
-    // dispatch request to endpoint
+  async handle(message: MessageDTO): Promise<MessageDTO> {
+    const clazz = this.constructor.name;
+    log.info(clazz + ' received request message', message);
+
+    // check if operation exists
+    if (this.handlers[message.$operation] === undefined) {
+      log.info(this.handlers);
+      throw new Error('Unsupported operation: ' + message.$operation);
+    }
+
+    // dispatch the message to the handler for the message's operation
+    try {
+      const response = await this.handlers[message.$operation](message);
+      log.info(clazz + ' returning response message', response);
+      return response;
+    } catch (err) {
+      log.error(err.stack);
+      throw new Error('Unexpected error');
+    }
   }
 }

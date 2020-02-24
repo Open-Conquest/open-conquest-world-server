@@ -35,7 +35,6 @@ export class PlayerRepository implements IPlayerRepository {
   async createPlayer(user: User, newPlayer: Player): Promise<Player> {
     // try to save player to database
     try {
-      log.info(user);
       const dbPlayer = await this.models.player.create({
         name: newPlayer.getNameString(),
         user_id: user.getId().getValue(),

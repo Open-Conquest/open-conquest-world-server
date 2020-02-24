@@ -47,14 +47,14 @@ describe('PlayerEndpoints createPlayer', function() {
     const data = new RegisterUserRequestDTO(
         creds,
     );
-    const registerMessage = new MessageDTO(
-        ServiceNames.User,
-        ServiceOperations.RegisterUser,
-        data.toJSON(),
-    );
+    const registerMessage = new MessageDTO();
+    registerMessage.$service = ServiceNames.User;
+    registerMessage.$operation = ServiceOperations.RegisterUser;
+    registerMessage.$data = data;
+
     const registerResponse = await userEndpoints.registerUser(registerMessage);
     // create register response dto from generic message dto
-    const registerResponseDTO = RegisterUserResponseDTO.fromJSON(registerResponse.getData());
+    const registerResponseDTO = RegisterUserResponseDTO.fromJSON(registerResponse.$data);
 
     // create player for new user
   });

@@ -2,6 +2,7 @@ import {BaseEndpoints} from './BaseEndpoints';
 import {ServiceNames} from './ServiceNames';
 import {MessageDTO} from '../../../dtos/MessageDTO';
 import {jwtMiddleware} from '../../../middleware';
+import {log} from '../../../utils/log';
 
 /**
  * Handles routing for all messages coming into the WorldServer.
@@ -16,7 +17,9 @@ export class WorldRouter {
    * Creates an instance of WorldEndpoints.
    * @memberof WorldEndpoints
    */
-  constructor() {}
+  constructor() {
+    this.endpoints = new Map<ServiceNames, BaseEndpoints>();
+  }
 
   /**
    * Register a set of endpoints under a service name. This mapping will be
@@ -43,8 +46,11 @@ export class WorldRouter {
    * @memberof WorldEndpoints
    */
   async handle(json: any): Promise<any> {
+    log.info('WorldRouter handling message', json);
+
     // create message dto from json
     let message = MessageDTO.fromJSON(json);
+    message.$user = null; // set user to null (it should not be set)
 
     // check if authentication should happen (any service beside user)
     if (message.$service !== ServiceNames.User) {
@@ -52,9 +58,13 @@ export class WorldRouter {
       message = jwtMiddleware.validateMessage(message);
     }
 
-    return message.toJSON();
-    // dispatch request to appropriate endpoint
-    // const response = this.endpoints.get(json.service).handle(message);
-    // return response.toJSON();
+    // check if endpoint for message service exists
+    if (this.endpoints.get(json.service) === undefined) {
+      throw new Error('Nonexistent service: ' + json.service);
+    } else {
+      // dispatch request to appropriate endpoint
+      const response = await this.endpoints.get(json.service).handle(message);
+      return response.toJSON();
+    }
   }
 }

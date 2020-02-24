@@ -1,5 +1,6 @@
 import {User} from '../domain/User';
 import {UserFactory} from '../factories/UserFactory';
+import {UserDTO} from '../dtos/UserDTO';
 
 /**
  * UserMapper is responsible for mappings between the domain `User` and the
@@ -26,6 +27,19 @@ export class UserMapper {
         dbUser.username,
         null,
         null,
+    );
+  }
+
+  /**
+   * Create a domain entity from a UserDTO.
+   *
+   * @param {UserDTO} userDTO
+   * @return {User}
+   * @memberof UserMapper
+   */
+  fromDTO(userDTO: UserDTO): User {
+    return this.userFactory.createUserWithUsername(
+        userDTO.$username,
     );
   }
 }

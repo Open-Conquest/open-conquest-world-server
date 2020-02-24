@@ -38,7 +38,6 @@ export class JWTMiddleware {
     try {
       // check if token is valid
       const payload = jwt.verify(token.getTokenString(), config.secret);
-      log.info(payload);
       // get username from payload
       const username = payload.username;
       // instantiate user with username
@@ -77,7 +76,6 @@ export class JWTMiddleware {
 
       // create userDTO from validated claims
       const userDTO = new UserDTO();
-      userDTO.$userID = user.getId().getValue();
       userDTO.$username = user.getUsername().getString();
 
       // set acting user property in message
@@ -91,6 +89,7 @@ export class JWTMiddleware {
           err.message === 'Access denied, invalid authorization token.') {
         throw new Error('Invalid token');
       } else {
+        log.error('Unexpected error in JWTMiddleware', err.stack);
         throw new Error('Unexpected error');
       }
     }

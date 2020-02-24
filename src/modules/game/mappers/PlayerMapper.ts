@@ -38,7 +38,7 @@ export class PlayerMapper {
   fromDTO(dto: PlayerDTO): Player {
     return this.playerFactory.createPlayer(
         null,
-        dto.name,
+        dto.$name,
     );
   }
 

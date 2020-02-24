@@ -12,7 +12,7 @@ import {UserCredentialsDTO} from '../../dtos/UserCredentialsDTO';
  * @class RegisterUserDTO
  */
 export class RegisterUserRequestDTO implements RegisterUserRequest {
-  credentials: UserCredentialsDTO;
+  private credentials: UserCredentialsDTO;
 
   /**
    * Creates an instance of RegisterUserRequestDTO.
@@ -43,5 +43,13 @@ export class RegisterUserRequestDTO implements RegisterUserRequest {
 
   static fromJSONString(json: string): RegisterUserRequestDTO {
     throw new Error("Method not implemented.");
+  }
+
+  public get $credentials(): UserCredentialsDTO {
+    return this.credentials;
+  }
+
+  public set $credentials(value: UserCredentialsDTO) {
+    this.credentials = value;
   }
 }

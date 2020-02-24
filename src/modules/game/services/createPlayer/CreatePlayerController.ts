@@ -1,7 +1,9 @@
+import {UserDTO} from '../../../user/dtos/UserDTO';
 import {CreatePlayerRequestDTO} from './CreatePlayerRequestDTO';
 import {CreatePlayerResponseDTO} from './CreatePlayerResponseDTO';
 import {CreatePlayerService} from './CreatePlayerService';
 import {PlayerMapper} from '../../mappers/PlayerMapper';
+import {UserMapper} from '../../../user/mappers/UserMapper';
 import {log} from '../../../../shared/utils/log';
 
 /**
@@ -14,6 +16,7 @@ import {log} from '../../../../shared/utils/log';
 export class CreatePlayerController {
   private createPlayerService: CreatePlayerService;
   private playerMapper: PlayerMapper;
+  private userMapper: UserMapper;
 
   /**
    * Creates an instance of CreatePlayerController.
@@ -23,6 +26,8 @@ export class CreatePlayerController {
    */
   constructor(createPlayerService: CreatePlayerService) {
     this.createPlayerService = createPlayerService;
+    this.playerMapper = new PlayerMapper();
+    this.userMapper = new UserMapper();
   }
 
   /**
@@ -30,21 +35,26 @@ export class CreatePlayerController {
    * a domain model, and calls the appropriate services to fulfill the
    * request.
    *
+   * @param {UserDTO} userDTO
    * @param {CreatePlayerRequestDTO} incomingDTO
    * @return {Promise<CreatePlayerResponseDTO>}
    * @memberof PlayerServices
    */
-  async createPlayer(incomingDTO: CreatePlayerRequestDTO): Promise<CreatePlayerResponseDTO> {
+  async createPlayer(userDTO: UserDTO, incomingDTO: CreatePlayerRequestDTO): Promise<CreatePlayerResponseDTO> {
     // get player dto from incoming request
-    const playerDTO = incomingDTO.player;
-    // get player entity from dto
+    const playerDTO = incomingDTO.$player;
+
+    // get domain entities from dtos
     const player = this.playerMapper.fromDTO(playerDTO);
+    const user = this.userMapper.fromDTO(userDTO);
+
     // call services
-    const result = await this.createPlayerService.createPlayer(player);
+    const newPlayer = await this.createPlayerService.createPlayer(user, player);
+
+    // convert domain entities to dtos
+    const newPlayerDTO = this.playerMapper.toDTO(newPlayer);
+
     // create response dto from results
-    return new CreatePlayerResponseDTO(
-        null,
-        null,
-    );
+    return new CreatePlayerResponseDTO(newPlayerDTO);
   }
 }
