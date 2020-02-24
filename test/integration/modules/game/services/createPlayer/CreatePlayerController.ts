@@ -10,7 +10,7 @@ import {createPlayerController} from '../../../../../../src/modules/game/service
 
 /**
  * Summary of tests for CreatePlayerController:createPlayer
- * 1.
+ * 1. Should create a new player with a city, resources, and an army
  */
 
 describe('CreatePlayerController:createPlayer', function() {
@@ -25,8 +25,8 @@ describe('CreatePlayerController:createPlayer', function() {
     return connection.query('ROLLBACK');
   });
 
-  // 1.
-  it('', async function() {
+  // 1. Should create a new player with a city, resources, and an army
+  it('Should create a new player with a city, resources, and an army', async function() {
     assert.fail('no tests');
   });
 });

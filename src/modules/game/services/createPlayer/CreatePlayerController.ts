@@ -50,10 +50,23 @@ export class CreatePlayerController {
 
     // coordinate servicesto create a new player in the world
     // 1. create player
+    const newPlayer = await this.createPlayerService.createPlayer(
+        user,
+        player,
+    );
     // 2. create city for player
+    const city = await createCityService.creatCityForNewPlayer(
+        newPlayer,
+    );
     // 3. give starting resources to player
+    const resources = await createResourcesService.createResourcesForNewPlayer(
+        newPlayer,
+    );
     // 4. give starting army to player
-    const newPlayer = await this.createPlayerService.createPlayer(user, player);
+    const army = await createArmyService.createArmyForNewPlayer(
+        newPlayer,
+        city,
+    );
 
     // convert domain entities to dtos
     const newPlayerDTO = this.playerMapper.toDTO(newPlayer);

@@ -16,9 +16,11 @@ import {userEndpoints} from '../../../../../src/modules/user/endpoints';
 import {playerEndpoints} from '../../../../../src/modules/game/endpoints';
 
 /**
- * These are the integration tests for the UserEndpoints registerUser endpoint
+ * Summary of tests for CreatePlayerController:createPlayer
+ * 1. Should get a DTO with a new player & their city, resources, and army
  */
-describe('PlayerEndpoints createPlayer', function() {
+
+describe('PlayerEndpoints:createPlayer', function() {
   const assert = chai.assert;
 
   /**
@@ -34,12 +36,9 @@ describe('PlayerEndpoints createPlayer', function() {
     return connection.query('ROLLBACK');
   });
 
-  /**
-   * Test all expected successful cases for registering a user.
-   */
-
-  it('should get a CreatePlayerResponseDTO', async function() {
-    assert.fail('no real testing');
+  // 1. Should get a DTO with a new player & their city, resources, and army
+  it('Should get a DTO with a new player & their city, resources, and army', async function() {
+    assert.fail('not finished');
 
     // register a new user
     // const creds = new UserCredentialsDTO(
