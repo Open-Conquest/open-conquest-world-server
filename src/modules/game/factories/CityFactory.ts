@@ -2,7 +2,7 @@
 import {City} from '../domain/City';
 import {EntityID} from '../../../shared/domain/EntityId';
 import {CityName} from '../domain/CityName';
-import { CityLevel } from '../domain/CityLevel';
+import {CityLevel} from '../domain/CityLevel';
 
 /**
  * This class is meant to handle the construction of `City` entities. This

@@ -1,9 +1,9 @@
 /* eslint-disable require-jsdoc */
 import {ICityRepository} from '../ICityRepository';
-import { City } from '../../domain/City';
-import { Player } from '../../domain/Player';
-import { CityMapper } from '../../mappers/CityMapper';
-import { log } from '../../../../shared/utils/log';
+import {City} from '../../domain/City';
+import {Player} from '../../domain/Player';
+import {CityMapper} from '../../mappers/CityMapper';
+import {log} from '../../../../shared/utils/log';
 
 /**
  * Repository implementation for city entities.

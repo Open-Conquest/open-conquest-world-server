@@ -1,8 +1,8 @@
 /* eslint-disable require-jsdoc */
-import { Entity } from "../../../shared/domain/Entity";
-import { EntityID } from "../../../shared/domain/EntityId";
-import { CityName } from "./CityName";
-import { CityLevel } from "./CityLevel";
+import {Entity} from '../../../shared/domain/Entity';
+import {EntityID} from '../../../shared/domain/EntityId';
+import {CityName} from './CityName';
+import {CityLevel} from './CityLevel';
 
 /**
  * Domain entity representation of a city.
