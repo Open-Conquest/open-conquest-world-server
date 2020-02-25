@@ -1,0 +1,57 @@
+/* eslint-disable require-jsdoc */
+import {ICityRepository} from '../ICityRepository';
+import { City } from '../../domain/City';
+import { Player } from '../../domain/Player';
+import {CityMapper} from '../../mappers/CityMappper';
+
+/**
+ * Repository implementation for city entities.
+ *
+ * @export
+ * @class CityRepository
+ * @implements {ICityRepository}
+ */
+export class CityRepository implements ICityRepository {
+  private models: any;
+  private cityMapper: CityMapper;
+
+  /**
+   * Creates an instance of CityRepository.
+   *
+   * @param {*} models
+   * @memberof CityRepository
+   */
+  constructor(models: any) {
+    this.models = models;
+    this.cityMapper = new CityMapper();
+  }
+
+  createCity(player: Player, city: City): Promise<City> {
+    try {
+      const dbCity = await this.models.player.create({
+        name: city.$name.$value,
+        level: city.$level.$value,
+        player_id: player.$id.$value,
+      });
+      // map from db to domain and return
+      return this.cityMapper.fromPersistence(dbCity);
+    } catch (err) {
+      // check to see what type of error was returned
+      if (err.name === 'SequelizeUniqueConstraintError') {
+        throw new Error('Duplicate playername error');
+      } else if (err.name === 'SequelizeForeignKeyConstraintError') {
+        throw new Error('User does not exist');
+      } else {
+        throw new Error('Unexpected error');
+      }
+    }
+  }
+
+  getCity(city: any): Promise<any> {
+    throw new Error("Method not implemented.");
+  }
+
+  getAllCities(city: any): Promise<any[]> {
+    throw new Error("Method not implemented.");
+  }
+}

@@ -2,6 +2,7 @@
 import {Entity} from '../../../shared/domain/Entity';
 import {EntityID} from '../../../shared/domain/EntityId';
 import {Playername} from './Playername';
+import {City} from './City';
 
 /**
  * Domain entity representation of a Player.
@@ -11,6 +12,7 @@ import {Playername} from './Playername';
  */
 export class Player extends Entity {
   private name: Playername;
+  private city: City;
 
   constructor(id: EntityID, name: Playername) {
     super(id);

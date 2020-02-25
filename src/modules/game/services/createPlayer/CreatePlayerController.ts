@@ -54,7 +54,7 @@ export class CreatePlayerController {
         user,
         player,
     );
-    // 2. create city for player
+    // 2. create new city for player
     const city = await createCityService.creatCityForNewPlayer(
         newPlayer,
     );

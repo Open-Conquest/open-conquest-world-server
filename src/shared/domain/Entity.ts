@@ -17,4 +17,12 @@ export class Entity {
   getId(): EntityID {
     return this.id;
   }
+
+  public get $id(): EntityID {
+    return this.id;
+  }
+
+  public set $id(value: EntityID) {
+    this.id = value;
+  }
 }

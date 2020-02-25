@@ -1,0 +1,14 @@
+{
+  "title": "City",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "level": {
+      "type": "number"
+    }
+  },
+  "required": ["name", "level"],
+  "additionalProperties": false
+}
