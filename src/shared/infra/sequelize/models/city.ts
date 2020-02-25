@@ -7,17 +7,14 @@ export default (sequelize, DataTypes) => {
       unique: true,
       autoIncrement: true,
     },
-    user_id: {
-      type: DataTypes.INTEGER(11),
-      allowNull: false,
-    },
-    tile_id: {
+    player_id: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
     },
     city_name: {
       type: DataTypes.STRING(45),
       allowNull: false,
+      unique: true,
     },
     city_level: {
       type: DataTypes.INTEGER(11),
@@ -29,11 +26,8 @@ export default (sequelize, DataTypes) => {
   });
 
   city.associate = (models) => {
-    models.city.belongsTo(models.user, {
-      foreignKey: 'user_id',
-    });
-    models.city.belongsTo(models.tile, {
-      foreignKey: 'tile_id',
+    models.city.belongsTo(models.player, {
+      foreignKey: 'player_id',
     });
   };
 
