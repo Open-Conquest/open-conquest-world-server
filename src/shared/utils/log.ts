@@ -18,9 +18,10 @@ const logger = createLogger({
       myFormat,
   ),
   transports: [
-    new transports.Console({
+    new transports.File({ 
+      filename: './logs/logs.log',
       json: true
-    })
+    }),
   ],
 });
 
