@@ -13,8 +13,9 @@ export class CityLevel {
   public set $value(value: number) {
     if (this.isValidLevel(value)) {
       this.value = value;
+    } else {
+      throw new Error('Invalid city level');
     }
-    throw new Error('Invalid city level');
   }
 
   private isValidLevel(value: number): boolean {

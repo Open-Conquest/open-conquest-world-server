@@ -45,10 +45,11 @@ describe('CityRepository:createCity', function() {
     );
 
     // create city in database
-    const savedCity = await cityRepository.createCity(city);
+    const savedCity = await cityRepository.createCity(player, city);
 
     // assert saved city equals expected city
-    assert(city.$name === savedCity.$name, 'Unexpected name');
-    assert(city.$level === savedCity.$level, 'Unexpected level');
+    log.info('saved city', savedCity);
+    assert(city.$name.$value === savedCity.$name.$value, 'Unexpected name');
+    assert(city.$level.$value === savedCity.$level.$value, 'Unexpected level');
   });
 });
