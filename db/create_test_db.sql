@@ -14,8 +14,8 @@ CREATE TABLE `user` (
 
 CREATE TABLE `player` (
   `player_id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
   `name` varchar(45) NOT NULL,
+  `user_id` int(11) NOT NULL,
   PRIMARY KEY (`player_id`),
   UNIQUE KEY `player_id_UNIQUE` (`player_id`),
   KEY `player_user_idx` (`user_id`),
@@ -91,19 +91,32 @@ CREATE TABLE `march` (
   CONSTRAINT `march_start_tile` FOREIGN KEY (`start_tile_id`) REFERENCES `tile` (`tile_id`)
 );
 
+-- Old city table definition
+-- CREATE TABLE `city` (
+--   `user_id` int(11) NOT NULL,
+--   `tile_id` int(11) NOT NULL,
+--   `city_name` varchar(45) NOT NULL,
+--   `city_level` int(11) NOT NULL,
+--   `city_id` int(11) NOT NULL AUTO_INCREMENT,
+--   PRIMARY KEY (`city_id`),
+--   UNIQUE KEY `city_id_UNIQUE` (`city_id`),
+--   KEY `city_tile_idx` (`tile_id`),
+--   KEY `city_user` (`user_id`),
+--   CONSTRAINT `city_tile` FOREIGN KEY (`tile_id`) REFERENCES `tile` (`tile_id`),
+--   CONSTRAINT `city_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
+-- );
 CREATE TABLE `city` (
-  `user_id` int(11) NOT NULL,
-  `tile_id` int(11) NOT NULL,
+  `city_id` int(11) NOT NULL AUTO_INCREMENT,
+  `player_id` int(11) NOT NULL,
   `city_name` varchar(45) NOT NULL,
   `city_level` int(11) NOT NULL,
-  `city_id` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`city_id`),
   UNIQUE KEY `city_id_UNIQUE` (`city_id`),
-  KEY `city_tile_idx` (`tile_id`),
-  KEY `city_user` (`user_id`),
-  CONSTRAINT `city_tile` FOREIGN KEY (`tile_id`) REFERENCES `tile` (`tile_id`),
-  CONSTRAINT `city_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
+  UNIQUE KEY `city_name_UNIQUE` (`city_name`),
+  KEY `city_player_idx` (`player_id`),
+  CONSTRAINT `city_player` FOREIGN KEY (`player_id`) REFERENCES `player` (`player_id`)
 );
+
 
 
 INSERT INTO user (username) VALUES ("test_user_1");
@@ -161,9 +174,10 @@ SELECT tile_id FROM tile WHERE tile_row = 5 AND tile_col = 5 INTO @city_3_tile_i
 SELECT tile_id FROM tile WHERE tile_row = 5 AND tile_col = 8 INTO @city_4_tile_id;
 SELECT tile_id FROM tile WHERE tile_row = 7 AND tile_col = 7 INTO @city_5_tile_id;
 
-INSERT INTO city (user_id, tile_id, city_name, city_level) VALUES (1, @city_1_tile_id, "test_city_1", 1);
-INSERT INTO city (user_id, tile_id, city_name, city_level) VALUES (2, @city_2_tile_id, "test_city_2", 2);
-UPDATE tile SET tile_type = 1 WHERE (tile_id = @city_1_tile_id) OR (tile_id = @city_2_tile_id);
+-- Old city insert scripts
+-- INSERT INTO city (user_id, tile_id, city_name, city_level) VALUES (1, @city_1_tile_id, "test_city_1", 1);
+-- INSERT INTO city (user_id, tile_id, city_name, city_level) VALUES (2, @city_2_tile_id, "test_city_2", 2);
+-- UPDATE tile SET tile_type = 1 WHERE (tile_id = @city_1_tile_id) OR (tile_id = @city_2_tile_id);
 
 # Insert unit types
 SET @wizard_unit_id = 0;
