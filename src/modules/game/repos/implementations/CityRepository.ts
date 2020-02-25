@@ -49,8 +49,18 @@ export class CityRepository implements ICityRepository {
     }
   }
 
-  getCity(city: any): Promise<any> {
-    throw new Error("Method not implemented.");
+  async getCity(city: City): Promise<City> {
+    try {
+      const dbCity = await this.models.city.findOne({
+        where: {
+          city_name: city.$name.$value,
+        },
+      });
+      return this.cityMapper.fromPersistence(dbCity);
+    } catch (err) {
+      // check if is a known error
+      log.error('unknown error', err);
+    }
   }
 
   getAllCities(city: any): Promise<any[]> {

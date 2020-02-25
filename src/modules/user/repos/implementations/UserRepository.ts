@@ -63,7 +63,7 @@ export class UserRepository implements IUserRepository {
     try {
       // try to find user in database with username
       const dbUser = await this.models.user.findOne({
-        where: {username: username.getString()},
+        where: {username: username.$value},
       });
 
       if (dbUser === null) {

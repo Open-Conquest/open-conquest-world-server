@@ -2,6 +2,8 @@ import {ICityRepository} from '../../repos/ICityRepository';
 import {City} from '../../domain/City';
 import {User} from '../../../../modules/user/domain/User';
 import {log} from '../../../../shared/utils/log';
+import {CityFactory} from '../../factories/CityFactory';
+import {Player} from '../../domain/Player';
 
 /**
  * Coordinate between domain and persistence layers to create city entities.
@@ -27,12 +29,12 @@ export class CreateCityService {
   /**
    * Create a new city for a user.
    *
-   * @param {User} user
+   * @param {Player} player
    * @param {City} city
    * @return {Promise<Response>}
    * @memberof CityServices
    */
-  async createCity(user: User, city: City): Promise<City> {
+  async createCity(player: Player, city: City): Promise<City> {
     // see if a city with the name exists
     const existingCity = await this.cityRepository.getCity(city);
     if (existingCity !== null) {
@@ -41,6 +43,6 @@ export class CreateCityService {
     }
 
     // if the name isn't taken save city to database & return new city
-    return await this.cityRepository.createCity(user, city);
+    return await this.cityRepository.createCity(player, city);
   }
 }

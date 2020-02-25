@@ -22,6 +22,10 @@ export class CityMapper {
    * @memberof CityMapper
    */
   fromPersistence(dbCity: any): City {
+    if (dbCity === null) {
+      return null;
+    }
+
     return this.cityFactory.createCity(
         dbCity.city_id,
         dbCity.city_name,
