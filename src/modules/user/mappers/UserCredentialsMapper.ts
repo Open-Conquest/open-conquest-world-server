@@ -1,6 +1,6 @@
 import { UserCredentials } from "../domain/UserCredentials";
 import { UserCredentialsDTO } from "../dtos/UserCredentialsDTO";
-import { Username } from "../domain/UserName";
+import { Username } from "../domain/Username";
 import { Password } from "../domain/Password";
 
 /**

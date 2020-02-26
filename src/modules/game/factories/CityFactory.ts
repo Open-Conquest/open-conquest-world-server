@@ -1,6 +1,6 @@
 /* eslint-disable require-jsdoc */
 import {City} from '../domain/City';
-import {EntityID} from '../../../shared/domain/EntityId';
+import {EntityID} from '../../../shared/domain/EntityID';
 import {CityName} from '../domain/CityName';
 import {CityLevel} from '../domain/CityLevel';
 
