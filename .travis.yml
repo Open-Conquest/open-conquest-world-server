@@ -7,6 +7,7 @@ before_install:
   - mysql -u root --password="" < db/create_test_db.sql
 install:
   - npm install
+  - npm install -g mocha
   - npm run make
 script:
   - npm run i-tests-travis
