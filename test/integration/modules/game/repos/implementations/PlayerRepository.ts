@@ -96,7 +96,10 @@ describe('PlayerRepository:createPlayer', function() {
       await playerRepository.createPlayer(user, newPlayer);
       assert.fail('Expected duplicate playername error');
     } catch (err) {
-      assert(err.message === 'Duplicate playername error');
+      assert(
+          err.message === 'Duplicate playername error',
+          'Instead error message was:' + err.message,
+      );
     }
   });
 });

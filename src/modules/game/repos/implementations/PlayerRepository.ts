@@ -36,8 +36,8 @@ export class PlayerRepository implements IPlayerRepository {
     // try to save player to database
     try {
       const dbPlayer = await this.models.player.create({
-        name: newPlayer.getNameString(),
-        user_id: user.getId().getValue(),
+        name: newPlayer.$name.$value,
+        user_id: user.$id.$value,
       });
       // map from db to domain and return
       return this.playerMapper.fromPersistence(dbPlayer);

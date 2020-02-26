@@ -18,6 +18,7 @@ CREATE TABLE `player` (
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`player_id`),
   UNIQUE KEY `player_id_UNIQUE` (`player_id`),
+  UNIQUE KEY `name_UNIQUE` (`name`),
   KEY `player_user_idx` (`user_id`),
   CONSTRAINT `player_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
 );
