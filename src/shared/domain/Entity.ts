@@ -1,5 +1,5 @@
 /* eslint-disable require-jsdoc */
-import {EntityID} from './EntityId';
+import {EntityID} from './EntityID';
 
 /**
  * Base class for all entities.
