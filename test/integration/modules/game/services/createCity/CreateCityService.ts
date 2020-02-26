@@ -13,6 +13,9 @@ import {createCityService} from '../../../../../../src/modules/game/services/cre
 /**
  * Summary of tests for CreateCityService:createCity
  * 1. Should create a city with the expected properties
+ * 2. Should throw an error for a duplicate city name.
+ * 3. Should throw an error for a nonexistent player.
+ * 4. Should throw an error for a city with incomplete information.
  */
 
 describe('CreateCityService:createCity', function() {
