@@ -1,0 +1,14 @@
+{
+  "title": "RegisterUserResponse",
+  "type": "object",
+  "properties": {
+    "username": {
+      "type": "string"
+    },
+    "token": {
+      "$ref": "JWT.json"
+    }
+  },
+  "required": ["username", "token"],
+  "additionalProperties": false
+}

@@ -1,0 +1,11 @@
+{
+  "title": "CreatePlayerRequest",
+  "type": "object",
+  "properties": {
+    "player": {
+      "$ref": "Player.json"
+    }
+  },
+  "required": ["player"],
+  "additionalProperties": false
+}

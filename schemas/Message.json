@@ -1,0 +1,23 @@
+{
+  "title": "Message",
+  "type": "object",
+  "properties": {
+    "service": {
+      "type": "string"
+    },
+    "operation": {
+      "type": "string"
+    },
+    "data": {
+      "type": "object"
+    },
+    "user": {
+      "$ref": "User.json"
+    },
+    "token": {
+      "$ref": "JWT.json"
+    }
+  },
+  "required": ["service", "operation", "data"],
+  "additionalProperties": false
+}

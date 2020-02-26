@@ -1,0 +1,11 @@
+{
+  "title": "LoginUserRequest",
+  "type": "object",
+  "properties": {
+    "credentials": {
+      "$ref": "UserCredentials.json"
+    }
+  },
+  "required": ["credentials"],
+  "additionalProperties": false
+}
