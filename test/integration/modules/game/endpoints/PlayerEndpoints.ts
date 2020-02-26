@@ -36,27 +36,27 @@ describe('PlayerEndpoints:createPlayer', function() {
     return connection.query('ROLLBACK');
   });
 
-  // 1. Should get a DTO with a new player & their city, resources, and army
-  it('Should get a DTO with a new player & their city, resources, and army', async function() {
-    assert.fail('not finished');
+  // // 1. Should get a DTO with a new player & their city, resources, and army
+  // it('Should get a DTO with a new player & their city, resources, and army', async function() {
+  //   assert.fail('not finished');
 
-    // register a new user
-    // const creds = new UserCredentialsDTO(
-    //     'test_username',
-    //     'test_password',
-    // );
-    // const data = new RegisterUserRequestDTO(
-    //     creds,
-    // );
-    // const registerMessage = new MessageDTO(null, null, null, null, null);
-    // registerMessage.$service = ServiceNames.User;
-    // registerMessage.$operation = ServiceOperations.RegisterUser;
-    // registerMessage.$data = data;
+  //   // register a new user
+  //   // const creds = new UserCredentialsDTO(
+  //   //     'test_username',
+  //   //     'test_password',
+  //   // );
+  //   // const data = new RegisterUserRequestDTO(
+  //   //     creds,
+  //   // );
+  //   // const registerMessage = new MessageDTO(null, null, null, null, null);
+  //   // registerMessage.$service = ServiceNames.User;
+  //   // registerMessage.$operation = ServiceOperations.RegisterUser;
+  //   // registerMessage.$data = data;
 
-    // const registerResponse = await userEndpoints.registerUser(registerMessage);
-    // // create register response dto from generic message dto
-    // const registerResponseDTO = RegisterUserResponseDTO.fromJSON(registerResponse.$data);
+  //   // const registerResponse = await userEndpoints.registerUser(registerMessage);
+  //   // // create register response dto from generic message dto
+  //   // const registerResponseDTO = RegisterUserResponseDTO.fromJSON(registerResponse.$data);
 
-    // // create player for new user
-  });
+  //   // // create player for new user
+  // });
 });

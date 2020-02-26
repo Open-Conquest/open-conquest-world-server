@@ -24,9 +24,4 @@ describe('CreatePlayerController:createPlayer', function() {
   afterEach(() => {
     return connection.query('ROLLBACK');
   });
-
-  // 1. Should create a new player with a city, resources, and an army
-  it('Should create a new player with a city, resources, and an army', async function() {
-    assert.fail('no tests');
-  });
 });
