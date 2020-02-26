@@ -5,9 +5,7 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
-export interface CreatePlayerRequest {
-  player: Player;
-}
-export interface Player {
+export interface City {
   name: string;
+  level: number;
 }

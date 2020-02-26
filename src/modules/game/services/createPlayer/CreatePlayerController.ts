@@ -55,18 +55,18 @@ export class CreatePlayerController {
         player,
     );
     // 2. create new city for player
-    const city = await createCityService.creatCityForNewPlayer(
-        newPlayer,
-    );
+    // const city = await createCityService.creatCityForNewPlayer(
+    //     newPlayer,
+    // );
     // 3. give starting resources to player
-    const resources = await createResourcesService.createResourcesForNewPlayer(
-        newPlayer,
-    );
+    // const resources = await createResourcesService.createResourcesForNewPlayer(
+    //     newPlayer,
+    // );
     // 4. give starting army to player
-    const army = await createArmyService.createArmyForNewPlayer(
-        newPlayer,
-        city,
-    );
+    // const army = await createArmyService.createArmyForNewPlayer(
+    //     newPlayer,
+    //     city,
+    // );
 
     // convert domain entities to dtos
     const newPlayerDTO = this.playerMapper.toDTO(newPlayer);

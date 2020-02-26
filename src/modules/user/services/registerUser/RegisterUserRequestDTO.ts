@@ -12,7 +12,7 @@ import {UserCredentialsDTO} from '../../dtos/UserCredentialsDTO';
  * @class RegisterUserDTO
  */
 export class RegisterUserRequestDTO implements RegisterUserRequest {
-  private credentials: UserCredentialsDTO;
+  credentials: UserCredentialsDTO;
 
   /**
    * Creates an instance of RegisterUserRequestDTO.

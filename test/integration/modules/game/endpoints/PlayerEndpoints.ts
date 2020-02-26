@@ -48,7 +48,7 @@ describe('PlayerEndpoints:createPlayer', function() {
     // const data = new RegisterUserRequestDTO(
     //     creds,
     // );
-    // const registerMessage = new MessageDTO();
+    // const registerMessage = new MessageDTO(null, null, null, null, null);
     // registerMessage.$service = ServiceNames.User;
     // registerMessage.$operation = ServiceOperations.RegisterUser;
     // registerMessage.$data = data;

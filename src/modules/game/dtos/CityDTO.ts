@@ -8,8 +8,8 @@ import {City} from '../../../shared/schemas/City';
  * @implements {City}
  */
 export class CityDTO implements City {
-  private name: string;
-  private level: number;
+  name: string;
+  level: number;
 
   constructor(name: string) {
     this.name = name;

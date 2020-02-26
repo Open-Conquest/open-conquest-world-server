@@ -54,7 +54,7 @@ export class UserEndpoints extends BaseEndpoints {
     );
 
     // create response from DTO
-    const response = new MessageDTO();
+    const response = new MessageDTO(null, null, null, null, null);
     response.$service = ServiceNames.User;
     response.$operation = ServiceOperations.LoginUser;
     response.$data = responseDTO.toJSON();
@@ -80,7 +80,7 @@ export class UserEndpoints extends BaseEndpoints {
     );
 
     // create response from DTO
-    const response = new MessageDTO();
+    const response = new MessageDTO(null, null, null, null, null);
     response.$service = ServiceNames.User;
     response.$operation = ServiceOperations.RegisterUser;
     response.$data = responseDTO.toJSON();

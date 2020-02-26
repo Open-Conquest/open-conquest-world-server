@@ -87,7 +87,7 @@ export class MessageDTO implements IDTO {
   }
 
   static fromJSON(json: any): MessageDTO {
-    const message = new MessageDTO();
+    const message = new MessageDTO(null, null, null, null, null);
     message.$service = json['service'];
     message.$operation = json['operation'];
     message.$token = json['token'];

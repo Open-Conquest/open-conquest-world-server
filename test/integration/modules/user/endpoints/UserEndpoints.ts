@@ -49,7 +49,7 @@ describe('UserEndpoints registerUser', function() {
     const data = new RegisterUserRequestDTO(
         creds,
     );
-    const registerMessage = new MessageDTO();
+    const registerMessage = new MessageDTO(null, null, null, null, null);
     registerMessage.$service = ServiceNames.User;
     registerMessage.$operation = ServiceOperations.RegisterUser;
     registerMessage.$data = data;
@@ -107,12 +107,12 @@ describe('UserEndpoints loginUser', function() {
     const loginData = new LoginUserRequestDTO(
         creds,
     );
-    const registerMessage = new MessageDTO();
+    const registerMessage = new MessageDTO(null, null, null, null, null);
     registerMessage.$service = ServiceNames.User;
     registerMessage.$operation = ServiceOperations.RegisterUser;
     registerMessage.$data = registerData.toJSON();
 
-    const loginMessage = new MessageDTO();
+    const loginMessage = new MessageDTO(null, null, null, null, null);
     loginMessage.$service = ServiceNames.User;
     loginMessage.$operation = ServiceOperations.LoginUser,
     loginMessage.$data = loginData.toJSON();
@@ -144,7 +144,7 @@ describe('UserEndpoints loginUser', function() {
     const loginData = new LoginUserRequestDTO(
         creds,
     );
-    const loginMessage = new MessageDTO();
+    const loginMessage = new MessageDTO(null, null, null, null, null);
     loginMessage.$service = ServiceNames.User;
     loginMessage.$operation = ServiceOperations.LoginUser;
     loginMessage.$data = loginData.toJSON();
