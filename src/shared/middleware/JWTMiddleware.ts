@@ -81,8 +81,8 @@ export class JWTMiddleware {
 
       // create userDTO from validated claims
       const userDTO = new UserDTO();
-      userDTO.$username = user.getUsername().getString();
-      userDTO.$userID = user.getId().getValue();
+      userDTO.$username = user.$username.$value;
+      userDTO.$userID = user.$id.$value;
 
       // set acting user property in message
       message.$user = userDTO;
@@ -112,8 +112,8 @@ export class JWTMiddleware {
     // generate jwt for newly registered user
     const token = jwt.sign(
         {
-          username: user.getUsernameString(),
-          user_id: user.getId().getValue(),
+          username: user.$username.$value,
+          user_id: user.$id.$value,
         },
         config.secret,
         {expiresIn: '1h'},

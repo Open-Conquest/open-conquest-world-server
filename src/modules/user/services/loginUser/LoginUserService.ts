@@ -50,8 +50,12 @@ export class LoginUserService {
       // return jwt if user has valid credentials
       if (bcrypt.compareSync(credentials.getPasswordString(), hashedPassword)) {
         // create a user domain entity
-        const loggedInUser = this.userFactory.createUserWithUsername(
-            credentials.getUsernameString(),
+        const loggedInUser = this.userFactory.createUser(
+            user.$id.$value,
+            user.$username.$value,
+            null,
+            null,
+            null,
         );
         // create a jwt for this user and return
         return jwtMiddleware.createJWT(loggedInUser);
@@ -59,7 +63,13 @@ export class LoginUserService {
         throw new Error('Invalid credentials');
       }
     } catch (err) {
-      throw new Error('Invalid login');
+      if (err.message === 'Invalid credentials') {
+        throw new Error('Invalid login');
+      } else if (err.message === 'No user found') {
+        throw new Error('Invalid login');
+      } else {
+        throw new Error('Unexpected error');
+      }
     }
   }
 }

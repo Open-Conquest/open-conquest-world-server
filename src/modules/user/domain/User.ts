@@ -49,4 +49,37 @@ export class User extends Entity {
   getHashedPasswordString(): string {
     return this.hashedPassword.getString();
   }
+
+	public get $username(): Username {
+		return this.username;
+	}
+
+	public get $password(): Password {
+		return this.password;
+  }
+
+	public get $token(): JWT {
+		return this.token;
+	}
+
+	public get $hashedPassword(): HashedPassword {
+		return this.hashedPassword;
+	}
+
+	public set $username(value: Username) {
+		this.username = value;
+	}
+
+	public set $password(value: Password) {
+		this.password = value;
+	}
+
+	public set $token(value: JWT) {
+		this.token = value;
+	}
+
+	public set $hashedPassword(value: HashedPassword) {
+		this.hashedPassword = value;
+	}
+
 }

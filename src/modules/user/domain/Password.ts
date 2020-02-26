@@ -25,4 +25,12 @@ export class Password {
   getString(): string {
     return this.password;
   }
+
+  public get $password(): string {
+    return this.password;
+  }
+
+  public set $password(value: string) {
+    this.password = value;
+  }
 }
