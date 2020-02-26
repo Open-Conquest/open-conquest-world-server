@@ -30,5 +30,4 @@ export class Player extends Entity {
   public set $name(value: Playername) {
     this.name = value;
   }
-
 }

@@ -25,6 +25,7 @@ CREATE TABLE `player` (
 
 CREATE TABLE `map` (
   `map_id` int(11) NOT NULL AUTO_INCREMENT,
+  `map_name` varchar(45) NOT NULL,
   PRIMARY KEY (`map_id`)
 );
 
@@ -126,7 +127,7 @@ INSERT INTO user (username) VALUES ("test_user_3");
 INSERT INTO user (username) VALUES ("test_user_4");
 INSERT INTO user (username) VALUES ("test_user_5");
 
-INSERT INTO map () VALUES ();
+INSERT INTO map (`map_name`) VALUES ('America');
 
 SET @tile_type = 0;
 DROP PROCEDURE IF EXISTS CreateTiles;

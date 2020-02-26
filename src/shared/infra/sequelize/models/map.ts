@@ -7,6 +7,10 @@ export default (sequelize, DataTypes) => {
       unique: true,
       autoIncrement: true,
     },
+    map_name: {
+      type: DataTypes.STRING(45),
+      allowNull: false,
+    },
   }, {
     timestamps: false,
     freezeTableName: true,
