@@ -43,6 +43,20 @@ export class CreateCityService {
     }
 
     // if the name isn't taken save city to database & return new city
-    return await this.cityRepository.createCity(player, city);
+    try {
+      return await this.cityRepository.createCity(player, city);
+    } catch (err) {
+      // check err message
+      if (err.message === 'Duplicate city name error') {
+        // do this thing
+        throw err;
+      } else if (err.message === 'Player does not exist') {
+        // do this other thing
+        throw err;
+      } else {
+        // unknown error
+        throw new Error('Unexpected error');
+      }
+    }
   }
 }
