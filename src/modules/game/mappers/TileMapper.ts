@@ -15,7 +15,7 @@ export class TileMapper {
   }
 
   /**
-   * Create a domain entity `Tile` from a sequelize object.
+   * Create a domain entity from a sequelize object.
    *
    * @param {*} dbTile
    * @return {Tile}

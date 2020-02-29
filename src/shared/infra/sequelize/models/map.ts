@@ -11,6 +11,14 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.STRING(45),
       allowNull: false,
     },
+    max_rows: {
+      type: DataTypes.INTEGER(11),
+      allowNull: false,
+    },
+    max_cols: {
+      type: DataTypes.INTEGER(11),
+      allowNull: false,
+    },
   }, {
     timestamps: false,
     freezeTableName: true,

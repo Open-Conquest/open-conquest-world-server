@@ -32,6 +32,8 @@ export class MapRepository implements IMapRepository {
       const dbMap = await this.models.map.create({
         map_id: map.$id.$value,
         map_name: map.$name.$value,
+        max_rows: map.$maxRows,
+        max_cols: map.$maxCols,
       });
       // map from db to domain and return
       return this.mapMapper.fromPersistence(dbMap);

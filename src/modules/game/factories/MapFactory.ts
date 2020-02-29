@@ -17,11 +17,13 @@ export class MapFactory {
    */
   constructor() {}
 
-  createMap(id: number, name: string): Map {
+  createMap(id: number, name: string, maxRows: number, maxCols: number): Map {
     return new Map(
         new EntityID(id),
         new Mapname(name),
         null,
+        maxRows,
+        maxCols,
     );
   }
 }

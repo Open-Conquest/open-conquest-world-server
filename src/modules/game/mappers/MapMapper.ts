@@ -29,6 +29,8 @@ export class MapMapper {
     return this.mapFactory.createMap(
         dbMap.map_id,
         dbMap.map_name,
+        dbMap.max_rows,
+        dbMap.max_cols,
     );
   }
 }

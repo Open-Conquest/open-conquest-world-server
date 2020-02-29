@@ -14,11 +14,15 @@ import {Mapname} from './Mapname';
 export class Map extends Entity {
   private tiles: Array<Array<Tile>>;
   private name: Mapname;
+  private maxRows: number;
+  private maxCols: number;
 
-  constructor($id: EntityID, $name: Mapname, $tiles: Array<Array<Tile>>) {
+  constructor($id: EntityID, $name: Mapname, $tiles: Array<Array<Tile>>, $maxRows: number, $maxCols: number) {
     super($id);
     this.name = $name;
     this.tiles = $tiles;
+    this.maxRows = $maxRows;
+    this.maxCols = $maxCols;
   }
 
   public get $tiles(): Array<Array<Tile>> {
@@ -35,5 +39,21 @@ export class Map extends Entity {
 
   public set $name(value: Mapname) {
     this.name = value;
+  }
+
+  public get $maxRows(): number {
+    return this.maxRows;
+  }
+
+  public get $maxCols(): number {
+    return this.maxCols;
+  }
+
+  public set $maxRows(value: number) {
+    this.maxRows = value;
+  }
+
+  public set $maxCols(value: number) {
+    this.maxCols = value;
   }
 }
