@@ -15,8 +15,8 @@ export async function createTestMap(): Promise<Map> {
   const map = mapFactory.createMap(
       null,
       'World #1',
-      10,
-      10,
+      20,
+      20,
   );
   return await mapRepository.createMap(map);
 }
