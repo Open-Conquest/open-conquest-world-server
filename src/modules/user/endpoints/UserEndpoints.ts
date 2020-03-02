@@ -8,7 +8,9 @@ import {RegisterUserController} from '../services/registerUser/RegisterUserContr
 import {LoginUserRequestDTO} from '../services/loginUser/LoginUserRequestDTO';
 import {LoginUserResponseDTO} from '../services/loginUser/LoginUserResponseDTO';
 import {LoginUserController} from '../services/loginUser/LoginUserController';
+import {LoginUserErrors} from '../services/loginUser/LoginUserErrors';
 import {log} from '../../../shared/utils/log';
+import { LoginUserResponseErrorDTO } from '../services/loginUser/LoginUserReponseErrorDTO';
 
 /**
  * UserEndpoints implements all of the endpoints for requests encapsulated
@@ -44,22 +46,50 @@ export class UserEndpoints extends BaseEndpoints {
    * @memberof UserEndpoints
    */
   async loginUser(incomingMessage: MessageDTO): Promise<MessageDTO> {
-    // create DTO from incoming message's json data
-    const requestDTO = LoginUserRequestDTO.fromJSON(
-        incomingMessage.$data,
-    );
+    try {
+      // create DTO from incoming message's json data
+      const requestDTO = LoginUserRequestDTO.fromJSON(
+          incomingMessage.$data,
+      );
 
-    // call registerUser service and get response DTO
-    const responseDTO = await this.loginUserController.loginUser(
-        requestDTO,
-    );
+      // call registerUser service and get response DTO
+      const responseDTO = await this.loginUserController.loginUser(
+          requestDTO,
+      );
 
-    // create response from DTO
-    const response = new MessageDTO(null, null, null, null, null);
-    response.$service = ServiceNames.User;
-    response.$operation = ServiceOperations.LoginUser;
-    response.$data = responseDTO.toJSON();
-    return response;
+      // create response from DTO
+      const response = new MessageDTO(null, null, null, null, null);
+      response.$service = ServiceNames.User;
+      response.$operation = ServiceOperations.LoginUser;
+      response.$data = responseDTO.toJSON();
+      return response;
+
+    } catch (err) {
+
+      // if an error was return will be returning a LoginUserResponseError
+      const errorDTO = new LoginUserResponseErrorDTO(null);
+      switch (err.message) {
+        case LoginUserErrors.InvalidCredentials: {
+          errorDTO.$message = 'Invalid username / password combination';
+          break;
+        }
+        default: {
+          errorDTO.$message = 'Unkown error';
+          break;
+        }
+      }
+
+      const response = new MessageDTO(
+        ServiceNames.User,
+        ServiceOperations.LoginUserError,
+        null,
+        null,
+        errorDTO.toJSON()
+      );
+      return response;
+    } finally {
+      throw new Error('Unknown error');
+    }
   }
 
   /**
@@ -70,21 +100,42 @@ export class UserEndpoints extends BaseEndpoints {
    * @memberof UserEndpoints
    */
   async registerUser(incomingMessage: MessageDTO): Promise<MessageDTO> {
-    // create DTO from incoming message's json data
-    const requestDTO = RegisterUserRequestDTO.fromJSON(
-        incomingMessage.$data,
-    );
+    try {
+      // create DTO from incoming message's json data
+      const requestDTO = RegisterUserRequestDTO.fromJSON(
+          incomingMessage.$data,
+      );
 
-    // call registerUser service and get response DTO
-    const responseDTO = await this.registerUserController.registerUser(
-        requestDTO,
-    );
+      // call registerUser service and get response DTO
+      const responseDTO = await this.registerUserController.registerUser(
+          requestDTO,
+      );
 
-    // create response from DTO
-    const response = new MessageDTO(null, null, null, null, null);
-    response.$service = ServiceNames.User;
-    response.$operation = ServiceOperations.RegisterUser;
-    response.$data = responseDTO.toJSON();
-    return response;
+      // create response from DTO
+      const response = new MessageDTO(null, null, null, null, null);
+      response.$service = ServiceNames.User;
+      response.$operation = ServiceOperations.RegisterUser;
+      response.$data = responseDTO.toJSON();
+      return response;
+    // } catch (err) {
+
+    //   // if an error was return will be returning a LoginUserResponseError
+    //   const errorDTO = new LoginUserResponseErrorDTO(null);
+    //   switch (err.message) {
+    //     case RegisterUserError.InvalidCredentials: {
+    //       errorDTO.$message = 'Invalid username / password combination';
+    //       break;
+    //     }
+    //     default: {
+    //       errorDTO.$message = 'Unkown error';
+    //       break;
+    //     }
+    //   }
+    //   const response = new MessageDTO(null, null, null, null, null);
+    //   response.$service = ServiceNames.User;
+    //   response.$operation = ServiceOperations.RegisterUserError;
+    //   response.$data = errorDTO.toJSON();
+    //   return response;
+    // }
   }
 }

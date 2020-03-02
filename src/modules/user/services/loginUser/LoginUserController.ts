@@ -2,9 +2,11 @@ import {LoginUserRequestDTO} from './LoginUserRequestDTO';
 import {LoginUserResponseDTO} from './LoginUserResponseDTO';
 import {LoginUserService} from './LoginUserService';
 import {log} from '../../../../shared/utils/log';
-import { UserCredentials } from '../../domain/UserCredentials';
-import { UserCredentialsMapper } from '../../mappers/UserCredentialsMapper';
-import { JWTMapper } from '../../mappers/JWTMapper';
+import {UserCredentials} from '../../domain/UserCredentials';
+import {UserCredentialsMapper} from '../../mappers/UserCredentialsMapper';
+import {JWTMapper} from '../../mappers/JWTMapper';
+import {LoginUserErrors} from './LoginUserErrors';
+import {LoginUserResponseErrorDTO} from './LoginUserReponseErrorDTO';
 
 /**
  *
@@ -40,17 +42,28 @@ export class LoginUserController {
    * @memberof UserServices
    */
   async loginUser(incomingDTO: LoginUserRequestDTO): Promise<LoginUserResponseDTO> {
-    // get domain objects from dtos
-    const credentials = this.userCredentialsMapper.fromDTO(incomingDTO.credentials);
+    try {
+      // get domain objects from dtos
+      const credentials = this.userCredentialsMapper.fromDTO(incomingDTO.credentials);
 
-    // call services with domain objects
-    const jwt = await this.loginUserService.loginUser(credentials);
+      // call services with domain objects
+      const jwt = await this.loginUserService.loginUser(credentials);
 
-    // map domain responses to dtos
-    const jwtDto = this.jwtMapper.toDTO(jwt);
-    return new LoginUserResponseDTO(
-        credentials.getUsernameString(),
-        jwtDto,
-    );
+      // map domain responses to dtos
+      const jwtDto = this.jwtMapper.toDTO(jwt);
+      return new LoginUserResponseDTO(
+          credentials.getUsernameString(),
+          jwtDto,
+      );
+    } catch (err) {
+      switch (err.message) {
+        case LoginUserErrors.InvalidCredentials: {
+          throw err;
+        }
+        default: {
+          throw new Error('Unkown error');
+        }
+      }
+    }
   }
 }
