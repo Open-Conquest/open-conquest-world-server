@@ -1,6 +1,6 @@
 export enum ServiceOperations {
-  CreatePlayer = 'CreatePlayer',
-  RegisterUser = 'RegisterUser',
-  LoginUser = 'LoginUser',
-  GetArmies = 'GetArmies'
+  CreatePlayer = 'createPlayer',
+  RegisterUser = 'registerUser',
+  LoginUser = 'loginUser',
+  GetArmies = 'getArmies'
 }
