@@ -30,6 +30,7 @@ export class UserEndpoints extends BaseEndpoints {
   constructor(registerUserController: RegisterUserController, loginUserController: LoginUserController) {
     super();
     this.serviceName = ServiceNames.User;
+    this.handlers[ServiceOperations.LoginUser] = this.loginUser.bind(this);
     this.handlers[ServiceOperations.RegisterUser] = this.registerUser.bind(this);
     this.registerUserController = registerUserController;
     this.loginUserController = loginUserController;
