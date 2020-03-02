@@ -18,10 +18,9 @@ import {worldRouter} from '../../../../../../src/shared/infra/ws/routing/';
 /**
  * Summary of tests for WorldRouter:handle
  * 1. Ensure handle dispatches unauthorized messages to UserEndpoints
- * 2. Ensure handle doesn't dispatch unauthorized messages to other Endpoints
- * 3. Ensure handle does dispatch authorized messages to other Endpoints
+ * 2. Shouldn't unauthorized messages to other Endpoints
+ * 3. Should dispatch authorized messages to other Endpoints
  */
-
 describe('WorldRouter:handle', function() {
   const assert = chai.assert;
 
@@ -34,10 +33,8 @@ describe('WorldRouter:handle', function() {
     return connection.query('ROLLBACK');
   });
 
-  /**
-   * 1. Ensure handle dispatches unauthorized messages to UserEndpoints
-   */
-  it('should dispatch request to the registerUser endpoint', async function() {
+  // 1. Ensure handle dispatches unauthorized messages to UserEndpoints
+  it('should dispatch unauthorized requests to UserEndpoints', async function() {
     // create expected message
     const username = 'test_username';
     const password = 'test_password';
@@ -66,10 +63,8 @@ describe('WorldRouter:handle', function() {
     assert(response.data.token !== null, 'Unexpected token');
   });
 
-  /**
-   * 2. Ensure handle doesn't dispatch unauthorized messages to other Endpoints
-   */
-  it('shouldn\'t dispatch an unauthorized request to PlayerEndpoints', async function() {
+  // 2.
+  it('shouldn\'t dispatch unauthorized requests to PlayerEndpoints', async function() {
     // create expected message
     const username = 'test_username';
     const password = 'test_password';
@@ -94,9 +89,7 @@ describe('WorldRouter:handle', function() {
     }
   });
 
-  /**
-   * 3. Ensure handle does dispatch authorized messages to other Endpoints
-   */
+  // 3.
   it('should dispatch an authorized request to PlayerEndpoints', async function() {
     // register a new user
     const username = 'test_username';
