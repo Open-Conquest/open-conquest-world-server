@@ -16,7 +16,6 @@ import {log} from '../../../../shared/utils/log';
 export class TileRepository implements ITileRepository {
   private models: any;
   private tileMapper: TileMapper;
-  private mapMapper: MapMapper;
 
   /**
    * Creates an instance of TileRepository.
@@ -27,7 +26,6 @@ export class TileRepository implements ITileRepository {
   constructor(models: any) {
     this.models = models;
     this.tileMapper = new TileMapper();
-    this.mapMapper = new MapMapper();
   }
 
   async createTile(tile: Tile): Promise<Tile> {
@@ -114,7 +112,9 @@ export class TileRepository implements ITileRepository {
       for (let row = 0; row < map.$maxRows; row++) {
         tiles.push([]);
         for (let col = 0; col < map.$maxCols; col++) {
-          const tile = this.tileMapper.fromPersistence(dbTiles[row*map.$maxRows + col]);
+          const tile = this.tileMapper.fromPersistence(
+              dbTiles[row*map.$maxRows + col],
+          );
           tiles[row].push(tile);
         }
       }

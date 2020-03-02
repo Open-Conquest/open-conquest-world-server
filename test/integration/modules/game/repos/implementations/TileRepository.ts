@@ -244,6 +244,7 @@ describe('TileRepository:getTileAt', function() {
 
 /**
  * Summary of tests for TileRepository:getAllTiles
+ * 1. Should get all of the expected tile
  */
 describe('TileRepository:getAllTiles', function() {
   const assert = chai.assert;
@@ -293,4 +294,3 @@ describe('TileRepository:getAllTiles', function() {
     }
   });
 });
-
