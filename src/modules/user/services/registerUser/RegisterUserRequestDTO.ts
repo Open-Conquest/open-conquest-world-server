@@ -35,8 +35,8 @@ export class RegisterUserRequestDTO implements RegisterUserRequest {
   static fromJSON(json: any): RegisterUserRequestDTO {
     return new RegisterUserRequestDTO(
         new UserCredentialsDTO(
-            json.credentials.username,
-            json.credentials.password,
+            json.username,
+            json.password,
         ),
     );
   }
