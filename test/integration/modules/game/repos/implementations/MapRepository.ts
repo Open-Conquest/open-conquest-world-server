@@ -30,6 +30,8 @@ describe('MapRepository:createMap', function() {
     const map = mapFactory.createMap(
         null,
         'Mapname',
+        10,
+        10,
     );
 
     const createdMap = await mapRepository.createMap(map);
