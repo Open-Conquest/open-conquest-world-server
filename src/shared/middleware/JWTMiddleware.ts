@@ -59,7 +59,7 @@ export class JWTMiddleware {
 
   /**
    * Check to see if the token provided in the message is valid. If the token
-   * is valid change the userID in the message to reflect the user included
+   * is valid change the user in the message to reflect the user included
    * in the token's claims.
    *
    * @param {MessageDTO} message
@@ -71,13 +71,13 @@ export class JWTMiddleware {
     try {
       // get token from message
       const token = message.$token;
-      if (token === null) {
+      if (token == null) {
         throw new Error('No token provided');
       }
       const jwt = new JWT(token.$value);
 
       // validate jwt and get user from claims
-      const user = this.validateJwt(jwt);
+      const user: User = this.validateJwt(jwt);
 
       // create userDTO from validated claims
       const userDTO = new UserDTO();
