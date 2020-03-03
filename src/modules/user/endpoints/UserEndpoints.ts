@@ -7,10 +7,12 @@ import {RegisterUserResponseDTO} from '../services/registerUser/RegisterUserResp
 import {RegisterUserController} from '../services/registerUser/RegisterUserController';
 import {LoginUserRequestDTO} from '../services/loginUser/LoginUserRequestDTO';
 import {LoginUserResponseDTO} from '../services/loginUser/LoginUserResponseDTO';
+import {LoginUserResponseErrorDTO} from '../services/loginUser/LoginUserReponseErrorDTO';
+import {RegisterUserErrorResponseDTO} from '../services/registerUser/RegisterUserErrorResponseDTO';
 import {LoginUserController} from '../services/loginUser/LoginUserController';
 import {LoginUserErrors} from '../services/loginUser/LoginUserErrors';
+import {RegisterUserErrors} from '../services/registerUser/RegisterUserErrors';
 import {log} from '../../../shared/utils/log';
-import { LoginUserResponseErrorDTO } from '../services/loginUser/LoginUserReponseErrorDTO';
 
 /**
  * UserEndpoints implements all of the endpoints for requests encapsulated
@@ -63,9 +65,7 @@ export class UserEndpoints extends BaseEndpoints {
       response.$operation = ServiceOperations.LoginUser;
       response.$data = responseDTO.toJSON();
       return response;
-
     } catch (err) {
-
       // if an error was return will be returning a LoginUserResponseError
       const errorDTO = new LoginUserResponseErrorDTO(null);
       switch (err.message) {
@@ -74,21 +74,19 @@ export class UserEndpoints extends BaseEndpoints {
           break;
         }
         default: {
-          errorDTO.$message = 'Unkown error';
+          errorDTO.$message = 'Unkown error, fuck';
           break;
         }
       }
 
       const response = new MessageDTO(
-        ServiceNames.User,
-        ServiceOperations.LoginUserError,
-        null,
-        null,
-        errorDTO.toJSON()
+          ServiceNames.User,
+          ServiceOperations.LoginUserError,
+          null,
+          null,
+          errorDTO.toJSON(),
       );
       return response;
-    } finally {
-      throw new Error('Unknown error');
     }
   }
 
@@ -117,25 +115,32 @@ export class UserEndpoints extends BaseEndpoints {
       response.$operation = ServiceOperations.RegisterUser;
       response.$data = responseDTO.toJSON();
       return response;
-    // } catch (err) {
+    } catch (err) {
+      // if an error was return will be returning a LoginUserResponseError
+      const errorDTO = new RegisterUserErrorResponseDTO(null);
+      switch (err.message) {
+        case RegisterUserErrors.BadUsername: {
+          errorDTO.$message = 'Invalid username, must be between 4-20 characters';
+          break;
+        }
+        case RegisterUserErrors.BadPassword: {
+          errorDTO.$message = 'Invalid password, must be between 8-20 characters';
+          break;
+        }
+        default: {
+          errorDTO.$message = 'Unknown error, fuck';
+          break;
+        }
+      }
 
-    //   // if an error was return will be returning a LoginUserResponseError
-    //   const errorDTO = new LoginUserResponseErrorDTO(null);
-    //   switch (err.message) {
-    //     case RegisterUserError.InvalidCredentials: {
-    //       errorDTO.$message = 'Invalid username / password combination';
-    //       break;
-    //     }
-    //     default: {
-    //       errorDTO.$message = 'Unkown error';
-    //       break;
-    //     }
-    //   }
-    //   const response = new MessageDTO(null, null, null, null, null);
-    //   response.$service = ServiceNames.User;
-    //   response.$operation = ServiceOperations.RegisterUserError;
-    //   response.$data = errorDTO.toJSON();
-    //   return response;
-    // }
+      const response = new MessageDTO(
+          ServiceNames.User,
+          ServiceOperations.RegisterUserError,
+          null,
+          null,
+          errorDTO.toJSON(),
+      );
+      return response;
+    }
   }
 }

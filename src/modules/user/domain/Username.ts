@@ -16,7 +16,7 @@ export class Username {
   }
 
   isValidUsername(username: string): boolean {
-    if (username === null || username.length < 10 || username.length > 20) {
+    if (username === null || username.length < 4 || username.length > 20) {
       return false;
     }
     return true;

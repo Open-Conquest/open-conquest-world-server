@@ -16,7 +16,7 @@ export class Password {
   }
 
   isValidPassword(password: string): boolean {
-    if (password === null || password.length < 10 || password.length > 20) {
+    if (password === null || password.length < 8 || password.length > 20) {
       return false;
     }
     return true;

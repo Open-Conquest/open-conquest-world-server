@@ -2,6 +2,7 @@
 import {IDTO} from '../../../../shared/dtos/IDTO';
 import {RegisterUserRequest} from '../../../../shared/schemas/RegisterUserRequest';
 import {UserCredentialsDTO} from '../../dtos/UserCredentialsDTO';
+import {RegisterUserErrors} from './RegisterUserErrors';
 
 /**
  * This class is meant to represent the data in the registerUser request.
@@ -33,12 +34,16 @@ export class RegisterUserRequestDTO implements RegisterUserRequest {
   }
 
   static fromJSON(json: any): RegisterUserRequestDTO {
-    return new RegisterUserRequestDTO(
-        new UserCredentialsDTO(
-            json.username,
-            json.password,
-        ),
-    );
+    try {
+      return new RegisterUserRequestDTO(
+          new UserCredentialsDTO(
+              json.username,
+              json.password,
+          ),
+      );
+    } catch (err) {
+      throw new Error(RegisterUserErrors.BadUsername);
+    }
   }
 
   static fromJSONString(json: string): RegisterUserRequestDTO {
