@@ -28,6 +28,7 @@ wss.on('request', function(request) {
   // HANDLE CLIENT SEND REQUEST
   connection.on('message', function(request) {
     log.info('Recieved message from connection ' + connection.remoteAddress);
+
     worldRouter.handle(JSON.parse(request.utf8Data))
         .then((res) => {
           const clientAddr = connection.remoteAddress;

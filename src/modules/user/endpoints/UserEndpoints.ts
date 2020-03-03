@@ -60,13 +60,14 @@ export class UserEndpoints extends BaseEndpoints {
       );
 
       // create response from DTO
-      const response = new MessageDTO(null, null, null, null, null);
-      response.$service = ServiceNames.User;
-      response.$operation = ServiceOperations.LoginUser;
-      response.$data = responseDTO.toJSON();
-      return response;
+      return new MessageDTO(
+          ServiceNames.User,
+          ServiceOperations.LoginUser,
+          null,
+          null,
+          responseDTO.toJSON(),
+      );
     } catch (err) {
-      // if an error was return will be returning a LoginUserResponseError
       const errorDTO = new LoginUserResponseErrorDTO(null);
       switch (err.message) {
         case LoginUserErrors.InvalidCredentials: {
@@ -74,19 +75,19 @@ export class UserEndpoints extends BaseEndpoints {
           break;
         }
         default: {
+          log.error('Unknown error', err.stack);
           errorDTO.$message = 'Unkown error, fuck';
           break;
         }
       }
 
-      const response = new MessageDTO(
+      return new MessageDTO(
           ServiceNames.User,
           ServiceOperations.LoginUserError,
           null,
           null,
           errorDTO.toJSON(),
       );
-      return response;
     }
   }
 
@@ -109,14 +110,15 @@ export class UserEndpoints extends BaseEndpoints {
           requestDTO,
       );
 
-      // create response from DTO
-      const response = new MessageDTO(null, null, null, null, null);
-      response.$service = ServiceNames.User;
-      response.$operation = ServiceOperations.RegisterUser;
-      response.$data = responseDTO.toJSON();
-      return response;
+      // create general messageDTO from responseDTO
+      return new MessageDTO(
+          ServiceNames.User,
+          ServiceOperations.RegisterUser,
+          null,
+          null,
+          responseDTO.toJSON(),
+      );
     } catch (err) {
-      // if an error was return will be returning a LoginUserResponseError
       const errorDTO = new RegisterUserErrorResponseDTO(null);
       switch (err.message) {
         case RegisterUserErrors.BadUsername: {
@@ -127,20 +129,24 @@ export class UserEndpoints extends BaseEndpoints {
           errorDTO.$message = 'Invalid password, must be between 8-20 characters';
           break;
         }
+        case RegisterUserErrors.UsernameTaken: {
+          errorDTO.$message = 'Username is taken';
+          break;
+        }
         default: {
+          log.error('Unknown error', err.stack);
           errorDTO.$message = 'Unknown error, fuck';
           break;
         }
       }
 
-      const response = new MessageDTO(
+      return new MessageDTO(
           ServiceNames.User,
           ServiceOperations.RegisterUserError,
           null,
           null,
           errorDTO.toJSON(),
       );
-      return response;
     }
   }
 }

@@ -52,11 +52,8 @@ export class WorldRouter {
     let message: MessageDTO = MessageDTO.fromJSON(json);
     message.$user = null; // set user to null (it should not be set)
 
-    log.info('message parsed from json', message);
-
     // check if authentication should happen (any service beside user)
     if (message.$service !== ServiceNames.User) {
-      log.info('message being authenticated', message);
       // validates the jwt and sets the message's acting user based on claims
       message = jwtMiddleware.validateMessage(message);
     }
