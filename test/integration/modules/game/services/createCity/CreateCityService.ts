@@ -2,6 +2,7 @@
 import {CityFactory} from '../../../../../../src/modules/game/factories/CityFactory';
 import {City} from '../../../../../../src/modules/game/domain/City';
 import {PlayerFactory} from '../../../../../../src/modules/game/factories/PlayerFactory';
+import {CreateCityErrors} from '../../../../../../src/modules/game/services/createCity/CreateCityErrors';
 
 import * as chai from 'chai';
 import * as mocha from 'mocha';
@@ -14,8 +15,8 @@ import {createCityService} from '../../../../../../src/modules/game/services/cre
 /**
  * Summary of tests for CreateCityService:createCity
  * 1. Should create a city with the expected properties
- * 2. Should throw an error for a duplicate city name.
- * 3. Should throw an error for a nonexistent player.
+ * 2. Should throw DuplicateCityname error
+ * 3. Should throw NonexistentPlayer error
  */
 
 describe('CreateCityService:createCity', function() {
@@ -75,7 +76,7 @@ describe('CreateCityService:createCity', function() {
       await createCityService.createCity(player, city);
       assert.fail('Expected error');
     } catch (err) {
-      assert(err.message === 'Cityname taken');
+      assert(err.message === CreateCityErrors.DuplicateCityname);
     }
   });
 
@@ -102,7 +103,7 @@ describe('CreateCityService:createCity', function() {
       await createCityService.createCity(player, city);
       assert.fail('Expected error');
     } catch (err) {
-      assert(err.message === 'Player does not exist');
+      assert(err.message === CreateCityErrors.NonexistentPlayer);
     }
   });
 });

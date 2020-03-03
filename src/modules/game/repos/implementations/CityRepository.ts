@@ -3,6 +3,7 @@ import {ICityRepository} from '../ICityRepository';
 import {City} from '../../domain/City';
 import {Player} from '../../domain/Player';
 import {CityMapper} from '../../mappers/CityMapper';
+import {CityRepositoryErrors} from '../CityRepositoryErrors';
 import {log} from '../../../../shared/utils/log';
 
 /**
@@ -39,12 +40,11 @@ export class CityRepository implements ICityRepository {
     } catch (err) {
       // check to see what type of error was returned
       if (err.name === 'SequelizeUniqueConstraintError') {
-        throw new Error('Duplicate city name error');
+        throw new Error(CityRepositoryErrors.DuplicateCityname);
       } else if (err.name === 'SequelizeForeignKeyConstraintError') {
-        throw new Error('Player does not exist');
+        throw new Error(CityRepositoryErrors.NonexistentPlayer);
       } else {
-        log.error(err.message);
-        throw new Error('Unexpected error');
+        throw err;
       }
     }
   }

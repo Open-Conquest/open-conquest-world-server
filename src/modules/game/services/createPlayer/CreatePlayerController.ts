@@ -80,6 +80,8 @@ export class CreatePlayerController {
       switch (err.message) {
         case CreatePlayerErrors.DuplicatePlayername:
           throw err;
+        case CreatePlayerErrors.NonexistentUser:
+          throw err;
         default:
           log.error('Unknown error in CreatePlayerController', err.stack);
           throw new Error(CreatePlayerErrors.UnknownError);

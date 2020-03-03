@@ -55,7 +55,7 @@ describe('CreatePlayerService:createPlayer', function() {
     assert(createdPlayer.getNameString() === name);
   });
 
-  // 2. Should throw DuplicatePlayername error
+  // 2.
   it('Should throw DuplicatePlayername error', async function() {
     // register a new player to create the player for
     const username = 'test_username';
@@ -83,12 +83,12 @@ describe('CreatePlayerService:createPlayer', function() {
       );
       assert.fail('Expected error');
     } catch (err) {
-      assert(err.message === CreatePlayerErrors.DuplicatePlayername, 'Unexpected error message');
+      assert(err.message === CreatePlayerErrors.DuplicatePlayername);
     }
   });
 
-  // 3. Shouldn't create a player for a nonexistent user
-  it('Shouldn\'t creat a player for a nonexistent user', async function() {
+  // 3.
+  it('Should throw NonexistentPlayer error', async function() {
     // create a new nonexistent user entity
     const username = 'test_username';
     const madeUpID = -1;
