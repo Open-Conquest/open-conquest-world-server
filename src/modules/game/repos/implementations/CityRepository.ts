@@ -50,17 +50,12 @@ export class CityRepository implements ICityRepository {
   }
 
   async getCity(city: City): Promise<City> {
-    try {
-      const dbCity = await this.models.city.findOne({
-        where: {
-          city_name: city.$name.$value,
-        },
-      });
-      return this.cityMapper.fromPersistence(dbCity);
-    } catch (err) {
-      // check if is a known error
-      log.error('unknown error', err);
-    }
+    const dbCity = await this.models.city.findOne({
+      where: {
+        city_name: city.$name.$value,
+      },
+    });
+    return this.cityMapper.fromPersistence(dbCity);
   }
 
   getAllCities(city: any): Promise<any[]> {
