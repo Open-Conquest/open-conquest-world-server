@@ -3,6 +3,7 @@ import {Player} from '../../domain/Player';
 import {User} from '../../../user/domain/User';
 import {PlayerMapper} from '../../mappers/PlayerMapper';
 import {log} from '../../../../shared/utils/log';
+import { PlayerRepositoryErrors } from '../PlayerRepositoryErrors';
 
 /**
  * A Sequelize implementation of the `IPlayerRepository`
@@ -44,11 +45,11 @@ export class PlayerRepository implements IPlayerRepository {
     } catch (err) {
       // check to see what type of error was returned
       if (err.name === 'SequelizeUniqueConstraintError') {
-        throw new Error('Duplicate playername error');
+        throw new Error(PlayerRepositoryErrors.DuplicatePlayername);
       } else if (err.name === 'SequelizeForeignKeyConstraintError') {
-        throw new Error('User does not exist');
+        throw new Error(PlayerRepositoryErrors.NonexistentUser);
       } else {
-        throw new Error('Unexpected error');
+        throw err;
       }
     }
   }

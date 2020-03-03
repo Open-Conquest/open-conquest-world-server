@@ -36,6 +36,10 @@ describe('PlayerEndpoints:createPlayer', function() {
     return connection.query('ROLLBACK');
   });
 
+  it('no tests', function() {
+    assert.fail('');
+  });
+
   // // 1. Should get a DTO with a new player & their city, resources, and army
   // it('Should get a DTO with a new player & their city, resources, and army', async function() {
   //   assert.fail('not finished');

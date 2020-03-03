@@ -1,6 +1,8 @@
 import {UserDTO} from '../../../user/dtos/UserDTO';
 import {CreatePlayerRequestDTO} from './CreatePlayerRequestDTO';
 import {CreatePlayerResponseDTO} from './CreatePlayerResponseDTO';
+import {CreatePlayerErrors} from './CreatePlayerErrors';
+import {CreatePlayerErrorResponseDTO} from './CreatePlayerErrorResponseDTO';
 import {CreatePlayerService} from './CreatePlayerService';
 import {PlayerMapper} from '../../mappers/PlayerMapper';
 import {UserMapper} from '../../../user/mappers/UserMapper';
@@ -37,41 +39,51 @@ export class CreatePlayerController {
    *
    * @param {UserDTO} userDTO
    * @param {CreatePlayerRequestDTO} incomingDTO
-   * @return {Promise<CreatePlayerResponseDTO>}
+   * @return {Promise<CreatePlayerResponseDTO | CreatePlayerErrorResponseDTO>}
    * @memberof PlayerServices
    */
-  async createPlayer(userDTO: UserDTO, incomingDTO: CreatePlayerRequestDTO): Promise<CreatePlayerResponseDTO> {
-    // get player dto from incoming request
-    const playerDTO = incomingDTO.$player;
+  async createPlayer(userDTO: UserDTO, incomingDTO: CreatePlayerRequestDTO): Promise<CreatePlayerResponseDTO | CreatePlayerErrorResponseDTO> {
+    try {
+      // get player dto from incoming request
+      const playerDTO = incomingDTO.$player;
 
-    // get domain entities from dtos
-    const player = this.playerMapper.fromDTO(playerDTO);
-    const user = this.userMapper.fromDTO(userDTO);
+      // get domain entities from dtos
+      const player = this.playerMapper.fromDTO(playerDTO);
+      const user = this.userMapper.fromDTO(userDTO);
 
-    // coordinate servicesto create a new player in the world
-    // 1. create player
-    const newPlayer = await this.createPlayerService.createPlayer(
-        user,
-        player,
-    );
-    // 2. create new city for player
-    // const city = await createCityService.creatCityForNewPlayer(
-    //     newPlayer,
-    // );
-    // 3. give starting resources to player
-    // const resources = await createResourcesService.createResourcesForNewPlayer(
-    //     newPlayer,
-    // );
-    // 4. give starting army to player
-    // const army = await createArmyService.createArmyForNewPlayer(
-    //     newPlayer,
-    //     city,
-    // );
+      // 1. create player
+      const newPlayer = await this.createPlayerService.createPlayer(
+          user,
+          player,
+      );
+      // 2. create new city for player
+      // const city = await createCityService.creatCityForNewPlayer(
+      //     newPlayer,
+      // );
+      // 3. give starting resources to player
+      // const resources = await createResourcesService.createResourcesForNewPlayer(
+      //     newPlayer,
+      // );
+      // 4. give starting army to player
+      // const army = await createArmyService.createArmyForNewPlayer(
+      //     newPlayer,
+      //     city,
+      // );
 
-    // convert domain entities to dtos
-    const newPlayerDTO = this.playerMapper.toDTO(newPlayer);
+      // convert domain entities to dtos
+      const newPlayerDTO = this.playerMapper.toDTO(newPlayer);
 
-    // create response dto from results
-    return new CreatePlayerResponseDTO(newPlayerDTO);
+      // create response dto from results
+      return new CreatePlayerResponseDTO(newPlayerDTO);
+    } catch (err) {
+      // check error message and throw appropriate error for caller to handle
+      switch (err.message) {
+        case CreatePlayerErrors.DuplicatePlayername:
+          throw err;
+        default:
+          log.error('Unknown error in CreatePlayerController', err.stack);
+          throw new Error(CreatePlayerErrors.UnknownError);
+      }
+    }
   }
 }

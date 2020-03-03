@@ -1,14 +1,14 @@
 /* eslint-disable require-jsdoc */
-import {RegisterUserResponseError} from '../../../../../src/shared/schemas/RegisterUserErrorResponse';
+import {CreatePlayerResponseError} from '../../../../shared/schemas/CreatePlayerErrorResponse';
 
 /**
- * DTO for RegisterUserErrorResponse
+ * DTO for CreatePlayerErrorResponse
  *
  * @export
- * @class RegisterUserErrorResponseDTO
- * @implements {RegisterUserResponseError}
+ * @class CreatePlayerErrorResponseDTO
+ * @implements {CreatePlayerResponseError}
  */
-export class RegisterUserErrorResponseDTO implements RegisterUserResponseError {
+export class CreatePlayerErrorResponseDTO implements CreatePlayerResponseError {
   message: string
 
   constructor(message: string) {

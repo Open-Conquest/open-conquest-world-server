@@ -1,7 +1,9 @@
 import {IPlayerRepository} from '../../repos/IPlayerRepository';
+import {PlayerRepositoryErrors} from '../../repos/PlayerRepositoryErrors';
 import {PlayerFactory} from '../../factories/PlayerFactory';
 import {Player} from '../../domain/Player';
 import {User} from '../../../../modules/user/domain/User';
+import {CreatePlayerErrors} from './CreatePlayerErrors';
 import {log} from '../../../../shared/utils/log';
 
 /**
@@ -38,10 +40,21 @@ export class CreatePlayerService {
     const existingPlayer = await this.playerRepository.getPlayer(player);
     if (existingPlayer !== null) {
       // player with name already exists
-      throw new Error('Playername taken');
+      throw new Error(CreatePlayerErrors.DuplicatePlayername);
     }
 
     // if the name isn't taken save player to database & return new player
-    return await this.playerRepository.createPlayer(user, player);
+    try {
+      return await this.playerRepository.createPlayer(user, player);
+    } catch (err) {
+      switch (err.message) {
+        case PlayerRepositoryErrors.DuplicatePlayername:
+          throw new Error(CreatePlayerErrors.DuplicatePlayername);
+        case PlayerRepositoryErrors.NonexistentUser:
+          throw new Error(CreatePlayerErrors.NonexistentUser);
+        default:
+          throw err;
+      }
+    }
   }
 }
