@@ -34,7 +34,7 @@ describe('CreateCityService:createCity', function() {
     return connection.query('ROLLBACK');
   });
 
-  // 1. Should create a city with the expected properties
+  // 1.
   it('Should create a city with the expected properties', async function() {
     const player = await createTestPlayer();
 
@@ -51,12 +51,14 @@ describe('CreateCityService:createCity', function() {
     const actualCity = await createCityService.createCity(player, city);
 
     // assert city is what is expected
-    assert(city.$name.$value === actualCity.$name.$value, 'Unexpected name');
-    assert(city.$level.$value === actualCity.$level.$value, 'Unexpected level');
+    assert(city.$name.$value === actualCity.$name.$value,
+        'Unexpected name:' + actualCity.$name.$value);
+    assert(city.$level.$value === actualCity.$level.$value,
+        'Unexpected level:' + actualCity.$level.$value);
   });
 
-  // 2. Should throw an error for a duplicate city name
-  it('Should throw an error for a duplicate city name', async function() {
+  // 2.
+  it('Should throw DuplicateCityname error', async function() {
     const player = await createTestPlayer();
 
     // create a city entity for the user
@@ -76,12 +78,13 @@ describe('CreateCityService:createCity', function() {
       await createCityService.createCity(player, city);
       assert.fail('Expected error');
     } catch (err) {
-      assert(err.message === CreateCityErrors.DuplicateCityname);
+      assert(err.message === CreateCityErrors.DuplicateCityname,
+          'Expected DuplicateCityname error instead was:' + err.message);
     }
   });
 
-  // 3. Should throw an error for a nonexistent player
-  it('Should throw an error for a nonexistent player', async function() {
+  // 3.
+  it('Should throw NonexistentPlayer error', async function() {
     // create non existent player entity
     const nonexistentPlayerID = -1;
     const player = playerFactory.createPlayer(
@@ -103,7 +106,8 @@ describe('CreateCityService:createCity', function() {
       await createCityService.createCity(player, city);
       assert.fail('Expected error');
     } catch (err) {
-      assert(err.message === CreateCityErrors.NonexistentPlayer);
+      assert(err.message === CreateCityErrors.NonexistentPlayer,
+          'Expected NonexistentPlayer error instead was:' + err.message);
     }
   });
 });
