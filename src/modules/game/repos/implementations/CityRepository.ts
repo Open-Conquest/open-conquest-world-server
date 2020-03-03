@@ -28,6 +28,14 @@ export class CityRepository implements ICityRepository {
     this.cityMapper = new CityMapper();
   }
 
+  /**
+   * Create a new city in the database for player.
+   *
+   * @param {Player} player
+   * @param {City} city
+   * @return {Promise<City>}
+   * @memberof CityRepository
+   */
   async createCity(player: Player, city: City): Promise<City> {
     try {
       const dbCity = await this.models.city.create({

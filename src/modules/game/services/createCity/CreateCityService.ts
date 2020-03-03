@@ -30,7 +30,7 @@ export class CreateCityService {
   }
 
   /**
-   * Create a new city for a user.
+   * Create a new city for a player.
    *
    * @param {Player} player
    * @param {City} city
@@ -38,10 +38,9 @@ export class CreateCityService {
    * @memberof CityServices
    */
   async createCity(player: Player, city: City): Promise<City> {
-    // see if a city with the name exists
+    // check if a city already exists with name
     const existingCity = await this.cityRepository.getCity(city);
     if (existingCity !== null) {
-      // city with name already exists
       throw new Error(CreateCityErrors.DuplicateCityname);
     }
 
