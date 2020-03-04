@@ -7,7 +7,7 @@ import {Player} from '../../domain/Player';
 import {CityRepositoryErrors} from '../../repos/CityRepositoryErrors';
 import {CreateCityErrors} from './CreateCityErrors';
 import {createReadStream} from 'fs';
-import { Tile } from '../../domain/Tile';
+import {Tile} from '../../domain/Tile';
 
 /**
  * Coordinate between domain and persistence layers to create city entities.

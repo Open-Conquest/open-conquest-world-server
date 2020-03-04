@@ -23,6 +23,5 @@ module.exports = {
         'properties': false
     }],
     'no-unused-vars': 'off',
-    'max-len': 'off',
   },
 };

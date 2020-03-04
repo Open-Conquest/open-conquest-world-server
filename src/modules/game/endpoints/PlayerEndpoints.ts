@@ -8,8 +8,8 @@ import {CreatePlayerRequestDTO} from '../services/createPlayer/CreatePlayerReque
 import {ServiceNames} from '../../../shared/infra/ws/routing/ServiceNames';
 import {ServiceOperations} from '../../../shared/infra/ws/routing/ServiceOperations';
 import {log} from '../../../shared/utils/log';
-import { CreatePlayerErrors } from '../services/createPlayer/CreatePlayerErrors';
-import { CreatePlayerErrorResponseDTO } from '../services/createPlayer/CreatePlayerErrorResponseDTO';
+import {CreatePlayerErrors} from '../services/createPlayer/CreatePlayerErrors';
+import {CreatePlayerErrorResponseDTO} from '../services/createPlayer/CreatePlayerErrorResponseDTO';
 
 /**
  * PlayerEndpoints implements all of the endpoints responsible for handling

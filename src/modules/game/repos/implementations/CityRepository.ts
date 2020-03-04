@@ -49,7 +49,6 @@ export class CityRepository implements ICityRepository {
       // map from db to domain and return
       return this.cityMapper.fromPersistence(dbCity);
     } catch (err) {
-      log.error(err);
       // check to see what type of error was returned
       switch (err.name) {
         case 'SequelizeUniqueConstraintError':

@@ -2,10 +2,10 @@ import {RegisterUserRequestDTO} from './RegisterUserRequestDTO';
 import {RegisterUserResponseDTO} from './RegisterUserResponseDTO';
 import {RegisterUserService} from './RegisterUserService';
 import {log} from '../../../../shared/utils/log';
-import { UserCredentials } from '../../domain/UserCredentials';
-import { UserCredentialsMapper } from '../../mappers/UserCredentialsMapper';
-import { JWTMapper } from '../../mappers/JWTMapper';
-import { RegisterUserErrors } from './RegisterUserErrors';
+import {UserCredentials} from '../../domain/UserCredentials';
+import {UserCredentialsMapper} from '../../mappers/UserCredentialsMapper';
+import {JWTMapper} from '../../mappers/JWTMapper';
+import {RegisterUserErrors} from './RegisterUserErrors';
 
 /**
  *

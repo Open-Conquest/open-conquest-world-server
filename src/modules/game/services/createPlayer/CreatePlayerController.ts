@@ -7,7 +7,13 @@ import {CreatePlayerService} from './CreatePlayerService';
 import {PlayerMapper} from '../../mappers/PlayerMapper';
 import {UserMapper} from '../../../user/mappers/UserMapper';
 import {GetTileForNewCityService} from '../getTileForNewCity/GetTileForNewCityService';
+import {CreateCityService} from '../createCity/CreateCityService';
+import {CityFactory} from '../../factories/CityFactory';
 import {log} from '../../../../shared/utils/log';
+import {Player} from '../../domain/Player';
+import {User} from '../../../user/domain/User';
+import {Tile} from '../../domain/Tile';
+import {City} from '../../domain/City';
 
 /**
  *
@@ -19,21 +25,30 @@ import {log} from '../../../../shared/utils/log';
 export class CreatePlayerController {
   private createPlayerService: CreatePlayerService;
   private getTileForNewCityService: GetTileForNewCityService;
+  private createCityService: CreateCityService;
   private playerMapper: PlayerMapper;
   private userMapper: UserMapper;
+  private cityFactory: CityFactory;
 
   /**
    * Creates an instance of CreatePlayerController.
    *
    * @param {CreatePlayerService} createPlayerService
    * @param {GetTileForNewCityService} getTileForNewCityService
+   * @param {CreateCityService} createCityService
    * @memberof PlayerServices
    */
-  constructor(createPlayerService: CreatePlayerService, getTileForNewCityService: GetTileForNewCityService) {
+  constructor(
+      createPlayerService: CreatePlayerService,
+      getTileForNewCityService: GetTileForNewCityService,
+      createCityService: CreateCityService,
+  ) {
     this.createPlayerService = createPlayerService;
     this.getTileForNewCityService = getTileForNewCityService;
+    this.createCityService = createCityService;
     this.playerMapper = new PlayerMapper();
     this.userMapper = new UserMapper();
+    this.cityFactory = new CityFactory();
   }
 
   /**
@@ -46,28 +61,43 @@ export class CreatePlayerController {
    * @return {Promise<CreatePlayerResponseDTO | CreatePlayerErrorResponseDTO>}
    * @memberof PlayerServices
    */
-  async createPlayer(userDTO: UserDTO, incomingDTO: CreatePlayerRequestDTO): Promise<CreatePlayerResponseDTO | CreatePlayerErrorResponseDTO> {
+  async createPlayer(
+      userDTO: UserDTO,
+      incomingDTO: CreatePlayerRequestDTO,
+  ): Promise<CreatePlayerResponseDTO | CreatePlayerErrorResponseDTO> {
     try {
       // get player dto from incoming request
       const playerDTO = incomingDTO.$player;
 
       // get domain entities from dtos
-      const player = this.playerMapper.fromDTO(playerDTO);
-      const user = this.userMapper.fromDTO(userDTO);
+      const player: Player = this.playerMapper.fromDTO(playerDTO);
+
+      const user: User = this.userMapper.fromDTO(userDTO);
 
       // start transaction
 
       // 1. create player
-      const newPlayer = await this.createPlayerService.createPlayer(
-          user,
-          player,
-      );
+      const newPlayer: Player = await this.createPlayerService
+          .createPlayer(
+              user,
+              player,
+          );
+
       // 2. get tile for new city
-      const tile = await this.getTileForNewCityService.getTile();
+      const tile: Tile = await this.getTileForNewCityService
+          .getTile();
+
       // 3. create new city for player
-      // const city = await createCityService.creatCityForNewPlayer(
-      //     newPlayer,
-      // );
+      const defaultCity: City = this.cityFactory
+          .createDefaultCity(player);
+
+      const city: City = await this.createCityService
+          .createCity(
+              newPlayer,
+              defaultCity,
+              tile,
+          );
+
       // 4. give starting resources to player
       // const resources = await createResourcesService.createResourcesForNewPlayer(
       //     newPlayer,

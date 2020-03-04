@@ -21,6 +21,7 @@ import {createCityService} from '../../../../../../src/modules/game/services/cre
  * 1. Should create a city with the expected properties
  * 2. Should throw DuplicateCityname error
  * 3. Should throw NonexistentPlayer error
+ * 4. Should throw NonexistentTile error
  */
 describe('CreateCityService:createCity', function() {
   const assert = chai.assert;
