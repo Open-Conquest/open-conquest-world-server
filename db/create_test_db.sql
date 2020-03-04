@@ -26,6 +26,8 @@ CREATE TABLE `player` (
 CREATE TABLE `map` (
   `map_id` int(11) NOT NULL AUTO_INCREMENT,
   `map_name` varchar(45) NOT NULL,
+  `max_rows` int(11) NOT NULL,
+  `max_cols` int(11) NOT NULL,
   PRIMARY KEY (`map_id`)
 );
 
@@ -112,14 +114,15 @@ CREATE TABLE `city` (
   `player_id` int(11) NOT NULL,
   `city_name` varchar(45) NOT NULL,
   `city_level` int(11) NOT NULL,
+  `tile_id` int(11) NOT NULL,
   PRIMARY KEY (`city_id`),
   UNIQUE KEY `city_id_UNIQUE` (`city_id`),
   UNIQUE KEY `city_name_UNIQUE` (`city_name`),
   KEY `city_player_idx` (`player_id`),
-  CONSTRAINT `city_player` FOREIGN KEY (`player_id`) REFERENCES `player` (`player_id`)
+  KEY `city_tile_idx` (`tile_id`),
+  CONSTRAINT `city_player` FOREIGN KEY (`player_id`) REFERENCES `player` (`player_id`),
+  CONSTRAINT `city_tile` FOREIGN KEY (`tile_id`) REFERENCES `tile` (`tile_id`)
 );
-
-
 
 -- INSERT INTO user (username) VALUES ("test_user_1");
 -- INSERT INTO user (username) VALUES ("test_user_2");
