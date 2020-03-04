@@ -15,7 +15,7 @@ import {createTestPlayer} from '../../../../scripts/createTestPlayer';
  * 1. Should create expected resources for player
  * 2. Should throw NonexistentPlayer error
  */
-describe('ResourceRepository:createResources', function() {
+describe('ResourcesRepository:createResources', function() {
   const assert = chai.assert;
   const resourcesFactory = new ResourcesFactory();
   const playerFactory = new PlayerFactory();
