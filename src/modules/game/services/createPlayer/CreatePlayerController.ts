@@ -16,7 +16,7 @@ import {Tile} from '../../domain/Tile';
 import {City} from '../../domain/City';
 import {Resources} from '../../domain/Resources';
 import {ResourcesFactory} from '../../factories/ResourcesFactory';
-import { CreateResourcesForPlayerService } from '../createResourcesForPlayer/CreateResourcesForPlayerService';
+import {CreateResourcesForPlayerService} from '../createResourcesForPlayer/CreateResourcesForPlayerService';
 
 /**
  *
@@ -75,16 +75,11 @@ export class CreatePlayerController {
       incomingDTO: CreatePlayerRequestDTO,
   ): Promise<CreatePlayerResponseDTO | CreatePlayerErrorResponseDTO> {
     try {
-      // get player dto from incoming request
-      const playerDTO = incomingDTO.$player;
-
       // get domain entities from dtos
-      const player: Player = this.playerMapper.fromDTO(playerDTO);
-
       const user: User = this.userMapper.fromDTO(userDTO);
+      const player: Player = this.playerMapper.fromDTO(incomingDTO.$player);
 
       // start transaction
-
       // 1. create player
       const newPlayer: Player = await this.createPlayerService
           .createPlayer(
@@ -109,15 +104,14 @@ export class CreatePlayerController {
       // 4. give starting resources to player
       const defaultResources: Resources = this.resourcesFactory
           .createDefaultResources();
-      // const resources = await createResourcesService
-      //     .createResourcesForNewPlayer(newPlayer);
+      const resources: Resources = await this.createResourcesForPlayerService
+          .createResources(newPlayer, defaultResources);
 
       // 5. give starting army to player
       // const army = await createArmyService.createArmyForNewPlayer(
       //     newPlayer,
       //     city,
       // );
-
       // rollback transaction if there is an error
 
       // convert domain entities to dtos
