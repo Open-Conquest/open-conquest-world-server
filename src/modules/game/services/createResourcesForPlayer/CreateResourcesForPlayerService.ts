@@ -4,6 +4,10 @@ import {Tile} from '../../domain/Tile';
 import {CreateResourcesForPlayerErrors} from './CreateResourcesForPlayerErrors';
 import {log} from '../../../../shared/utils/log';
 import {TileType} from '../../domain/TileType';
+import {IResourcesRepository} from '../../repos/IResourcesRepository';
+import {Resources} from '../../domain/Resources';
+import {Player} from '../../domain/Player';
+import {ResourcesRepositoryErrors} from '../../repos/ResourcesRepositoryErrors';
 
 /**
  * Use an algorithm to get the best tile to create a new city at.
@@ -12,47 +16,37 @@ import {TileType} from '../../domain/TileType';
  * @class CreateResourcesForPlayerService
  */
 export class CreateResourcesForPlayerService {
-  private tileRepository: ITileRepository;
-  private mapRepository: IMapRepository;
+  private resourcesRepository: IResourcesRepository;
 
   /**
    * Creates an instance of CreateResourcesForPlayerService.
    *
-   * @param {ITileRepository} tileRepository
-   * @param {IMapRepository} mapRepository
+   * @param {IResourcesRepository} resourcesRepository
    * @memberof CityServices
    */
-  constructor(tileRepository: ITileRepository, mapRepository: IMapRepository) {
-    this.tileRepository = tileRepository;
-    this.mapRepository = mapRepository;
+  constructor(resourcesRepository: IResourcesRepository) {
+    this.resourcesRepository = resourcesRepository;
   }
 
   /**
    * Get the best tile to create a city for a new player at.
    *
+   * @param {Player} player
+   * @param {Resources} resources
    * @return {Promise<Tile>}
    * @memberof CityServices
    */
-  async getTile(): Promise<Tile> {
-    // TODO: implement algorithm to select the best tile
-
-    // for now just select a random position
-    const map = await this.mapRepository.getMap();
-    // try 10 times to get a random tile
-    let tile: Tile = null;
-    let attempts = 0;
-    while (attempts < 10) {
-      const row = Math.floor((Math.random() * map.$maxRows));
-      const col = Math.floor((Math.random() * map.$maxCols));
-      log.info('row, col', row);
-      log.info('row, col', col);
-      tile = await this.tileRepository.getTileAt(row, col);
-      // if found a grass tile, then return because i said so
-      if (tile.$type === TileType.Grass) {
-        return tile;
+  async createResources(player: Player, resources: Resources): Promise<Resources> {
+    try {
+      return await this.resourcesRepository.createResources(player, resources);
+    } catch (err) {
+      switch (err.message) {
+        case ResourcesRepositoryErrors.NonexistentPlayer:
+          // there are some errors that we know
+          throw new Error(CreateResourcesForPlayerErrors.NonexistentPlayer);
+        default:
+          throw err;
       }
-      attempts += 1;
     }
-    throw new Error(CreateResourcesForPlayerErrors.TooManyAttempts);
   }
 }

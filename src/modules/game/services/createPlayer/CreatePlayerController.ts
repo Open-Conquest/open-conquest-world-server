@@ -14,6 +14,9 @@ import {Player} from '../../domain/Player';
 import {User} from '../../../user/domain/User';
 import {Tile} from '../../domain/Tile';
 import {City} from '../../domain/City';
+import {Resources} from '../../domain/Resources';
+import {ResourcesFactory} from '../../factories/ResourcesFactory';
+import { CreateResourcesForPlayerService } from '../createResourcesForPlayer/CreateResourcesForPlayerService';
 
 /**
  *
@@ -26,9 +29,11 @@ export class CreatePlayerController {
   private createPlayerService: CreatePlayerService;
   private getTileForNewCityService: GetTileForNewCityService;
   private createCityService: CreateCityService;
+  private createResourcesForPlayerService: CreateResourcesForPlayerService;
   private playerMapper: PlayerMapper;
   private userMapper: UserMapper;
   private cityFactory: CityFactory;
+  private resourcesFactory: ResourcesFactory;
 
   /**
    * Creates an instance of CreatePlayerController.
@@ -36,19 +41,23 @@ export class CreatePlayerController {
    * @param {CreatePlayerService} createPlayerService
    * @param {GetTileForNewCityService} getTileForNewCityService
    * @param {CreateCityService} createCityService
+   * @param {CreateResourcesForPlayerService} createResourcesForPlayerService
    * @memberof PlayerServices
    */
   constructor(
       createPlayerService: CreatePlayerService,
       getTileForNewCityService: GetTileForNewCityService,
       createCityService: CreateCityService,
+      createResourcesForPlayerService: CreateResourcesForPlayerService,
   ) {
     this.createPlayerService = createPlayerService;
     this.getTileForNewCityService = getTileForNewCityService;
     this.createCityService = createCityService;
+    this.createResourcesForPlayerService = createResourcesForPlayerService;
     this.playerMapper = new PlayerMapper();
     this.userMapper = new UserMapper();
     this.cityFactory = new CityFactory();
+    this.resourcesFactory = new ResourcesFactory();
   }
 
   /**
@@ -90,7 +99,6 @@ export class CreatePlayerController {
       // 3. create new city for player
       const defaultCity: City = this.cityFactory
           .createDefaultCity(player);
-
       const city: City = await this.createCityService
           .createCity(
               newPlayer,
@@ -99,6 +107,8 @@ export class CreatePlayerController {
           );
 
       // 4. give starting resources to player
+      const defaultResources: Resources = this.resourcesFactory
+          .createDefaultResources();
       // const resources = await createResourcesService
       //     .createResourcesForNewPlayer(newPlayer);
 

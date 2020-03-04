@@ -1,3 +1,3 @@
 export enum CreateResourcesForPlayerErrors {
-  TooManyAttempts = 'took too many attempts to get tile for new city'
+  NonexistentPlayer = 'player service is trying to create resources for does not exist'
 };
