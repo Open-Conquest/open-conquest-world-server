@@ -99,9 +99,8 @@ export class CreatePlayerController {
           );
 
       // 4. give starting resources to player
-      // const resources = await createResourcesService.createResourcesForNewPlayer(
-      //     newPlayer,
-      // );
+      const resources = await createResourcesService
+          .createResourcesForNewPlayer(newPlayer);
       // 5. give starting army to player
       // const army = await createArmyService.createArmyForNewPlayer(
       //     newPlayer,
