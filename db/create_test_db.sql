@@ -55,11 +55,11 @@ CREATE TABLE `tile` (
 
 CREATE TABLE `army` (
   `army_id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
+  `player_id` int(11) NOT NULL,
   PRIMARY KEY (`army_id`),
   UNIQUE KEY `army_id_UNIQUE` (`army_id`),
-  KEY `army_user_idx` (`user_id`),
-  CONSTRAINT `army_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
+  KEY `army_player_idx` (`player_id`),
+  CONSTRAINT `army_player` FOREIGN KEY (`player_id`) REFERENCES `player` (`player_id`)
 );
 
 CREATE TABLE `unit` (
