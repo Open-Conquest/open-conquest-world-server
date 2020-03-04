@@ -6,6 +6,7 @@ import {CreatePlayerErrorResponseDTO} from './CreatePlayerErrorResponseDTO';
 import {CreatePlayerService} from './CreatePlayerService';
 import {PlayerMapper} from '../../mappers/PlayerMapper';
 import {UserMapper} from '../../../user/mappers/UserMapper';
+import {GetTileForNewCityService} from '../getTileForNewCity/GetTileForNewCityService';
 import {log} from '../../../../shared/utils/log';
 
 /**
@@ -17,6 +18,7 @@ import {log} from '../../../../shared/utils/log';
  */
 export class CreatePlayerController {
   private createPlayerService: CreatePlayerService;
+  private getTileForNewCityService: GetTileForNewCityService;
   private playerMapper: PlayerMapper;
   private userMapper: UserMapper;
 
@@ -24,10 +26,12 @@ export class CreatePlayerController {
    * Creates an instance of CreatePlayerController.
    *
    * @param {CreatePlayerService} createPlayerService
+   * @param {GetTileForNewCityService} getTileForNewCityService
    * @memberof PlayerServices
    */
-  constructor(createPlayerService: CreatePlayerService) {
+  constructor(createPlayerService: CreatePlayerService, getTileForNewCityService: GetTileForNewCityService) {
     this.createPlayerService = createPlayerService;
+    this.getTileForNewCityService = getTileForNewCityService;
     this.playerMapper = new PlayerMapper();
     this.userMapper = new UserMapper();
   }
@@ -51,24 +55,30 @@ export class CreatePlayerController {
       const player = this.playerMapper.fromDTO(playerDTO);
       const user = this.userMapper.fromDTO(userDTO);
 
+      // start transaction
+
       // 1. create player
       const newPlayer = await this.createPlayerService.createPlayer(
           user,
           player,
       );
-      // 2. create new city for player
+      // 2. get tile for new city
+      const tile = await this.getTileForNewCityService.getTile();
+      // 3. create new city for player
       // const city = await createCityService.creatCityForNewPlayer(
       //     newPlayer,
       // );
-      // 3. give starting resources to player
+      // 4. give starting resources to player
       // const resources = await createResourcesService.createResourcesForNewPlayer(
       //     newPlayer,
       // );
-      // 4. give starting army to player
+      // 5. give starting army to player
       // const army = await createArmyService.createArmyForNewPlayer(
       //     newPlayer,
       //     city,
       // );
+
+      // rollback transaction if there is an error
 
       // convert domain entities to dtos
       const newPlayerDTO = this.playerMapper.toDTO(newPlayer);
