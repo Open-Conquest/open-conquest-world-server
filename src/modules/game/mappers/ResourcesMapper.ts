@@ -28,6 +28,7 @@ export class ResourcesMapper {
 
     return this.resourcesFactory.createResources(
         dbResources.resources_id,
+        dbResources.player_id,
         dbResources.gold,
     );
   }

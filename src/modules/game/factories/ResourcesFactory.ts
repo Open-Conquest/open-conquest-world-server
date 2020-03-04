@@ -16,9 +16,10 @@ export class ResourcesFactory {
    */
   constructor() {}
 
-  createResources(id: number, gold: number): Resources {
+  createResources(id: number, playerID: number, gold: number): Resources {
     return new Resources(
         new EntityID(id),
+        new EntityID(playerID),
         gold,
     );
   }
@@ -32,6 +33,7 @@ export class ResourcesFactory {
    */
   createDefaultResources(): Resources {
     return new Resources(
+        null,
         null,
         100,
     );

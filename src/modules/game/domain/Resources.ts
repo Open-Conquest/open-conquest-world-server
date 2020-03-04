@@ -10,18 +10,29 @@ import {EntityID} from '../../../shared/domain/EntityID';
  * @extends {Entity}
  */
 export class Resources extends Entity {
+  private playerID: EntityID;
   private gold: number;
 
   /**
    * Create an instance of a resources entity.
    *
    * @param {EntityID} id
+   * @param {PlayerID} playerID
    * @param {number} gold
    * @memberof Resources
    */
-  constructor(id: EntityID, gold: number) {
+  constructor(id: EntityID, playerID: EntityID, gold: number) {
     super(id);
+    this.$playerID = playerID;
     this.$gold = gold;
+  }
+
+  public get $playerID(): EntityID {
+    return this.playerID;
+  }
+
+  public set $playerID(value: EntityID) {
+    this.playerID = value;
   }
 
   public get $gold(): number {
