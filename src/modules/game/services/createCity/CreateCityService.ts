@@ -7,6 +7,7 @@ import {Player} from '../../domain/Player';
 import {CityRepositoryErrors} from '../../repos/CityRepositoryErrors';
 import {CreateCityErrors} from './CreateCityErrors';
 import {createReadStream} from 'fs';
+import { Tile } from '../../domain/Tile';
 
 /**
  * Coordinate between domain and persistence layers to create city entities.
@@ -34,10 +35,11 @@ export class CreateCityService {
    *
    * @param {Player} player
    * @param {City} city
-   * @return {Promise<Response>}
+   * @param {Tile} tile
+   * @return {Promise<City>}
    * @memberof CityServices
    */
-  async createCity(player: Player, city: City): Promise<City> {
+  async createCity(player: Player, city: City, tile: Tile): Promise<City> {
     // check if a city already exists with name
     const existingCity = await this.cityRepository.getCity(city);
     if (existingCity !== null) {
@@ -46,7 +48,7 @@ export class CreateCityService {
 
     // if the name isn't taken save city to database & return new city
     try {
-      return await this.cityRepository.createCity(player, city);
+      return await this.cityRepository.createCity(player, city, tile);
     } catch (err) {
       switch (err.message) {
         case CityRepositoryErrors.DuplicateCityname:

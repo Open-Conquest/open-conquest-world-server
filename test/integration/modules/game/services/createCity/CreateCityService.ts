@@ -110,4 +110,9 @@ describe('CreateCityService:createCity', function() {
           'Expected NonexistentPlayer error instead was:' + err.message);
     }
   });
+
+  // 4.
+  it('Should throw Nonexistent tile error', async function() {
+    // 
+  });
 });

@@ -5,6 +5,7 @@ import {Player} from '../../domain/Player';
 import {CityMapper} from '../../mappers/CityMapper';
 import {CityRepositoryErrors} from '../CityRepositoryErrors';
 import {log} from '../../../../shared/utils/log';
+import {Tile} from '../../domain/Tile';
 
 /**
  * Repository implementation for city entities.
@@ -33,15 +34,17 @@ export class CityRepository implements ICityRepository {
    *
    * @param {Player} player
    * @param {City} city
+   * @param {Tile} tile
    * @return {Promise<City>}
    * @memberof CityRepository
    */
-  async createCity(player: Player, city: City): Promise<City> {
+  async createCity(player: Player, city: City, tile: Tile): Promise<City> {
     try {
       const dbCity = await this.models.city.create({
         city_name: city.$name.$value,
         city_level: city.$level.$value,
         player_id: player.$id.$value,
+        tile_id: tile.$id.$value,
       });
       // map from db to domain and return
       return this.cityMapper.fromPersistence(dbCity);
