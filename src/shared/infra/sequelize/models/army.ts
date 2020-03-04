@@ -7,7 +7,7 @@ export default (sequelize, DataTypes) => {
       unique: true,
       autoIncrement: true,
     },
-    user_id: {
+    player_id: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
     },
@@ -17,8 +17,8 @@ export default (sequelize, DataTypes) => {
   });
 
   army.associate = (models) => {
-    models.army.belongsTo(models.user, {
-      foreignKey: 'user_id',
+    models.army.belongsTo(models.player, {
+      foreignKey: 'player_id',
     });
     models.army.hasMany(models.army_units, {
       foreignKey: 'army_id',
