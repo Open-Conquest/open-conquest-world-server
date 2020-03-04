@@ -44,19 +44,10 @@ export class MapRepository implements IMapRepository {
     }
   }
 
-  // async getMap(map: Map): Promise<Map> {
-  //   try {
-  //     const dbMap = await this.models.map.findOne({
-  //       where: {
-  //         map_name: map.$name.$value,
-  //       },
-  //     });
-  //     return this.mapMapper.fromPersistence(dbMap);
-  //   } catch (err) {
-  //     // check if is a known error
-  //     log.error('unknown error', err);
-  //   }
-  // }
+  async getMap(): Promise<Map> {
+    const dbMap = await this.models.map.findOne();
+    return this.mapMapper.fromPersistence(dbMap);
+  }
 
   // getAllCities(map: any): Promise<any[]> {
   //   throw new Error("Method not implemented.");

@@ -10,13 +10,17 @@ import {MapFactory} from '../../../src/modules/game/factories/MapFactory';
  * @return {Player}
  */
 export async function createTestMap(): Promise<Map> {
-  // create a new player for the user
+  // create new map
+  const rows = 5;
+  const cols = 5;
   const mapFactory = new MapFactory();
   const map = mapFactory.createMap(
       null,
       'World #1',
-      20,
-      20,
+      rows,
+      cols,
   );
+
+  // add map to database
   return await mapRepository.createMap(map);
 }

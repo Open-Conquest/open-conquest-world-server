@@ -208,12 +208,15 @@ describe('TileRepository:getTileAt', function() {
     // create map to add tile to
     const map = await createTestMap();
 
+    const row = Math.floor((Math.random() * map.$maxRows));
+    const col = Math.floor((Math.random() * map.$maxCols));
+
     // create tile entity
     let tile = tileFactory.createTile(
         null,
         map.$id.$value,
-        0,
-        0,
+        row,
+        col,
         TileType.Grass,
     );
 
@@ -221,7 +224,7 @@ describe('TileRepository:getTileAt', function() {
     tile = await tileRepository.createTile(tile);
 
     // get tile
-    const actualTile = await tileRepository.getTileAt(0, 0);
+    const actualTile = await tileRepository.getTileAt(row, col);
 
     assert(actualTile.$mapID.$value === tile.$mapID.$value, 'Unexpected mapID');
     assert(actualTile.$row === tile.$row, 'Unexpected row');

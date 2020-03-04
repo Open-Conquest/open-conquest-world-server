@@ -1,6 +1,10 @@
 import {GetTileForNewCityService} from './GetTileForNewCityService';
-import {tileRepository} from '../../repos/implementations';
 
-const getTileForNewCityService = new GetTileForNewCityService(tileRepository);
+import {tileRepository, mapRepository} from '../../repos/implementations';
+
+const getTileForNewCityService = new GetTileForNewCityService(
+    tileRepository,
+    mapRepository,
+);
 
 export {getTileForNewCityService};
