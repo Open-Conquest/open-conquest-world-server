@@ -23,6 +23,16 @@ CREATE TABLE `player` (
   CONSTRAINT `player_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
 );
 
+CREATE TABLE `resources` (
+  `resources_id` int(11) NOT NULL AUTO_INCREMENT,
+  `player_id` int(11) NOT NULL,
+  `gold` int(11) NOT NULL,
+  PRIMARY KEY (`resources_id`),
+  UNIQUE KEY `player_id_UNIQUE` (`player_id`),
+  UNIQUE KEY `resources_id_UNIQUE` (`resources_id`),
+  CONSTRAINT `resources_player` FOREIGN KEY (`player_id`) REFERENCES `player` (`player_id`)
+);
+
 CREATE TABLE `map` (
   `map_id` int(11) NOT NULL AUTO_INCREMENT,
   `map_name` varchar(45) NOT NULL,
