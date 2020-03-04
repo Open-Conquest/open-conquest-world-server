@@ -49,13 +49,20 @@ export class CityRepository implements ICityRepository {
       // map from db to domain and return
       return this.cityMapper.fromPersistence(dbCity);
     } catch (err) {
+      log.error(err);
       // check to see what type of error was returned
-      if (err.name === 'SequelizeUniqueConstraintError') {
-        throw new Error(CityRepositoryErrors.DuplicateCityname);
-      } else if (err.name === 'SequelizeForeignKeyConstraintError') {
-        throw new Error(CityRepositoryErrors.NonexistentPlayer);
-      } else {
-        throw err;
+      switch (err.name) {
+        case 'SequelizeUniqueConstraintError':
+          throw new Error(CityRepositoryErrors.DuplicateCityname);
+        case 'SequelizeForeignKeyConstraintError':
+          switch (err.table) {
+            case 'player':
+              throw new Error(CityRepositoryErrors.NonexistentPlayer);
+            case 'tile':
+              throw new Error(CityRepositoryErrors.NonexistentTile);
+          }
+        default:
+          throw err;
       }
     }
   }

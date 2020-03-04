@@ -55,6 +55,8 @@ export class CreateCityService {
           throw new Error(CreateCityErrors.DuplicateCityname);
         case CityRepositoryErrors.NonexistentPlayer:
           throw new Error(CreateCityErrors.NonexistentPlayer);
+        case CityRepositoryErrors.NonexistentTile:
+          throw new Error(CreateCityErrors.NonexistentTile);
         default:
           log.error('Unknown error in CreateCityService', err.stack);
           throw new Error(CreateCityErrors.UnknownError);
