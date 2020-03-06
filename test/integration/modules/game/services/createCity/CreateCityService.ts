@@ -56,6 +56,8 @@ describe('CreateCityService:createCity', function() {
         null,
         name,
         level,
+        tile.$row,
+        tile.$col,
     );
 
     // try to use service to create new city
@@ -85,6 +87,8 @@ describe('CreateCityService:createCity', function() {
         null,
         name,
         level,
+        tile.$row,
+        tile.$col,
     );
 
     // try to use service to create new city
@@ -122,6 +126,8 @@ describe('CreateCityService:createCity', function() {
         null,
         name,
         level,
+        tile.$row,
+        tile.$col,
     );
 
     // try to create city with nonexistent player
@@ -157,6 +163,8 @@ describe('CreateCityService:createCity', function() {
         null,
         name,
         level,
+        -1,
+        0,
     );
 
     // try to use service to create new city with nonexistent tile

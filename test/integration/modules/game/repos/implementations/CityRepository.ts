@@ -40,6 +40,9 @@ describe('CityRepository:createCity', function() {
     // create a new map to add the city to
     const map = await createTestMapWithTiles();
 
+    // choose a tile to add the city to
+    const tile = await getTileForNewCityService.getTile();
+
     // create a new city for player
     const player = await createTestPlayer();
     const id = null;
@@ -49,10 +52,9 @@ describe('CityRepository:createCity', function() {
         id,
         name,
         level,
+        tile.$row,
+        tile.$col,
     );
-
-    // choose a tile to add the city to
-    const tile = await getTileForNewCityService.getTile();
 
     // create city in database
     const savedCity = await cityRepository.createCity(player, city, tile);
@@ -81,6 +83,8 @@ describe('CityRepository:createCity', function() {
         id,
         name,
         level,
+        tile.$row,
+        tile.$col,
     );
 
     // create city in database
@@ -117,6 +121,8 @@ describe('CityRepository:createCity', function() {
         id,
         name,
         level,
+        tile.$row,
+        tile.$col,
     );
 
     // create city with nonexistent player
@@ -164,6 +170,8 @@ describe('CityRepository:getCity', function() {
         id,
         name,
         level,
+        tile.$row,
+        tile.$col,
     );
 
     // create city in database
@@ -188,6 +196,8 @@ describe('CityRepository:getCity', function() {
         id,
         name,
         level,
+        0,
+        0,
     );
 
     // get the created city
