@@ -1,4 +1,4 @@
-import {CreateArmyForPlayerErrors} from './CreateArmyForPlayerErrors';
+import {CreateArmyForPlayerServiceErrors} from './CreateArmyForPlayerErrors';
 import {log} from '../../../../shared/utils/log';
 import {IArmyRepository} from '../../repos/IArmyRepository';
 import {Army} from '../../domain/Army';
