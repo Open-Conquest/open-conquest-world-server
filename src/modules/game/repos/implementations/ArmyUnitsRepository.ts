@@ -39,6 +39,8 @@ export class ArmyUnitsRepository implements IArmyUnitsRepository {
     try {
       const dbArmyUnits = await this.models.army_units.create({
         army_id: army.$id.$value,
+        unit_id: armyUnits.$unit.$type,
+        unit_count: armyUnits.$count,
       });
       // map from db to domain and return
       return this.armyUnitsMapper.fromPersistence(dbArmyUnits);
@@ -47,8 +49,10 @@ export class ArmyUnitsRepository implements IArmyUnitsRepository {
       switch (err.name) {
         case 'SequelizeForeignKeyConstraintError':
           switch (err.table) {
-            case 'army_units':
+            case 'army':
               throw new Error(ArmyUnitsRepositoryErrors.NonexistentArmy);
+            case 'unit':
+              throw new Error(ArmyUnitsRepositoryErrors.NonexistentUnit);
           }
         default:
           throw err;
