@@ -1,5 +1,6 @@
 import {ArmyUnits} from '../domain/ArmyUnits';
 import {ArmyUnitsFactory} from '../factories/ArmyUnitsFactory';
+import { UnitMapper } from './UnitMapper';
 // import {ArmyUnitsDTO} from '../dtos/ArmyUnitsDTO';
 
 /**
@@ -7,11 +8,13 @@ import {ArmyUnitsFactory} from '../factories/ArmyUnitsFactory';
  * and the persistence (sequelize) representation of a army.
  */
 export class ArmyUnitsMapper {
-  private armyFactory: ArmyUnitsFactory
+  private armyUnitsFactory: ArmyUnitsFactory
+  private unitMapper: UnitMapper;
 
   /** Creates an instance of ArmyUnitsMapper. */
   constructor() {
-    this.armyFactory = new ArmyUnitsFactory();
+    this.armyUnitsFactory = new ArmyUnitsFactory();
+    this.unitMapper = new UnitMapper();
   }
 
   /**
@@ -26,9 +29,13 @@ export class ArmyUnitsMapper {
       return null;
     }
 
-    return this.armyFactory.createArmyUnits(
+    const unit = this.unitMapper.fromPersistence(dbArmyUnits.unit);
+
+    return this.armyUnitsFactory.createArmyUnits(
         dbArmyUnits.army_id,
         dbArmyUnits.player_id,
+        dbArmyUnits.unit_count,
+        unit,
     );
   }
 }
