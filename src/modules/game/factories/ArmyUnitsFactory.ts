@@ -1,7 +1,8 @@
 /* eslint-disable require-jsdoc */
 import {ArmyUnits} from '../domain/ArmyUnits';
 import {EntityID} from '../../../shared/domain/EntityID';
-import {Unit} from '../domain/Unit';
+import {Unit, UnitType} from '../domain/Unit';
+import {UnitFactory} from './UnitFactory';
 
 /**
  * This class is meant to handle the construction of `ArmyUnits` entities. This
@@ -11,11 +12,14 @@ import {Unit} from '../domain/Unit';
  * @class ArmyUnitsFactory
  */
 export class ArmyUnitsFactory {
+  private unitFactory: UnitFactory;
   /**
    * Creates an instance of ArmyUnitsFactory.
    * @memberof ArmyUnitsFactory
    */
-  constructor() {}
+  constructor() {
+    this.unitFactory = new UnitFactory();
+  }
 
   createArmyUnits(id: number, armyID: number, count: number, unit: Unit): ArmyUnits {
     return new ArmyUnits(
@@ -37,8 +41,8 @@ export class ArmyUnitsFactory {
     return new ArmyUnits(
         null,
         null,
-        null,
-        null,
+        10,
+        this.unitFactory.createWizard(),
     );
   }
 }
