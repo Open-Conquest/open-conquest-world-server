@@ -31,7 +31,7 @@ export class UnitMapper {
         dbUnit.name,
         dbUnit.attack,
         dbUnit.defense,
-        dbUnit.goldCost,
+        dbUnit.gold_cost,
     );
   }
 }
