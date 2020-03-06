@@ -1,6 +1,10 @@
 import {CreateArmyForPlayerService} from './CreateArmyForPlayerService';
-import {armyRepository} from '../../repos/implementations';
+import {armyRepository, armyUnitsRepository, unitRepository} from '../../repos/implementations';
 
-const createArmyForPlayerService = new CreateArmyForPlayerService(armyRepository);
+const createArmyForPlayerService = new CreateArmyForPlayerService(
+    armyRepository,
+    armyUnitsRepository,
+    unitRepository,
+);
 
 export {createArmyForPlayerService};
