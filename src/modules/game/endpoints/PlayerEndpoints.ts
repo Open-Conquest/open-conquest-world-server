@@ -42,7 +42,7 @@ export class PlayerEndpoints extends BaseEndpoints {
    */
   async createPlayer(message: MessageDTO): Promise<MessageDTO> {
     try {
-      // get the acting user from message
+      // get the authenticated acting user from message
       const userDTO = message.$user;
 
       // assemble CreatePlayerRequestDTO from incoming message
@@ -50,7 +50,7 @@ export class PlayerEndpoints extends BaseEndpoints {
           message.$data,
       );
 
-      // TODO: maybe some error handling around this failing?
+      // get CreatePlayerResponseDTO from createPlayerController
       const responseDTO = await this.createPlayerController.createPlayer(
           userDTO,
           createPlayerDTO,
