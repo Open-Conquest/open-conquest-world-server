@@ -88,7 +88,7 @@ describe('CreatePlayerService:createPlayer', function() {
   });
 
   // 3.
-  it('Should throw NonexistentPlayer error', async function() {
+  it('Should throw NonexistentUser error', async function() {
     // create a new nonexistent user entity
     const username = 'test_username';
     const madeUpID = -1;
