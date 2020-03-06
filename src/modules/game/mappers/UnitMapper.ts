@@ -1,5 +1,6 @@
 import {Unit} from '../domain/Unit';
 import {UnitFactory} from '../factories/UnitFactory';
+import { UnitDTO } from '../dtos/UnitDTO';
 // import {UnitDTO} from '../dtos/UnitDTO';
 
 /**
@@ -32,6 +33,23 @@ export class UnitMapper {
         dbUnit.attack,
         dbUnit.defense,
         dbUnit.gold_cost,
+    );
+  }
+
+  /**
+   * Create a UnitDTO from a Unit entity.
+   *
+   * @param {Unit} unit
+   * @return {UnitDTO}
+   * @memberof UnitMapper
+   */
+  toDTO(unit: Unit): UnitDTO {
+    return new UnitDTO(
+        unit.$type,
+        unit.$name,
+        unit.$attack,
+        unit.$defense,
+        unit.$goldCost,
     );
   }
 }
