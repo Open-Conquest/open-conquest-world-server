@@ -11,7 +11,7 @@ import {createTestPlayer} from '../../../../scripts/createTestPlayer';
 import {armyRepository} from '../../../../../../src/modules/game/repos/implementations';
 
 /**
- * Summary of tests for ResourceRepository:createArmy
+ * Summary of tests for ArmyRepository:createArmy
  * 1. Should create expected army for player
  * 2. Should throw NonexistentPlayer error
  */
