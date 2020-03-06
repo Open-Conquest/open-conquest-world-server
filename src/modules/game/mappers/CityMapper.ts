@@ -1,6 +1,6 @@
 import {City} from '../domain/City';
 import {CityFactory} from '../factories/CityFactory';
-// import {CityDTO} from '../dtos/CityDTO';
+import {CityDTO} from '../dtos/CityDTO';
 
 /**
  * CityMapper is responsible for mappings between the domain `City`
@@ -26,10 +26,22 @@ export class CityMapper {
       return null;
     }
 
+    if (dbCity.tile === null) {
+      return this.cityFactory.createCity(
+          dbCity.city_id,
+          dbCity.city_name,
+          dbCity.city_level,
+          null,
+          null,
+      );
+    }
+
     return this.cityFactory.createCity(
         dbCity.city_id,
         dbCity.city_name,
         dbCity.city_level,
+        dbCity.tile.tile_row,
+        dbCity.tile.tile_col,
     );
   }
 
@@ -48,17 +60,19 @@ export class CityMapper {
   //   throw new Error('no impl');
   // }
 
-  // /**
-  //  * Create a dto from a city entity.
-  //  *
-  //  * @param {City} city
-  //  * @return {CityDTO}
-  //  * @memberof CityMapper
-  //  */
-  // toDTO(city: City): CityDTO {
-  //   // return new CityDTO(
-  //   //     city.getNameString(),
-  //   // );
-  //   throw new Error('no impl');
-  // }
+  /**
+   * Create a dto from a city entity.
+   *
+   * @param {City} city
+   * @return {CityDTO}
+   * @memberof CityMapper
+   */
+  toDTO(city: City): CityDTO {
+    return new CityDTO(
+        city.$name.$value,
+        city.$level.$value,
+        city.$row,
+        city.$col,
+    );
+  }
 }

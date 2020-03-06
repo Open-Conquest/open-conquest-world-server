@@ -46,6 +46,17 @@ export class CityRepository implements ICityRepository {
         player_id: player.$id.$value,
         tile_id: tile.$id.$value,
       });
+      // get tile city was created on
+      const dbTile = await this.models.tile.findOne({
+        where: {
+          tile_id: dbCity.tile_id,
+        },
+      });
+      // set city tile as dbTile, this is expected in the city mapper, the same
+      // thing could be achieved by including the tile in the create res but it
+      // doesn't seem like sequelize has something to do this, this is done in
+      // the getCity method below with the "include" option
+      dbCity.tile = dbTile;
       // map from db to domain and return
       return this.cityMapper.fromPersistence(dbCity);
     } catch (err) {
@@ -71,6 +82,7 @@ export class CityRepository implements ICityRepository {
       where: {
         city_name: city.$name.$value,
       },
+      include: [this.models.tile],
     });
     return this.cityMapper.fromPersistence(dbCity);
   }

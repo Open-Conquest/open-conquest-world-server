@@ -19,11 +19,13 @@ export class CityFactory {
    */
   constructor() {}
 
-  createCity(id: number, name: string, level: number): City {
+  createCity(id: number, name: string, level: number, row: number, col: number): City {
     return new City(
         new EntityID(id),
         new CityName(name),
         new CityLevel(level),
+        row,
+        col,
     );
   }
 
@@ -39,6 +41,8 @@ export class CityFactory {
         null,
         new CityName(player.$name.$value),
         new CityLevel(1),
+        null,
+        null,
     );
   }
 }
