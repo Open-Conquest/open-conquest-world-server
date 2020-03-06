@@ -5,9 +5,10 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
-export interface City {
+export interface Unit {
+  type: number;
   name: string;
-  level: number;
-  row: number;
-  col: number;
+  attack: number;
+  defense: number;
+  goldCost: number;
 }

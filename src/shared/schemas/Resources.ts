@@ -5,9 +5,6 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
-export interface City {
-  name: string;
-  level: number;
-  row: number;
-  col: number;
+export interface Resources {
+  gold: number;
 }
