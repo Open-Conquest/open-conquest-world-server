@@ -24,10 +24,16 @@ export class CreatePlayerResponseDTO implements CreatePlayerResponse {
    * Creates an instance of CreatePlayerResponseDTO.
    *
    * @param {PlayerDTO} player
+   * @param {CityDTO} city
+   * @param {ArmyDTO} army
+   * @param {ResourcesDTO} resources
    * @memberof CreatePlayerResponseDTO
    */
-  constructor(player: PlayerDTO) {
+  constructor(player: PlayerDTO, city: CityDTO, army: ArmyDTO, resources: ResourcesDTO) {
     this.player = player;
+    this.city = city;
+    this.army = army;
+    this.resources = resources;
   }
 
   toJSON(): any {

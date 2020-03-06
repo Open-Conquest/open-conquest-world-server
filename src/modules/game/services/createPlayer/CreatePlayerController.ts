@@ -23,6 +23,9 @@ import {Army} from '../../domain/Army';
 import {ArmyFactory} from '../../factories/ArmyFactory';
 import {ArmyUnitsFactory} from '../../factories/ArmyUnitsFactory';
 import {ArmyUnits} from '../../domain/ArmyUnits';
+import {CityMapper} from '../../mappers/CityMapper';
+import {ArmyMapper} from '../../mappers/ArmyMapper';
+import {ResourcesMapper} from '../../mappers/ResourcesMapper';
 
 /**
  *
@@ -37,12 +40,15 @@ export class CreatePlayerController {
   private createCityService: CreateCityService;
   private createResourcesForPlayerService: CreateResourcesForPlayerService;
   private createArmyForPlayerService: CreateArmyForPlayerService;
-  private playerMapper: PlayerMapper;
   private armyFactory: ArmyFactory;
   private armyUnitsFactory: ArmyUnitsFactory;
   private cityFactory: CityFactory;
-  private userMapper: UserMapper;
   private resourcesFactory: ResourcesFactory;
+  private playerMapper: PlayerMapper;
+  private userMapper: UserMapper;
+  private cityMapper: CityMapper;
+  private armyMapper: ArmyMapper;
+  private resourcesMapper: ResourcesMapper;
 
   /**
    * Creates an instance of CreatePlayerController.
@@ -66,12 +72,15 @@ export class CreatePlayerController {
     this.createCityService = createCityService;
     this.createResourcesForPlayerService = createResourcesForPlayerService;
     this.createArmyForPlayerService = createArmyForPlayerService;
-    this.playerMapper = new PlayerMapper();
-    this.userMapper = new UserMapper();
     this.armyFactory = new ArmyFactory();
     this.armyUnitsFactory = new ArmyUnitsFactory();
     this.cityFactory = new CityFactory();
     this.resourcesFactory = new ResourcesFactory();
+    this.playerMapper = new PlayerMapper();
+    this.userMapper = new UserMapper();
+    this.cityMapper = new CityMapper();
+    this.armyMapper = new ArmyMapper();
+    this.resourcesMapper = new ResourcesMapper();
   }
 
   /**
@@ -89,13 +98,11 @@ export class CreatePlayerController {
       incomingDTO: CreatePlayerRequestDTO,
   ): Promise<CreatePlayerResponseDTO | CreatePlayerErrorResponseDTO> {
     try {
-      // get domain entities from dtos
-      const user: User = this.userMapper.fromDTO(userDTO);
-      const player: Player = this.playerMapper.fromDTO(incomingDTO.$player);
-
       // start transaction
       // 1. create player
-      const newPlayer: Player = await this.createPlayerService.createPlayer(
+      const user: User = this.userMapper.fromDTO(userDTO);
+      const player: Player = this.playerMapper.fromDTO(incomingDTO.$player);
+      const createdPlayer: Player = await this.createPlayerService.createPlayer(
           user,
           player,
       );
@@ -105,8 +112,8 @@ export class CreatePlayerController {
 
       // 3. create new city for player
       const defaultCity: City = this.cityFactory.createDefaultCity(player);
-      const city: City = await this.createCityService.createCity(
-          newPlayer,
+      const createdCity: City = await this.createCityService.createCity(
+          createdPlayer,
           defaultCity,
           tile,
       );
@@ -114,22 +121,30 @@ export class CreatePlayerController {
       // 4. give starting resources to player
       const defaultResources: Resources = this.resourcesFactory
           .createDefaultResources();
-      const resources: Resources = await this.createResourcesForPlayerService
-          .createResources(newPlayer, defaultResources);
+      const createdResources: Resources = await this.createResourcesForPlayerService
+          .createResources(createdPlayer, defaultResources);
 
       // 5. give starting army to player
       const defaultArmy: Army = this.armyFactory.createDefaultArmyWithUnits();
-      const army: Army = await this.createArmyForPlayerService.createArmy(
-          newPlayer,
+      const createdArmy: Army = await this.createArmyForPlayerService.createArmyWithUnits(
+          createdPlayer,
           defaultArmy,
+          defaultArmy.$units,
       );
       // rollback transaction if there is an error
 
       // convert domain entities to dtos
-      const newPlayerDTO = this.playerMapper.toDTO(newPlayer);
-
+      const createdPlayerDTO = this.playerMapper.toDTO(createdPlayer);
+      const createdCityDTO = this.cityMapper.toDTO(createdCity);
+      const createdArmyDTO = this.armyMapper.toDTO(createdArmy);
+      const createdResourcesDTO = this.resourcesMapper.toDTO(createdResources);
       // create response dto from results
-      return new CreatePlayerResponseDTO(newPlayerDTO);
+      return new CreatePlayerResponseDTO(
+          createdPlayerDTO,
+          createdCityDTO,
+          createdArmyDTO,
+          createdResourcesDTO,
+      );
     } catch (err) {
       // check error message and throw appropriate error for caller to handle
       switch (err.message) {

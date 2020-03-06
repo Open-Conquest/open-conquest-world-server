@@ -17,6 +17,7 @@ export async function createTestArmy(): Promise<Army> {
   const army = new Army(
       null,
       player.$id,
+      [],
   );
   return await createArmyForPlayerService.createArmy(player, army);
 }

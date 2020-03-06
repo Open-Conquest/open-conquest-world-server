@@ -4,7 +4,10 @@ export class UserDTO {
   private userID: number;
   private username: string;
 
-  constructor() {}
+  constructor(userID: number, username: string) {
+    this.userID = userID,
+    this.username = username;
+  }
 
   public get $userID(): number {
     return this.userID;

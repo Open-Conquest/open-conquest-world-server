@@ -80,10 +80,10 @@ export class JWTMiddleware {
       const user: User = this.validateJwt(jwt);
 
       // create userDTO from validated claims
-      const userDTO = new UserDTO();
-      userDTO.$username = user.$username.$value;
-      userDTO.$userID = user.$id.$value;
-
+      const userDTO = new UserDTO(
+          user.$id.$value,
+          user.$username.$value,
+      );
       // set acting user property in message
       message.$user = userDTO;
       return message;
