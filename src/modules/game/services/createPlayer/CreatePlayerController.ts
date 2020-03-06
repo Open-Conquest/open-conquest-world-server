@@ -17,6 +17,12 @@ import {City} from '../../domain/City';
 import {Resources} from '../../domain/Resources';
 import {ResourcesFactory} from '../../factories/ResourcesFactory';
 import {CreateResourcesForPlayerService} from '../createResourcesForPlayer/CreateResourcesForPlayerService';
+import {CreateArmyForPlayerService} from '../createArmyForPlayer/CreateArmyForPlayerService';
+import {createArmyForPlayerService} from '../createArmyForPlayer';
+import {Army} from '../../domain/Army';
+import {ArmyFactory} from '../../factories/ArmyFactory';
+import {ArmyUnitsFactory} from '../../factories/ArmyUnitsFactory';
+import {ArmyUnits} from '../../domain/ArmyUnits';
 
 /**
  *
@@ -30,9 +36,12 @@ export class CreatePlayerController {
   private getTileForNewCityService: GetTileForNewCityService;
   private createCityService: CreateCityService;
   private createResourcesForPlayerService: CreateResourcesForPlayerService;
+  private createArmyForPlayerService: CreateArmyForPlayerService;
   private playerMapper: PlayerMapper;
-  private userMapper: UserMapper;
+  private armyFactory: ArmyFactory;
+  private armyUnitsFactory: ArmyUnitsFactory;
   private cityFactory: CityFactory;
+  private userMapper: UserMapper;
   private resourcesFactory: ResourcesFactory;
 
   /**
@@ -42,6 +51,7 @@ export class CreatePlayerController {
    * @param {GetTileForNewCityService} getTileForNewCityService
    * @param {CreateCityService} createCityService
    * @param {CreateResourcesForPlayerService} createResourcesForPlayerService
+   * @param {CreateArmyForPlayerService} createArmyForPlayerService
    * @memberof PlayerServices
    */
   constructor(
@@ -49,13 +59,17 @@ export class CreatePlayerController {
       getTileForNewCityService: GetTileForNewCityService,
       createCityService: CreateCityService,
       createResourcesForPlayerService: CreateResourcesForPlayerService,
+      createArmyForPlayerService: CreateArmyForPlayerService,
   ) {
     this.createPlayerService = createPlayerService;
     this.getTileForNewCityService = getTileForNewCityService;
     this.createCityService = createCityService;
     this.createResourcesForPlayerService = createResourcesForPlayerService;
+    this.createArmyForPlayerService = createArmyForPlayerService;
     this.playerMapper = new PlayerMapper();
     this.userMapper = new UserMapper();
+    this.armyFactory = new ArmyFactory();
+    this.armyUnitsFactory = new ArmyUnitsFactory();
     this.cityFactory = new CityFactory();
     this.resourcesFactory = new ResourcesFactory();
   }
@@ -81,25 +95,21 @@ export class CreatePlayerController {
 
       // start transaction
       // 1. create player
-      const newPlayer: Player = await this.createPlayerService
-          .createPlayer(
-              user,
-              player,
-          );
+      const newPlayer: Player = await this.createPlayerService.createPlayer(
+          user,
+          player,
+      );
 
       // 2. get tile for new city
-      const tile: Tile = await this.getTileForNewCityService
-          .getTile();
+      const tile: Tile = await this.getTileForNewCityService.getTile();
 
       // 3. create new city for player
-      const defaultCity: City = this.cityFactory
-          .createDefaultCity(player);
-      const city: City = await this.createCityService
-          .createCity(
-              newPlayer,
-              defaultCity,
-              tile,
-          );
+      const defaultCity: City = this.cityFactory.createDefaultCity(player);
+      const city: City = await this.createCityService.createCity(
+          newPlayer,
+          defaultCity,
+          tile,
+      );
 
       // 4. give starting resources to player
       const defaultResources: Resources = this.resourcesFactory
@@ -108,10 +118,11 @@ export class CreatePlayerController {
           .createResources(newPlayer, defaultResources);
 
       // 5. give starting army to player
-      // const army = await createArmyService.createArmyForNewPlayer(
-      //     newPlayer,
-      //     city,
-      // );
+      const defaultArmy: Army = this.armyFactory.createDefaultArmyWithUnits();
+      const army: Army = await this.createArmyForPlayerService.createArmy(
+          newPlayer,
+          defaultArmy,
+      );
       // rollback transaction if there is an error
 
       // convert domain entities to dtos
