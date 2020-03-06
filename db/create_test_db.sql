@@ -74,10 +74,10 @@ CREATE TABLE `unit` (
 );
 
 CREATE TABLE `army_units` (
+  `army_units_id` int(11) NOT NULL AUTO_INCREMENT,
   `army_id` int(11) NOT NULL,
   `unit_id` int(11) NOT NULL,
   `unit_count` int(11) NOT NULL,
-  `army_units_id` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`army_units_id`),
   UNIQUE KEY `army_units_id_UNIQUE` (`army_units_id`),
   KEY `army_units_army_id_idx` (`army_id`),
@@ -105,20 +105,6 @@ CREATE TABLE `march` (
   CONSTRAINT `march_start_tile` FOREIGN KEY (`start_tile_id`) REFERENCES `tile` (`tile_id`)
 );
 
--- Old city table definition
--- CREATE TABLE `city` (
---   `user_id` int(11) NOT NULL,
---   `tile_id` int(11) NOT NULL,
---   `city_name` varchar(45) NOT NULL,
---   `city_level` int(11) NOT NULL,
---   `city_id` int(11) NOT NULL AUTO_INCREMENT,
---   PRIMARY KEY (`city_id`),
---   UNIQUE KEY `city_id_UNIQUE` (`city_id`),
---   KEY `city_tile_idx` (`tile_id`),
---   KEY `city_user` (`user_id`),
---   CONSTRAINT `city_tile` FOREIGN KEY (`tile_id`) REFERENCES `tile` (`tile_id`),
---   CONSTRAINT `city_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
--- );
 CREATE TABLE `city` (
   `city_id` int(11) NOT NULL AUTO_INCREMENT,
   `player_id` int(11) NOT NULL,
@@ -136,9 +122,6 @@ CREATE TABLE `city` (
 
 -- INSERT INTO user (username) VALUES ("test_user_1");
 -- INSERT INTO user (username) VALUES ("test_user_2");
--- INSERT INTO user (username) VALUES ("test_user_3");
--- INSERT INTO user (username) VALUES ("test_user_4");
--- INSERT INTO user (username) VALUES ("test_user_5");
 
 -- INSERT INTO map (`map_name`) VALUES ('America');
 
@@ -180,48 +163,44 @@ CREATE TABLE `city` (
 -- # Insert cities
 -- SET @city_1_tile_id = 0;
 -- SET @city_2_tile_id = 0;
--- SET @city_3_tile_id = 0;
--- SET @city_4_tile_id = 0;
--- SET @city_5_tile_id = 0;
 -- SELECT tile_id FROM tile WHERE tile_row = 0 AND tile_col = 0 INTO @city_1_tile_id;
 -- SELECT tile_id FROM tile WHERE tile_row = 2 AND tile_col = 4 INTO @city_2_tile_id;
--- SELECT tile_id FROM tile WHERE tile_row = 5 AND tile_col = 5 INTO @city_3_tile_id;
--- SELECT tile_id FROM tile WHERE tile_row = 5 AND tile_col = 8 INTO @city_4_tile_id;
--- SELECT tile_id FROM tile WHERE tile_row = 7 AND tile_col = 7 INTO @city_5_tile_id;
 
--- -- Old city insert scripts
--- -- INSERT INTO city (user_id, tile_id, city_name, city_level) VALUES (1, @city_1_tile_id, "test_city_1", 1);
--- -- INSERT INTO city (user_id, tile_id, city_name, city_level) VALUES (2, @city_2_tile_id, "test_city_2", 2);
--- -- UPDATE tile SET tile_type = 1 WHERE (tile_id = @city_1_tile_id) OR (tile_id = @city_2_tile_id);
+-- Old city insert scripts
+-- INSERT INTO city (user_id, tile_id, city_name, city_level) VALUES (1, @city_1_tile_id, "test_city_1", 1);
+-- INSERT INTO city (user_id, tile_id, city_name, city_level) VALUES (2, @city_2_tile_id, "test_city_2", 2);
+-- UPDATE tile SET tile_type = 1 WHERE (tile_id = @city_1_tile_id) OR (tile_id = @city_2_tile_id);
 
--- # Insert unit types
+# BRAND NEW SHIT
+# Create unit types
 -- SET @wizard_unit_id = 0;
 -- SET @bear_unit_id = 1;
 -- INSERT INTO unit (unit_id, attack, defense, name, level, gold_cost) VALUES (@wizard_unit_id, 100, 50, "Wizard", 1, 100);
--- INSERT INTO unit (unit_id, attack, defense, name, level, gold_cost) VALUES (@bear_unit_id, 30, 200, "Bear", 1, 150);
+-- INSERT INTO unit (unit_id, attack, defense, name, level, gold_cost) VALUES (@bear_unit_id, 30, 200, "Bear", 1, 150);		
 
--- # Insert armies
--- SET @user_1_army_id = 0;
--- SET @user_2_army_id = 0;
+# CREATING A SINGLE TEST USER
+-- SET @user_1_id = 0;
+-- SET @player_1_id = 0;
+-- SET @player_1_army_id = 0;
+-- # create new test user
+-- INSERT INTO user (username, password) VALUES ('test_username', 'test_password');
+-- SELECT user_id FROM user WHERE username = 'test_username' INTO @user_1_id;
+-- # create new player for test user
+-- INSERT INTO player (name, user_id) VALUES ('test_playername', @user_1_id);
+-- SELECT player_id FROM player WHERE user_id = @user_1_id INTO @player_1_id;
+-- # create new army for player
+-- INSERT INTO army (player_id) VALUES (@player_1_id);
+-- SELECT army_id FROM army WHERE player_id = @player_1_id INTO @player_1_army_id;
+-- -- SELECT army_id FROM army WHERE user_id = 1 INTO @user_1_army_id;
+-- -- SELECT army_id FROM army WHERE user_id = 2 INTO @user_2_army_id;
 
--- INSERT INTO army (user_id) VALUES (1);
--- INSERT INTO army (user_id) VALUES (2);
--- INSERT INTO army (user_id) VALUES (3);
--- INSERT INTO army (user_id) VALUES (4);
--- INSERT INTO army (user_id) VALUES (5);
+-- -- # Insert units for armies
+-- INSERT INTO army_units (army_id, unit_id, unit_count) VALUES (@player_1_army_id, @wizard_unit_id, 100);
+-- INSERT INTO army_units (army_id, unit_id, unit_count) VALUES (@player_1_army_id, @bear_unit_id, 10);
 
--- SELECT army_id FROM army WHERE user_id = 1 INTO @user_1_army_id;
--- SELECT army_id FROM army WHERE user_id = 2 INTO @user_2_army_id;
+-- SELECT * FROM player JOIN army USING(player_id) JOIN army_units USING(army_id) JOIN unit USING(unit_id);
 
--- # Insert units for armies
--- INSERT INTO army_units (army_id, unit_id, unit_count) VALUES (@user_1_army_id, @wizard_unit_id, 100);
--- INSERT INTO army_units (army_id, unit_id, unit_count) VALUES (@user_1_army_id, @bear_unit_id, 10);
-
--- INSERT INTO army_units (army_id, unit_id, unit_count) VALUES (@user_2_army_id, @wizard_unit_id, 50);
--- INSERT INTO army_units (army_id, unit_id, unit_count) VALUES (@user_2_army_id, @bear_unit_id, 30);
-
--- SELECT * FROM army JOIN army_units USING(army_id) JOIN unit USING(unit_id);
-
+# MARK OLD
 -- # Insert marches
 -- INSERT INTO march (army_id, start_tile_id, end_tile_id, start_time, end_time) VALUES (@user_1_army_id, @city_1_tile_id, @city_2_tile_id, NOW(), DATE_ADD(NOW(), INTERVAL 1 MINUTE));
 -- INSERT INTO march (army_id, start_tile_id, end_tile_id, start_time, end_time) VALUES (@user_2_army_id, @city_2_tile_id, @city_1_tile_id, NOW(), DATE_ADD(NOW(), INTERVAL 1 MINUTE));
