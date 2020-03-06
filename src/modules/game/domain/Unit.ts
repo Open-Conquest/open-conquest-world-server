@@ -5,7 +5,7 @@ import {EntityID} from '../../../shared/domain/EntityID';
 /** Enum representing the different unit types */
 export enum UnitType {
   Wizard = 0,
-  Bear = 0
+  Bear = 1 
 }
 
 /** Enum representing the different unit types' names */
