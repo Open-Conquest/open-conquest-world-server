@@ -1,20 +1,23 @@
 {
-  "title": "City",
+  "title": "Unit",
   "type": "object",
   "properties": {
+    "type": {
+      "type": "number"
+    },
     "name": {
       "type": "string"
     },
-    "level": {
+    "attack": {
       "type": "number"
     },
-    "row": {
+    "defense": {
       "type": "number"
     },
-    "col": {
+    "goldCost": {
       "type": "number"
     }
   },
-  "required": ["name", "level", "row", "col"],
+  "required": ["type", "name", "attack", "defense", "goldCost"],
   "additionalProperties": false
 }

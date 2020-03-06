@@ -1,11 +1,20 @@
 {
-  "title": "CreatePlayerRequest",
+  "title": "CreatePlayerResponse",
   "type": "object",
   "properties": {
     "player": {
       "$ref": "Player.json"
+    },
+    "city": {
+      "$ref": "City.json"
+    },
+    "army": {
+      "$ref": "Army.json"
+    },
+    "resources": {
+      "$ref": "Resources.json"
     }
   },
-  "required": ["player"],
+  "required": ["player", "city", "army", "resources"],
   "additionalProperties": false
 }
