@@ -1,6 +1,6 @@
 import {ArmyUnits} from '../domain/ArmyUnits';
 import {ArmyUnitsFactory} from '../factories/ArmyUnitsFactory';
-import { UnitMapper } from './UnitMapper';
+import {UnitMapper} from './UnitMapper';
 // import {ArmyUnitsDTO} from '../dtos/ArmyUnitsDTO';
 
 /**
@@ -29,11 +29,14 @@ export class ArmyUnitsMapper {
       return null;
     }
 
-    const unit = this.unitMapper.fromPersistence(dbArmyUnits.unit);
+    let unit = null;
+    if (dbArmyUnits.unit !== undefined) {
+      unit = this.unitMapper.fromPersistence(dbArmyUnits.unit);
+    }
 
     return this.armyUnitsFactory.createArmyUnits(
+        dbArmyUnits.army_units_id,
         dbArmyUnits.army_id,
-        dbArmyUnits.player_id,
         dbArmyUnits.unit_count,
         unit,
     );
