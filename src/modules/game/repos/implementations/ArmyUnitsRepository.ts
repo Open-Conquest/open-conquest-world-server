@@ -28,7 +28,7 @@ export class ArmyUnitsRepository implements IArmyUnitsRepository {
   }
 
   /**
-   * Save army units associated with a specific army in the database.
+   * Save a set of army units and associated them with an army in the database.
    *
    * @param {Army} army
    * @param {ArmyUnits} armyUnits
