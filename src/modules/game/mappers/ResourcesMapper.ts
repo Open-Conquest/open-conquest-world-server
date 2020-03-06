@@ -1,5 +1,6 @@
 import {Resources} from '../domain/Resources';
 import {ResourcesFactory} from '../factories/ResourcesFactory';
+import { ResourcesDTO } from '../dtos/ResourcesDTO';
 // import {ResourcesDTO} from '../dtos/ResourcesDTO';
 
 /**
@@ -30,6 +31,19 @@ export class ResourcesMapper {
         dbResources.resources_id,
         dbResources.player_id,
         dbResources.gold,
+    );
+  }
+
+  /**
+   * Create a dto from a resources entity.
+   *
+   * @param {Resources} resources
+   * @return {ResourcesDTO}
+   * @memberof ResourcesMapper
+   */
+  toDTO(resources: Resources): ResourcesDTO {
+    return new ResourcesDTO(
+        resources.$gold,
     );
   }
 }
