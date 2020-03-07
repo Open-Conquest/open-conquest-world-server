@@ -8,6 +8,8 @@ import {CreatePlayerRequestDTO} from '../services/createPlayer/CreatePlayerReque
 import {ServiceNames} from '../../../shared/infra/ws/routing/ServiceNames';
 import {ServiceOperations} from '../../../shared/infra/ws/routing/ServiceOperations';
 import {log} from '../../../shared/utils/log';
+import {CreatePlayerErrors} from '../services/createPlayer/CreatePlayerErrors';
+import {CreatePlayerErrorResponseDTO} from '../services/createPlayer/CreatePlayerErrorResponseDTO';
 
 /**
  * PlayerEndpoints implements all of the endpoints responsible for handling
@@ -39,32 +41,51 @@ export class PlayerEndpoints extends BaseEndpoints {
    * @memberof PlayerEndpoints
    */
   async createPlayer(message: MessageDTO): Promise<MessageDTO> {
-    // get the acting user from message
-    const userDTO = message.$user;
+    try {
+      // get the authenticated acting user from message
+      const userDTO = message.$user;
 
-    // assemble CreatePlayerRequestDTO from incoming message
-    const createPlayerDTO = CreatePlayerRequestDTO.fromJSON(
-        message.$data,
-    );
+      // assemble CreatePlayerRequestDTO from incoming message
+      const createPlayerDTO = CreatePlayerRequestDTO.fromJSON(
+          message.$data,
+      );
 
-    // TODO: maybe some error handling around this failing?
-    const responseDTO = await this.createPlayerController.createPlayer(
-        userDTO,
-        createPlayerDTO,
-    );
+      // get CreatePlayerResponseDTO from createPlayerController
+      const responseDTO = await this.createPlayerController.createPlayer(
+          userDTO,
+          createPlayerDTO,
+      );
 
-    log.info('ugh', responseDTO);
+      const response = new MessageDTO(
+          ServiceNames.Player,
+          ServiceOperations.CreatePlayer,
+          null,
+          null,
+          responseDTO,
+      );
 
-    const response = new MessageDTO(
-        ServiceNames.Player,
-        ServiceOperations.CreatePlayer,
-        null,
-        null,
-        responseDTO,
-    );
+      return response;
+    } catch (err) {
+      // create a new error dto to include in message
+      const errorDTO = new CreatePlayerErrorResponseDTO(null);
 
-    log.info('ugh', response);
+      // change the error message depending on the internal error
+      switch (err.message) {
+        case CreatePlayerErrors.DuplicatePlayername:
+          errorDTO.$message = CreatePlayerErrors.DuplicatePlayername;
+          break;
+        default:
+          errorDTO.$message = CreatePlayerErrors.UnknownError;
+      }
 
-    return response;
+      // return a new message indicating an error creating player
+      return new MessageDTO(
+          ServiceNames.Player,
+          ServiceOperations.CreatePlayerError,
+          null,
+          null,
+          errorDTO.toJSON(),
+      );
+    }
   }
 }

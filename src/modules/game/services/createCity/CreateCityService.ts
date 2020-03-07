@@ -4,6 +4,10 @@ import {User} from '../../../../modules/user/domain/User';
 import {log} from '../../../../shared/utils/log';
 import {CityFactory} from '../../factories/CityFactory';
 import {Player} from '../../domain/Player';
+import {CityRepositoryErrors} from '../../repos/CityRepositoryErrors';
+import {CreateCityErrors} from './CreateCityErrors';
+import {createReadStream} from 'fs';
+import {Tile} from '../../domain/Tile';
 
 /**
  * Coordinate between domain and persistence layers to create city entities.
@@ -27,22 +31,36 @@ export class CreateCityService {
   }
 
   /**
-   * Create a new city for a user.
+   * Create a new city for a player.
    *
    * @param {Player} player
    * @param {City} city
-   * @return {Promise<Response>}
+   * @param {Tile} tile
+   * @return {Promise<City>}
    * @memberof CityServices
    */
-  async createCity(player: Player, city: City): Promise<City> {
-    // see if a city with the name exists
+  async createCity(player: Player, city: City, tile: Tile): Promise<City> {
+    // check if a city already exists with name
     const existingCity = await this.cityRepository.getCity(city);
     if (existingCity !== null) {
-      // city with name already exists
-      throw new Error('Cityname taken');
+      throw new Error(CreateCityErrors.DuplicateCityname);
     }
 
     // if the name isn't taken save city to database & return new city
-    return await this.cityRepository.createCity(player, city);
+    try {
+      return await this.cityRepository.createCity(player, city, tile);
+    } catch (err) {
+      switch (err.message) {
+        case CityRepositoryErrors.DuplicateCityname:
+          throw new Error(CreateCityErrors.DuplicateCityname);
+        case CityRepositoryErrors.NonexistentPlayer:
+          throw new Error(CreateCityErrors.NonexistentPlayer);
+        case CityRepositoryErrors.NonexistentTile:
+          throw new Error(CreateCityErrors.NonexistentTile);
+        default:
+          log.error('Unknown error in CreateCityService', err.stack);
+          throw new Error(CreateCityErrors.UnknownError);
+      }
+    }
   }
 }

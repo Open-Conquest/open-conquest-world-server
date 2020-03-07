@@ -7,7 +7,11 @@ import {RegisterUserResponseDTO} from '../services/registerUser/RegisterUserResp
 import {RegisterUserController} from '../services/registerUser/RegisterUserController';
 import {LoginUserRequestDTO} from '../services/loginUser/LoginUserRequestDTO';
 import {LoginUserResponseDTO} from '../services/loginUser/LoginUserResponseDTO';
+import {LoginUserResponseErrorDTO} from '../services/loginUser/LoginUserReponseErrorDTO';
+import {RegisterUserErrorResponseDTO} from '../services/registerUser/RegisterUserErrorResponseDTO';
 import {LoginUserController} from '../services/loginUser/LoginUserController';
+import {LoginUserErrors} from '../services/loginUser/LoginUserErrors';
+import {RegisterUserErrors} from '../services/registerUser/RegisterUserErrors';
 import {log} from '../../../shared/utils/log';
 
 /**
@@ -30,6 +34,7 @@ export class UserEndpoints extends BaseEndpoints {
   constructor(registerUserController: RegisterUserController, loginUserController: LoginUserController) {
     super();
     this.serviceName = ServiceNames.User;
+    this.handlers[ServiceOperations.LoginUser] = this.loginUser.bind(this);
     this.handlers[ServiceOperations.RegisterUser] = this.registerUser.bind(this);
     this.registerUserController = registerUserController;
     this.loginUserController = loginUserController;
@@ -43,22 +48,47 @@ export class UserEndpoints extends BaseEndpoints {
    * @memberof UserEndpoints
    */
   async loginUser(incomingMessage: MessageDTO): Promise<MessageDTO> {
-    // create DTO from incoming message's json data
-    const requestDTO = LoginUserRequestDTO.fromJSON(
-        incomingMessage.$data,
-    );
+    try {
+      // create DTO from incoming message's json data
+      const requestDTO = LoginUserRequestDTO.fromJSON(
+          incomingMessage.$data,
+      );
 
-    // call registerUser service and get response DTO
-    const responseDTO = await this.loginUserController.loginUser(
-        requestDTO,
-    );
+      // call registerUser service and get response DTO
+      const responseDTO = await this.loginUserController.loginUser(
+          requestDTO,
+      );
 
-    // create response from DTO
-    const response = new MessageDTO();
-    response.$service = ServiceNames.User;
-    response.$operation = ServiceOperations.LoginUser;
-    response.$data = responseDTO.toJSON();
-    return response;
+      // create response from DTO
+      return new MessageDTO(
+          ServiceNames.User,
+          ServiceOperations.LoginUser,
+          null,
+          null,
+          responseDTO.toJSON(),
+      );
+    } catch (err) {
+      const errorDTO = new LoginUserResponseErrorDTO(null);
+      switch (err.message) {
+        case LoginUserErrors.InvalidCredentials: {
+          errorDTO.$message = 'Invalid username / password combination';
+          break;
+        }
+        default: {
+          log.error('Unknown error', err.stack);
+          errorDTO.$message = 'Unkown error, fuck';
+          break;
+        }
+      }
+
+      return new MessageDTO(
+          ServiceNames.User,
+          ServiceOperations.LoginUserError,
+          null,
+          null,
+          errorDTO.toJSON(),
+      );
+    }
   }
 
   /**
@@ -69,21 +99,54 @@ export class UserEndpoints extends BaseEndpoints {
    * @memberof UserEndpoints
    */
   async registerUser(incomingMessage: MessageDTO): Promise<MessageDTO> {
-    // create DTO from incoming message's json data
-    const requestDTO = RegisterUserRequestDTO.fromJSON(
-        incomingMessage.$data,
-    );
+    try {
+      // create DTO from incoming message's json data
+      const requestDTO = RegisterUserRequestDTO.fromJSON(
+          incomingMessage.$data,
+      );
 
-    // call registerUser service and get response DTO
-    const responseDTO = await this.registerUserController.registerUser(
-        requestDTO,
-    );
+      // call registerUser service and get response DTO
+      const responseDTO = await this.registerUserController.registerUser(
+          requestDTO,
+      );
 
-    // create response from DTO
-    const response = new MessageDTO();
-    response.$service = ServiceNames.User;
-    response.$operation = ServiceOperations.RegisterUser;
-    response.$data = responseDTO.toJSON();
-    return response;
+      // create general messageDTO from responseDTO
+      return new MessageDTO(
+          ServiceNames.User,
+          ServiceOperations.RegisterUser,
+          null,
+          null,
+          responseDTO.toJSON(),
+      );
+    } catch (err) {
+      const errorDTO = new RegisterUserErrorResponseDTO(null);
+      switch (err.message) {
+        case RegisterUserErrors.BadUsername: {
+          errorDTO.$message = 'Invalid username, must be between 4-20 characters';
+          break;
+        }
+        case RegisterUserErrors.BadPassword: {
+          errorDTO.$message = 'Invalid password, must be between 8-20 characters';
+          break;
+        }
+        case RegisterUserErrors.UsernameTaken: {
+          errorDTO.$message = 'Username is taken';
+          break;
+        }
+        default: {
+          log.error('Unknown error', err.stack);
+          errorDTO.$message = 'Unknown error, fuck';
+          break;
+        }
+      }
+
+      return new MessageDTO(
+          ServiceNames.User,
+          ServiceOperations.RegisterUserError,
+          null,
+          null,
+          errorDTO.toJSON(),
+      );
+    }
   }
 }

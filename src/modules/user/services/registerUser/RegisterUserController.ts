@@ -2,9 +2,10 @@ import {RegisterUserRequestDTO} from './RegisterUserRequestDTO';
 import {RegisterUserResponseDTO} from './RegisterUserResponseDTO';
 import {RegisterUserService} from './RegisterUserService';
 import {log} from '../../../../shared/utils/log';
-import { UserCredentials } from '../../domain/UserCredentials';
-import { UserCredentialsMapper } from '../../mappers/UserCredentialsMapper';
-import { JWTMapper } from '../../mappers/JWTMapper';
+import {UserCredentials} from '../../domain/UserCredentials';
+import {UserCredentialsMapper} from '../../mappers/UserCredentialsMapper';
+import {JWTMapper} from '../../mappers/JWTMapper';
+import {RegisterUserErrors} from './RegisterUserErrors';
 
 /**
  *
@@ -14,9 +15,9 @@ import { JWTMapper } from '../../mappers/JWTMapper';
  * @extends {BaseServices}
  */
 export class RegisterUserController {
-  private _registerUserService: RegisterUserService;
-  private _userCredentialsMapper: UserCredentialsMapper;
-  private _jwtMapper: JWTMapper;
+  private registerUserService: RegisterUserService;
+  private userCredentialsMapper: UserCredentialsMapper;
+  private jwtMapper: JWTMapper;
 
   /**
    * Creates an instance of RegisterUserController.
@@ -25,9 +26,9 @@ export class RegisterUserController {
    * @memberof UserServices
    */
   constructor(registerUserService: RegisterUserService) {
-    this._registerUserService = registerUserService;
-    this._userCredentialsMapper = new UserCredentialsMapper();
-    this._jwtMapper = new JWTMapper();
+    this.registerUserService = registerUserService;
+    this.userCredentialsMapper = new UserCredentialsMapper();
+    this.jwtMapper = new JWTMapper();
   }
 
   /**
@@ -40,17 +41,29 @@ export class RegisterUserController {
    * @memberof UserServices
    */
   async registerUser(incomingDTO: RegisterUserRequestDTO): Promise<RegisterUserResponseDTO> {
-    // get domain objects from dtos
-    const credentials = this._userCredentialsMapper.fromDTO(incomingDTO.credentials);
+    try {
+      // get domain objects from dtos
+      const credentials = this.userCredentialsMapper.fromDTO(incomingDTO.credentials);
 
-    // call services with domain objects
-    const jwt = await this._registerUserService.registerUser(credentials);
+      // call services with domain objects
+      const jwt = await this.registerUserService.registerUser(credentials);
 
-    // map domain responses to dtos
-    const jwtDto = this._jwtMapper.toDTO(jwt);
-    return new RegisterUserResponseDTO(
-        credentials.getUsernameString(),
-        jwtDto,
-    );
+      // map domain responses to dtos
+      const jwtDto = this.jwtMapper.toDTO(jwt);
+      return new RegisterUserResponseDTO(
+          credentials.getUsernameString(),
+          jwtDto,
+      );
+    } catch (err) {
+      switch (err.message) {
+        case RegisterUserErrors.BadUsername:
+          throw err;
+        case RegisterUserErrors.UsernameTaken:
+          throw err;
+        default:
+          log.error('Unknown error in RegisterUserController:registerUser', err.stack);
+          throw new Error('Unknown error');
+      }
+    }
   }
 }

@@ -1,6 +1,6 @@
-import {UserEndpoints} from "./userEndpoints";
-import {registerUserController} from "../services/registerUser";
-import {loginUserController} from "../services/loginUser";
+import {UserEndpoints} from './UserEndpoints';
+import {registerUserController} from '../services/registerUser';
+import {loginUserController} from '../services/loginUser';
 
 const userEndpoints = new UserEndpoints(
     registerUserController,

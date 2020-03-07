@@ -20,6 +20,10 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.INTEGER(11),
       allowNull: false,
     },
+    tile_id: {
+      type: DataTypes.INTEGER(11),
+      allowNull: false,
+    },
   }, {
     timestamps: false,
     freezeTableName: true,
@@ -28,6 +32,9 @@ export default (sequelize, DataTypes) => {
   city.associate = (models) => {
     models.city.belongsTo(models.player, {
       foreignKey: 'player_id',
+    });
+    models.city.belongsTo(models.tile, {
+      foreignKey: 'tile_id',
     });
   };
 

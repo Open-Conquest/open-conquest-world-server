@@ -8,11 +8,16 @@ import {City} from '../../../shared/schemas/City';
  * @implements {City}
  */
 export class CityDTO implements City {
-  private name: string;
-  private level: number;
+  name: string;
+  level: number;
+  row: number;
+  col: number;
 
-  constructor(name: string) {
+  constructor(name: string, level: number, row: number, col: number) {
     this.name = name;
+    this.level = level;
+    this.row = row;
+    this.col = col;
   }
 
   public get $name(): string {
@@ -29,5 +34,21 @@ export class CityDTO implements City {
 
   public set $level(value: number) {
     this.level = value;
+  }
+
+  public get $row(): number {
+    return this.row;
+  }
+
+  public set $row(value: number) {
+    this.row = value;
+  }
+
+  public get $col(): number {
+    return this.col;
+  }
+
+  public set $col(value: number) {
+    this.col = value;
   }
 }

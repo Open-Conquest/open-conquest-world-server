@@ -12,7 +12,7 @@ import {PlayerDTO} from '../../dtos/PlayerDTO';
  * @implements {CreatePlayerRequest}
  */
 export class CreatePlayerRequestDTO implements CreatePlayerRequest {
-  private player: PlayerDTO;
+  player: PlayerDTO;
 
   constructor(player: PlayerDTO) {
     this.player = player;

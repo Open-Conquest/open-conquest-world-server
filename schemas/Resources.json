@@ -1,0 +1,11 @@
+{
+  "title": "Resources",
+  "type": "object",
+  "properties": {
+    "gold": {
+      "type": "number"
+    }
+  },
+  "required": ["gold"],
+  "additionalProperties": false
+}

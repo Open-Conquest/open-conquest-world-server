@@ -1,6 +1,6 @@
 /* eslint-disable require-jsdoc */
 import {Player} from '../domain/Player';
-import {EntityID} from '../../../shared/domain/EntityId';
+import {EntityID} from '../../../shared/domain/EntityID';
 import {Playername} from '../domain/Playername';
 
 /**

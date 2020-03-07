@@ -1,0 +1,14 @@
+{
+  "title": "Army",
+  "type": "object",
+  "properties": {
+    "units": {
+      "type": "array",
+      "items": {
+        "$ref": "ArmyUnits.json"
+      }
+    }
+  },
+  "required": ["units"],
+  "additionalProperties": false
+}

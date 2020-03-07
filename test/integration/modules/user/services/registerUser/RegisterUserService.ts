@@ -3,7 +3,7 @@
 import * as chai from 'chai';
 import * as mocha from 'mocha';
 import {UserCredentials} from '../../../../../../src/modules/user/domain/UserCredentials';
-import {Username} from '../../../../../../src/modules/user/domain/UserName';
+import {Username} from '../../../../../../src/modules/user/domain/Username';
 import {Password} from '../../../../../../src/modules/user/domain/Password';
 import {JWT} from '../../../../../../src/modules/user/domain/JWT';
 import {registerUserService} from '../../../../../../src/modules/user/services/registerUser/';

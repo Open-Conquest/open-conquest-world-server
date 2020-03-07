@@ -1,0 +1,23 @@
+{
+  "title": "Unit",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "number"
+    },
+    "name": {
+      "type": "string"
+    },
+    "attack": {
+      "type": "number"
+    },
+    "defense": {
+      "type": "number"
+    },
+    "goldCost": {
+      "type": "number"
+    }
+  },
+  "required": ["type", "name", "attack", "defense", "goldCost"],
+  "additionalProperties": false
+}

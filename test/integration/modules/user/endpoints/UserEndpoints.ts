@@ -18,7 +18,8 @@ import {jwtMiddleware} from '../../../../../src/shared/middleware';
 import {userEndpoints} from '../../../../../src/modules/user/endpoints';
 
 /**
- * These are the integration tests for the UserEndpoints registerUser endpoint
+ * Summary of tests for UserEndpoints:registerUser
+ * 1. Should get a RegisterUserReponse with a valid jwt
  */
 describe('UserEndpoints registerUser', function() {
   const assert = chai.assert;
@@ -36,10 +37,7 @@ describe('UserEndpoints registerUser', function() {
     return connection.query('ROLLBACK');
   });
 
-  /**
-   * Test all expected successful cases for registering a user.
-   */
-
+  // 1.
   it('should get a RegisterUserResponseDTO with a valid jwt', async function() {
     // create message dtos for registering user
     const creds = new UserCredentialsDTO(
@@ -49,7 +47,7 @@ describe('UserEndpoints registerUser', function() {
     const data = new RegisterUserRequestDTO(
         creds,
     );
-    const registerMessage = new MessageDTO();
+    const registerMessage = new MessageDTO(null, null, null, null, null);
     registerMessage.$service = ServiceNames.User;
     registerMessage.$operation = ServiceOperations.RegisterUser;
     registerMessage.$data = data;
@@ -69,13 +67,14 @@ describe('UserEndpoints registerUser', function() {
     // assert username in jwt claims equals registered username
     assert(user.getUsername().getString() === creds.$username);
   });
-
-  it('should do schema validation at register user endpoint', async function() {
-    assert.fail('not doing schema validation on endpoints');
-  });
 });
 
-describe('UserEndpoints loginUser', function() {
+/**
+ * Summary of tests for UserEndpoints:loginUser
+ * 1. Should get a LoginUserReponstDTO with a valid jwt
+ * 2. Should get an error for a nonexistent user
+ */
+describe('UserEndpoints:loginUser', function() {
   const assert = chai.assert;
 
   /**
@@ -91,11 +90,8 @@ describe('UserEndpoints loginUser', function() {
     return connection.query('ROLLBACK');
   });
 
-  /**
-   * Test all expected successful cases for registering a user.
-   */
-
-  it('should get a LoginUserResponseDTO with a valid jwt', async function() {
+  // 1.
+  it('Should get a LoginUserReponstDTO with a valid jwt', async function() {
     // create messages dtos for registering and logging in user
     const creds = new UserCredentialsDTO(
         'test_username',
@@ -107,12 +103,12 @@ describe('UserEndpoints loginUser', function() {
     const loginData = new LoginUserRequestDTO(
         creds,
     );
-    const registerMessage = new MessageDTO();
+    const registerMessage = new MessageDTO(null, null, null, null, null);
     registerMessage.$service = ServiceNames.User;
     registerMessage.$operation = ServiceOperations.RegisterUser;
     registerMessage.$data = registerData.toJSON();
 
-    const loginMessage = new MessageDTO();
+    const loginMessage = new MessageDTO(null, null, null, null, null);
     loginMessage.$service = ServiceNames.User;
     loginMessage.$operation = ServiceOperations.LoginUser,
     loginMessage.$data = loginData.toJSON();
@@ -136,7 +132,8 @@ describe('UserEndpoints loginUser', function() {
     assert(user.getUsername().getString() === creds.$username);
   });
 
-  it('should fail when a user hasn\'t been registered', async function() {
+  // 2.
+  it('Should get an error for a nonexistent user', async function() {
     const creds = new UserCredentialsDTO(
         'test_username123',
         'test_password123',
@@ -144,7 +141,7 @@ describe('UserEndpoints loginUser', function() {
     const loginData = new LoginUserRequestDTO(
         creds,
     );
-    const loginMessage = new MessageDTO();
+    const loginMessage = new MessageDTO(null, null, null, null, null);
     loginMessage.$service = ServiceNames.User;
     loginMessage.$operation = ServiceOperations.LoginUser;
     loginMessage.$data = loginData.toJSON();
@@ -154,9 +151,5 @@ describe('UserEndpoints loginUser', function() {
     } catch (err) {
       assert(err.message === 'Invalid login', 'Error message was: ' + err.message);
     }
-  });
-
-  it('should do schema validation at loginuser endpoint', async function() {
-    assert.fail('not doing schema validation on endpoints');
   });
 });

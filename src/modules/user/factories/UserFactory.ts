@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 /* eslint-disable require-jsdoc */
-import {EntityID} from '../../../shared/domain/EntityId';
+import {EntityID} from '../../../shared/domain/EntityID';
 import {User} from '../domain/User';
 import {Username} from '../domain/Username';
 import {Password} from '../domain/Password';

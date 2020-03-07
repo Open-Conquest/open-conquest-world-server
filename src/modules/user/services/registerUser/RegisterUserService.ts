@@ -8,6 +8,7 @@ import * as bcrypt from 'bcryptjs';
 import * as config from '../../../../shared/config/real-config';
 import {log} from '../../../../shared/utils/log';
 import { UserFactory } from '../../factories/UserFactory';
+import { RegisterUserErrors } from './RegisterUserErrors';
 
 /**
  *
@@ -60,7 +61,7 @@ export class RegisterUserService {
     // check for any errors
     } catch (err) {
       if (err.message === 'Duplicate username error') {
-        throw err;
+        throw new Error(RegisterUserErrors.UsernameTaken);
       }
       throw new Error('Unexpected error');
     }

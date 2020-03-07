@@ -8,7 +8,7 @@ import {Player} from '../../../shared/schemas/Player';
  * @implements {Player}
  */
 export class PlayerDTO implements Player {
-  private name: string;
+  name: string;
 
   constructor(name: string) {
     this.name = name;

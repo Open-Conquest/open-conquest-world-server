@@ -1,6 +1,6 @@
 /* eslint-disable require-jsdoc */
 import {Entity} from '../../../shared/domain/Entity';
-import {EntityID} from '../../../shared/domain/EntityId';
+import {EntityID} from '../../../shared/domain/EntityID';
 import {Playername} from './Playername';
 import {City} from './City';
 
@@ -30,5 +30,4 @@ export class Player extends Entity {
   public set $name(value: Playername) {
     this.name = value;
   }
-
 }

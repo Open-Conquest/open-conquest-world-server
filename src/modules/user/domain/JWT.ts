@@ -7,13 +7,24 @@
  * @class JWT
  */
 export class JWT {
-  private _token: string;
+  private token: string;
 
   constructor(token: string) {
-    this._token = token;
+    if (token === null) {
+      return null;
+    }
+    this.token = token;
   }
 
   getTokenString(): string {
-    return this._token;
+    return this.token;
+  }
+
+  public get $token(): string {
+    return this.token;
+  }
+
+  public set $token(value: string) {
+    this.token = value;
   }
 }

@@ -4,21 +4,21 @@ import {Password} from "./Password";
 import {HashedPassword} from './HashedPassword';
 
 export class UserCredentials {
-  private _username: Username;
-  private _password: Password;
+  private username: Username;
+  private password: Password;
   private hashedPassword: HashedPassword;
 
   constructor(username: Username, password: Password) {
-    this._username = username;
-    this._password = password;
+    this.username = username;
+    this.password = password;
   }
 
   getPasswordString(): string {
-    return this._password.getString();
+    return this.password.getString();
   }
 
   getUsernameString(): string {
-    return this._username.getString();
+    return this.username.getString();
   }
 
   getHashedPasswordString(): string {
@@ -26,6 +26,30 @@ export class UserCredentials {
   }
 
   getUsername(): Username {
-    return this._username;
+    return this.username;
+  }
+
+  public get $username(): Username {
+    return this.username;
+  }
+
+  public get $password(): Password {
+    return this.password;
+  }
+
+  public get $hashedPassword(): HashedPassword {
+    return this.hashedPassword;
+  }
+
+  public set $username(value: Username) {
+    this.username = value;
+  }
+
+  public set $password(value: Password) {
+    this.password = value;
+  }
+
+  public set $hashedPassword(value: HashedPassword) {
+    this.hashedPassword = value;
   }
 }

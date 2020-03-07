@@ -4,10 +4,9 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "make": "tsc",
-    "make-schemas": "node schemas/compile.js",
-    "watch-make": "tsc --watch",
-    "watch-test": "mocha --watch --recursive dist/test",
+    "make": "cd schemas; node compile.js; cd ..; tsc",
+    "watch": "tsc --watch",
+    "test": "npm run u-tests; npm run i-tests",
     "u-tests": "mocha --recursive --exit dist/test/unit/",
     "i-tests": "NODE_ENV=test mocha --recursive --exit dist/test/integration",
     "i-tests-travis": "NODE_ENV=travis mocha --recursive --exit dist/test/integration",

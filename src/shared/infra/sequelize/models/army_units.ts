@@ -15,6 +15,10 @@ export default (sequelize, DataTypes) => {
     unit_id: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
+      references: {
+        model: 'unit',
+        key: 'unit_id',
+      },
     },
     unit_count: {
       type: DataTypes.INTEGER(11),
@@ -29,8 +33,9 @@ export default (sequelize, DataTypes) => {
     models.army_units.belongsTo(models.army, {
       foreignKey: 'army_id',
     });
-    models.army_units.belongsTo(models.unit, {
+    models.army_units.hasOne(models.unit, {
       foreignKey: 'unit_id',
+      sourceKey: 'unit_id',
     });
   };
 

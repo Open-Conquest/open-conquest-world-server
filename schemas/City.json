@@ -7,8 +7,14 @@
     },
     "level": {
       "type": "number"
+    },
+    "row": {
+      "type": "number"
+    },
+    "col": {
+      "type": "number"
     }
   },
-  "required": ["name", "level"],
+  "required": ["name", "level", "row", "col"],
   "additionalProperties": false
 }

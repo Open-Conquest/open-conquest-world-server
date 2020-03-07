@@ -21,6 +21,7 @@ module.exports = {
   'rules': {
     'new-cap': ['error', {
         'properties': false
-    }]
+    }],
+    'no-unused-vars': 'off',
   },
 };

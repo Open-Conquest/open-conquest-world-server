@@ -6,11 +6,7 @@
  */
 
 export interface CreatePlayerRequest {
-  token: JWT;
   player: Player;
-}
-export interface JWT {
-  value: string;
 }
 export interface Player {
   name: string;

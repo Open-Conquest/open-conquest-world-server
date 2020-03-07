@@ -8,6 +8,7 @@ import * as jwt from 'jsonwebtoken';
 import * as bcrypt from 'bcryptjs';
 import * as config from '../../../../shared/config/real-config';
 import {log} from '../../../../shared/utils/log';
+import { LoginUserErrors } from './LoginUserErrors';
 
 /**
  *
@@ -50,16 +51,26 @@ export class LoginUserService {
       // return jwt if user has valid credentials
       if (bcrypt.compareSync(credentials.getPasswordString(), hashedPassword)) {
         // create a user domain entity
-        const loggedInUser = this.userFactory.createUserWithUsername(
-            credentials.getUsernameString(),
+        const loggedInUser = this.userFactory.createUser(
+            user.$id.$value,
+            user.$username.$value,
+            null,
+            null,
+            null,
         );
         // create a jwt for this user and return
         return jwtMiddleware.createJWT(loggedInUser);
       } else {
-        throw new Error('Invalid credentials');
+        throw new Error(LoginUserErrors.InvalidCredentials);
       }
     } catch (err) {
-      throw new Error('Invalid login');
+      if (err.message === LoginUserErrors.InvalidCredentials) {
+        throw err;
+      } else if (err.message === 'No user found') {
+        throw new Error(LoginUserErrors.InvalidCredentials);
+      } else {
+        throw new Error('Unexpected error');
+      }
     }
   }
 }

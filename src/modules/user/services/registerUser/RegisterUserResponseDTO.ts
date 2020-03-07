@@ -1,7 +1,7 @@
 /* eslint-disable require-jsdoc */
 import {IDTO} from '../../../../shared/dtos/IDTO';
-import { JWTDTO } from '../../../../shared/dtos/JWTDTO';
-import { RegisterUserResponse } from '../../../../shared/schemas/RegisterUserResponse';
+import {JWTDTO} from '../../../../shared/dtos/JWTDTO';
+import {RegisterUserResponse} from '../../../../shared/schemas/RegisterUserResponse';
 
 /**
  * Class is meant to represent the response to the registerUser request.

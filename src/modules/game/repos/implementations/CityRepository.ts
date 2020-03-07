@@ -3,7 +3,9 @@ import {ICityRepository} from '../ICityRepository';
 import {City} from '../../domain/City';
 import {Player} from '../../domain/Player';
 import {CityMapper} from '../../mappers/CityMapper';
+import {CityRepositoryErrors} from '../CityRepositoryErrors';
 import {log} from '../../../../shared/utils/log';
+import {Tile} from '../../domain/Tile';
 
 /**
  * Repository implementation for city entities.
@@ -27,40 +29,62 @@ export class CityRepository implements ICityRepository {
     this.cityMapper = new CityMapper();
   }
 
-  async createCity(player: Player, city: City): Promise<City> {
+  /**
+   * Create a new city in the database for player.
+   *
+   * @param {Player} player
+   * @param {City} city
+   * @param {Tile} tile
+   * @return {Promise<City>}
+   * @memberof CityRepository
+   */
+  async createCity(player: Player, city: City, tile: Tile): Promise<City> {
     try {
       const dbCity = await this.models.city.create({
         city_name: city.$name.$value,
         city_level: city.$level.$value,
         player_id: player.$id.$value,
+        tile_id: tile.$id.$value,
       });
+      // get tile city was created on
+      const dbTile = await this.models.tile.findOne({
+        where: {
+          tile_id: dbCity.tile_id,
+        },
+      });
+      // set city tile as dbTile, this is expected in the city mapper, the same
+      // thing could be achieved by including the tile in the create res but it
+      // doesn't seem like sequelize has something to do this, this is done in
+      // the getCity method below with the "include" option
+      dbCity.tile = dbTile;
       // map from db to domain and return
       return this.cityMapper.fromPersistence(dbCity);
     } catch (err) {
       // check to see what type of error was returned
-      if (err.name === 'SequelizeUniqueConstraintError') {
-        throw new Error('Duplicate city name error');
-      } else if (err.name === 'SequelizeForeignKeyConstraintError') {
-        throw new Error('Player does not exist');
-      } else {
-        log.error(err.message);
-        throw new Error('Unexpected error');
+      switch (err.name) {
+        case 'SequelizeUniqueConstraintError':
+          throw new Error(CityRepositoryErrors.DuplicateCityname);
+        case 'SequelizeForeignKeyConstraintError':
+          switch (err.table) {
+            case 'player':
+              throw new Error(CityRepositoryErrors.NonexistentPlayer);
+            case 'tile':
+              throw new Error(CityRepositoryErrors.NonexistentTile);
+          }
+        default:
+          throw err;
       }
     }
   }
 
   async getCity(city: City): Promise<City> {
-    try {
-      const dbCity = await this.models.city.findOne({
-        where: {
-          city_name: city.$name.$value,
-        },
-      });
-      return this.cityMapper.fromPersistence(dbCity);
-    } catch (err) {
-      // check if is a known error
-      log.error('unknown error', err);
-    }
+    const dbCity = await this.models.city.findOne({
+      where: {
+        city_name: city.$name.$value,
+      },
+      include: [this.models.tile],
+    });
+    return this.cityMapper.fromPersistence(dbCity);
   }
 
   getAllCities(city: any): Promise<any[]> {

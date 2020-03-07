@@ -2,7 +2,7 @@
 import {JWT} from '../schemas/JWT';
 
 export class JWTDTO implements JWT {
-  private value: string;
+  value: string;
 
   constructor(value: string) {
     this.value = value;

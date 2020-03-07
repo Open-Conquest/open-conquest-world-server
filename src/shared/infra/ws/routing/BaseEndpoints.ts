@@ -42,7 +42,7 @@ export class BaseEndpoints {
    */
   async handle(message: MessageDTO): Promise<MessageDTO> {
     const clazz = this.constructor.name;
-    log.info(clazz + ' received request message', message);
+    log.info(clazz + ' received message', message);
 
     // check if operation exists
     if (this.handlers[message.$operation] === undefined) {

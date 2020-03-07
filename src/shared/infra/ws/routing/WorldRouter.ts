@@ -14,8 +14,8 @@ export class WorldRouter {
   private endpoints: Map<ServiceNames, BaseEndpoints>;
 
   /**
-   * Creates an instance of WorldEndpoints.
-   * @memberof WorldEndpoints
+   * Creates an instance of WorldRouter.
+   * @memberof WorldRouter
    */
   constructor() {
     this.endpoints = new Map<ServiceNames, BaseEndpoints>();
@@ -49,7 +49,7 @@ export class WorldRouter {
     log.info('WorldRouter handling message', json);
 
     // create message dto from json
-    let message = MessageDTO.fromJSON(json);
+    let message: MessageDTO = MessageDTO.fromJSON(json);
     message.$user = null; // set user to null (it should not be set)
 
     // check if authentication should happen (any service beside user)

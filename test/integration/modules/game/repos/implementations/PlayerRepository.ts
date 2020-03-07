@@ -5,6 +5,7 @@ import {UserFactory} from '../../../../../../src/modules/user/factories/UserFact
 import {PlayerFactory} from '../../../../../../src/modules/game/factories/PlayerFactory';
 import {userRepository} from '../../../../../../src/modules/user/repos/implementations';
 import {playerRepository} from '../../../../../../src/modules/game/repos/implementations';
+import {PlayerRepositoryErrors} from '../../../../../../src/modules/game/repos/PlayerRepositoryErrors';
 import {models} from '../../../../../../src/shared/infra/sequelize/models';
 import {log} from '../../../../../../src/shared/utils/log';
 
@@ -14,8 +15,8 @@ const playerFactory = new PlayerFactory();
 /**
  * Summary of tests for PlayerRepository:createPlayer
  * 1. Should create a new player with the expected name
- * 2. Shouldn't create a player for a non existent user
- * 3. Shouldn't create a player with a duplicate name
+ * 2. Should throw NonexistentUser error
+ * 3. Should throw DuplicatePlayername error
  */
 describe('PlayerRepository:createPlayer', function() {
   const assert = chai.assert;
@@ -29,7 +30,7 @@ describe('PlayerRepository:createPlayer', function() {
     return connection.query('ROLLBACK');
   });
 
-  // 1. Should create a player with the expected name
+  // 1.
   it('Should create a new player with the expected name', async function() {
     // create a new user to register the player for
     const username = 'test_username';
@@ -48,8 +49,8 @@ describe('PlayerRepository:createPlayer', function() {
     assert(createdPlayer.getNameString() === playername);
   });
 
-  // 2. Shouldn't create a player for a non existent user
-  it('Shouldn\'t create a player for a non existent user ', async function() {
+  // 2.
+  it('Should throw NonexistentUser error', async function() {
     // create a new user to register the player for
     const nonexistentUserID = -1;
     const username = 'test_username';
@@ -72,12 +73,12 @@ describe('PlayerRepository:createPlayer', function() {
       );
       assert.fail('Expected nonexistent user error');
     } catch (err) {
-      assert(err.message === 'User does not exist');
+      assert(err.message === PlayerRepositoryErrors.NonexistentUser);
     }
   });
 
-  // 3. Shouldn't create a player with a duplicate name
-  it('Shouldn\'t create a player with duplicate name', async function() {
+  // 3.
+  it('Should throw DuplicateUsername error', async function() {
     // create a new user to register the player for
     const username = 'test_username';
     const hashedPassword = 'q1f8923hfkdjhf2ir3r';
@@ -96,7 +97,10 @@ describe('PlayerRepository:createPlayer', function() {
       await playerRepository.createPlayer(user, newPlayer);
       assert.fail('Expected duplicate playername error');
     } catch (err) {
-      assert(err.message === 'Duplicate playername error');
+      assert(
+          err.message === PlayerRepositoryErrors.DuplicatePlayername,
+          'Instead error message was:' + err.message,
+      );
     }
   });
 });

@@ -10,6 +10,7 @@ export default (sequelize, DataTypes) => {
     name: {
       type: DataTypes.STRING(45),
       allowNull: false,
+      unique: true,
     },
     user_id: {
       type: DataTypes.INTEGER(11),

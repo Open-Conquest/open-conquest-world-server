@@ -1,6 +1,6 @@
 import {registerUserService} from '../../../src/modules/user/services/registerUser';
 import {UserCredentials} from '../../../src/modules/user/domain/UserCredentials';
-import {Username} from '../../../src/modules/user/domain/UserName';
+import {Username} from '../../../src/modules/user/domain/Username';
 import {Password} from '../../../src/modules/user/domain/Password';
 import {User} from '../../../src/modules/user/domain/User';
 import {userRepository} from '../../../src/modules/user/repos/implementations';

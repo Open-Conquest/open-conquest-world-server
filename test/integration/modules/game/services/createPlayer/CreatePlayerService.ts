@@ -4,6 +4,7 @@ import {Playername} from '../../../../../../src/modules/game/domain/Playername';
 import {UserFactory} from '../../../../../../src/modules/user/factories/UserFactory';
 import {PlayerFactory} from '../../../../../../src/modules/game/factories/PlayerFactory';
 import {userRepository} from '../../../../../../src/modules/user/repos/implementations';
+import {CreatePlayerErrors} from '../../../../../../src/modules/game/services/createPlayer/CreatePlayerErrors';
 
 import * as chai from 'chai';
 import * as mocha from 'mocha';
@@ -15,8 +16,8 @@ import {createPlayerService} from '../../../../../../src/modules/game/services/c
 /**
  * Summary of tests for CreatePlayerService:createPlayer
  * 1. Should create a new player for an existing user
- * 2. Shouldn't create a player with duplicate username
- * 3. Shouldn't create a player for a non-existent user
+ * 2. Should throw DuplicatePlayername error
+ * 3. Should throw NonexistentUser error
  */
 
 describe('CreatePlayerService:createPlayer', function() {
@@ -54,8 +55,8 @@ describe('CreatePlayerService:createPlayer', function() {
     assert(createdPlayer.getNameString() === name);
   });
 
-  // 2. Shouldn't create a player with duplicate name
-  it('Shouldn\'t create a player with duplicate name', async function() {
+  // 2.
+  it('Should throw DuplicatePlayername error', async function() {
     // register a new player to create the player for
     const username = 'test_username';
     const hashedPassword = 'q1f8923hfkdjhf2ir3r';
@@ -82,12 +83,12 @@ describe('CreatePlayerService:createPlayer', function() {
       );
       assert.fail('Expected error');
     } catch (err) {
-      assert(err.message === 'Playername taken', 'Unexpected error message');
+      assert(err.message === CreatePlayerErrors.DuplicatePlayername);
     }
   });
 
-  // 3. Shouldn't create a player for a nonexistent user
-  it('Shouldn\'t creat a player for a nonexistent user', async function() {
+  // 3.
+  it('Should throw NonexistentUser error', async function() {
     // create a new nonexistent user entity
     const username = 'test_username';
     const madeUpID = -1;
@@ -110,7 +111,7 @@ describe('CreatePlayerService:createPlayer', function() {
       );
       assert.fail('Expected nonexistent user error');
     } catch (err) {
-      assert(err.message === 'User does not exist');
+      assert(err.message === CreatePlayerErrors.NonexistentUser);
     }
   });
 });

@@ -1,6 +1,6 @@
 /* eslint-disable require-jsdoc */
-import { LoginUserRequest } from "../../../../shared/schemas/LoginUserRequest";
-import { UserCredentialsDTO } from "../../dtos/UserCredentialsDTO";
+import {LoginUserRequest} from '../../../../shared/schemas/LoginUserRequest';
+import {UserCredentialsDTO} from '../../dtos/UserCredentialsDTO';
 
 /**
  * DTO representation of LoginUserRequest.
@@ -26,11 +26,11 @@ export class LoginUserRequestDTO implements LoginUserRequest {
     return this;
   }
 
-  static fromJSON(json: any) {
+  static fromJSON(data: any) {
     return new LoginUserRequestDTO(
         new UserCredentialsDTO(
-            json.credentials.username,
-            json.credentials.password,
+            data.username,
+            data.password,
         ),
     );
   }
