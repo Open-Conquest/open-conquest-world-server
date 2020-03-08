@@ -37,8 +37,8 @@ export class JWTMiddleware {
   validateJwt(token: JWT): User {
     try {
       // check if token is valid
+      log.info('token jwt obj in validateJWT', token);
       const payload = jwt.verify(token.getTokenString(), config.secret);
-      log.info('jwt payload', payload);
       // instantiate user from jwt claims
       return this.userFactory.createUser(
           payload.user_id,
@@ -52,7 +52,7 @@ export class JWTMiddleware {
         throw new Error('Access denied, invalid authorization token.');
       } else {
         log.error(err);
-        throw new Error('Unexpected error');
+        throw err;
       }
     }
   }
@@ -74,7 +74,10 @@ export class JWTMiddleware {
       if (token == null) {
         throw new Error('No token provided');
       }
-      const jwt = new JWT(token.$value);
+      // CANNOT FIGURE OUT WHY I CANT ACCESS THIS PROPERTY WITH $VALUE GETTER!!
+      // IDEA IT IS NOT A JWTDTO SO I CANNOT USE THE GETTER
+      // THIS IS DEFINITELY THE ISSUE
+      const jwt = new JWT(token.value);
 
       // validate jwt and get user from claims
       const user: User = this.validateJwt(jwt);
@@ -84,7 +87,7 @@ export class JWTMiddleware {
           user.$id.$value,
           user.$username.$value,
       );
-      // set acting user property in message
+      // set acting user property in message & return message to router
       message.$user = userDTO;
       return message;
 
