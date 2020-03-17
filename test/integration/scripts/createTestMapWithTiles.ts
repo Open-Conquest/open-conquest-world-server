@@ -1,6 +1,9 @@
 import {log} from '../../../src/shared/utils/log';
+import {
+  mapRepository,
+  tileRepository,
+} from '../../../src/modules/game/repos/implementations/';
 import {Map} from '../../../src/modules/game/domain/Map';
-import {mapRepository, tileRepository} from '../../../src/modules/game/repos/implementations/';
 import {MapFactory} from '../../../src/modules/game/factories/MapFactory';
 import {TileFactory} from '../../../src/modules/game/factories/TileFactory';
 import {TileType} from '../../../src/modules/game/domain/TileType';
@@ -18,7 +21,7 @@ export async function createTestMapWithTiles(): Promise<Map> {
   // create new map and add to database
   const mapFactory = new MapFactory();
   let map = mapFactory.createMap(
-      null,
+      1,
       'World #1',
       rows,
       cols,
@@ -39,6 +42,10 @@ export async function createTestMapWithTiles(): Promise<Map> {
       await tileRepository.createTile(tile);
     }
   }
+
+  // get all of the created tiles for the map
+  const tiles = await tileRepository.getAllTiles(map);
+  map.$tiles = tiles;
 
   return map;
 }

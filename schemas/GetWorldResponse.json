@@ -1,0 +1,11 @@
+{
+  "title": "GetWorldResponse",
+  "type": "object",
+  "properties": {
+    "world": {
+      "$ref": "World.json"
+    }
+  },
+  "required": ["world"],
+  "additionalProperties": false
+}

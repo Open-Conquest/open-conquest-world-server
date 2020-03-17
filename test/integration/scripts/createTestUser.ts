@@ -25,19 +25,8 @@ export async function createTestUser(): Promise<User> {
   );
   await registerUserService.registerUser(credentials);
 
-  // get user from database
-  let user = userFactory.createUser(
-      null,
-      username,
-      password,
-      null,
-      null,
-  );
-  user = await userRepository.getUserPasswordWithUsername(
+  // return user as it is found in the database
+  return await userRepository.getUserPasswordWithUsername(
       new Username(username),
   );
-
-  log.info('user created', user);
-
-  return user;
 }

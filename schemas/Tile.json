@@ -1,0 +1,17 @@
+{
+  "title": "Tile",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "number"
+    },
+    "row": {
+      "type": "number"
+    },
+    "col": {
+      "type": "number"
+    }
+  },
+  "required": ["type", "row", "col"],
+  "additionalProperties": false
+}

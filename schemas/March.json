@@ -1,0 +1,26 @@
+{
+  "title": "March",
+  "type": "object",
+  "properties": {
+    "startRow": {
+      "type": "number"
+    },
+    "startCol": {
+      "type": "number"
+    },
+    "endRow": {
+      "type": "number"
+    },
+    "endCol": {
+      "type": "number"
+    },
+    "startTime": {
+      "type": "number"
+    },
+    "endTime": {
+      "type": "number"
+    }
+  },
+  "required": ["startRow", "startCol", "endRow", "endCol", "startTime", "endTime"],
+  "additionalProperties": false
+}

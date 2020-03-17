@@ -78,4 +78,19 @@ export class PlayerRepository implements IPlayerRepository {
       return null;
     }
   }
+
+  /**
+   * Get all of the players in the world.
+   *
+   * @return {Promise<Array<Player>>}
+   * @memberof PlayerRepository
+   */
+  async getAllPlayers(): Promise<Array<Player>> {
+    const dbPlayers = await this.models.player.findAll();
+    const players = [];
+    for (let i = 0; i < dbPlayers.length; i++) {
+      players.push(this.playerMapper.fromPersistence(dbPlayers[i]));
+    }
+    return players;
+  }
 }

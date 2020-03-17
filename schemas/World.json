@@ -1,0 +1,20 @@
+{
+  "title": "World",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "number"
+    },
+    "map": {
+      "$ref": "Map.json"
+    },
+    "cities": {
+      "type": "array",
+      "city": {
+        "$ref": "City.json"
+      }
+    }
+  },
+  "required": ["id", "map", "cities"],
+  "additionalProperties": false
+}

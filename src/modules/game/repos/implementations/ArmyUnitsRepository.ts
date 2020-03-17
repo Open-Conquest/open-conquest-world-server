@@ -52,6 +52,10 @@ export class ArmyUnitsRepository implements IArmyUnitsRepository {
             case 'army':
               throw new Error(ArmyUnitsRepositoryErrors.NonexistentArmy);
             case 'unit':
+              log.error(
+                  'Tried to save ArmyUnits with unexpected Unit',
+                  armyUnits.$unit,
+              );
               throw new Error(ArmyUnitsRepositoryErrors.NonexistentUnit);
           }
         default:

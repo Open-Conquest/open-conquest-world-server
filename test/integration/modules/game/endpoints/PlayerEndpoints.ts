@@ -16,7 +16,7 @@ import {createTestMapWithTiles} from '../../../scripts/createTestMapWithTiles';
 import { UnitType, UnitName, UnitAttack, UnitDefense, UnitGoldCost } from '../../../../../src/modules/game/domain/Unit';
 
 /**
- * Summary of tests for CreatePlayerController:createPlayer
+ * Summary of tests for PlayerEndpoints:createPlayer
  * 1. Should get a DTO with a new player & their army, resources, and army
  */
 describe('PlayerEndpoints:createPlayer', function() {
