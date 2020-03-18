@@ -48,6 +48,28 @@ export class TileRepository implements ITileRepository {
     }
   }
 
+  async updateTileAt(tile: Tile): Promise<Tile> {
+    try {
+      // get the tile to update
+      const dbTile = await this.models.tile.findOne({
+        where: {
+          tile_row: tile.$row,
+          tile_col: tile.$col,
+        },
+      });
+      // update the tiles type
+      const updatedTile = await dbTile.update({
+        tile_type: tile.$type,
+      });
+      // return updated tile
+      return this.tileMapper.fromPersistence(updatedTile);
+    } catch (err) {
+      // check to see what type of error was returned
+      log.error(err.message);
+      throw err;
+    }
+  }
+
   async updateTile(tile: Tile): Promise<Tile> {
     try {
       // get tile from db

@@ -7,4 +7,5 @@ export interface ITileRepository {
   getTileAt(row: number, col: number): Promise<Tile>;
   getAllTiles(map: Map): Promise<Array<Array<Tile>>>;
   updateTile(tile: Tile): Promise<Tile>;
+  updateTileAt(tile: Tile): Promise<Tile>;
 }

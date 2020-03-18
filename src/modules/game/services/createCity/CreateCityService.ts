@@ -6,8 +6,9 @@ import {CityFactory} from '../../factories/CityFactory';
 import {Player} from '../../domain/Player';
 import {CityRepositoryErrors} from '../../repos/CityRepositoryErrors';
 import {CreateCityErrors} from './CreateCityErrors';
-import {createReadStream} from 'fs';
 import {Tile} from '../../domain/Tile';
+import {ITileRepository} from '../../repos/ITileRepository';
+import {TileType} from '../../domain/TileType';
 
 /**
  * Coordinate between domain and persistence layers to create city entities.
@@ -17,16 +18,19 @@ import {Tile} from '../../domain/Tile';
  */
 export class CreateCityService {
   private cityRepository: ICityRepository;
+  private tileRepository: ITileRepository;
   private cityFactory: CityFactory;
 
   /**
    * Creates an instance of CityServices.
    *
    * @param {ICityRepository} cityRepository
+   * @param {ITileRepository} tileRepository
    * @memberof CityServices
    */
-  constructor(cityRepository: ICityRepository) {
+  constructor(cityRepository: ICityRepository, tileRepository: ITileRepository) {
     this.cityRepository = cityRepository;
+    this.tileRepository = tileRepository;
     this.cityFactory = new CityFactory();
   }
 
@@ -48,7 +52,16 @@ export class CreateCityService {
 
     // if the name isn't taken save city to database & return new city
     try {
-      return await this.cityRepository.createCity(player, city, tile);
+      const savedCity = await this.cityRepository.createCity(
+          player,
+          city,
+          tile,
+      );
+      // update the tile where the city was created
+      tile.$type = TileType.City;
+      await this.tileRepository.updateTile(tile);
+      // return the newly created city
+      return savedCity;
     } catch (err) {
       switch (err.message) {
         case CityRepositoryErrors.DuplicateCityname:
