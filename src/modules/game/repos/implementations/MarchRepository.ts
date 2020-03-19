@@ -41,12 +41,18 @@ export class MarchRepository implements IMarchRepository {
         where: {
           march_id: dbMarch.march_id,
         },
-        include: [
-          {
-            model: this.models.army,
-          },
-        ],
+        include: [{
+          model: this.models.army,
+          include: [{
+            model: this.models.army_units,
+            include: [{
+              model: this.models.unit,
+            }],
+          }],
+        }],
       });
+
+      log.error(dbMarchWithArmy);
 
       // march from db to domain and return
       return this.marchMapper.fromPersistence(dbMarchWithArmy);

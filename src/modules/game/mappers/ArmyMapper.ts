@@ -1,7 +1,8 @@
 import {Army} from '../domain/Army';
 import {ArmyFactory} from '../factories/ArmyFactory';
-import { ArmyDTO } from '../dtos/ArmyDTO';
-import { ArmyUnitsMapper } from './ArmyUnitsMapper';
+import {ArmyDTO} from '../dtos/ArmyDTO';
+import {ArmyUnitsMapper} from './ArmyUnitsMapper';
+import {log} from '../../../shared/utils/log';
 // import {ArmyDTO} from '../dtos/ArmyDTO';
 
 /**
@@ -30,10 +31,21 @@ export class ArmyMapper {
       return null;
     }
 
+    log.info('Mapping dbArmy', dbArmy);
+
+    const armyUnits = [];
+    if (dbArmy.army_units !== undefined) {
+      for (let i = 0; i < dbArmy.army_units.length; i++) {
+        armyUnits.push(
+            this.armyUnitsMapper.fromPersistence(dbArmy.army_units[i]),
+        );
+      }
+    }
+
     return this.armyFactory.createArmy(
         dbArmy.army_id,
         dbArmy.player_id,
-        null,
+        armyUnits,
     );
   }
 

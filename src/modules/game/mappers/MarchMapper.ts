@@ -2,6 +2,7 @@ import {March} from '../domain/March';
 import {MarchFactory} from '../factories/MarchFactory';
 import {ArmyMapper} from './ArmyMapper';
 import {Time} from '../domain/Time';
+import {log} from '../../../shared/utils/log';
 // import {MarchDTO} from '../dtos/MarchDTO';
 
 /**
@@ -29,6 +30,8 @@ export class MarchMapper {
     if (dbMarch === null) {
       return null;
     }
+
+    log.info('Mapping dbMarch', dbMarch);
 
     // map march army
     const army = this.armyMapper.fromPersistence(dbMarch.army);
