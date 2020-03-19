@@ -5,5 +5,6 @@ export enum ServiceNames {
   March = 'march',
   Player = 'player',
   Tile = 'tile',
-  User = 'user'
+  User = 'user',
+  World = 'world',
 }

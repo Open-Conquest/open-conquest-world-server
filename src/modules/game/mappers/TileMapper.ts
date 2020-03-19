@@ -1,6 +1,6 @@
 import {Tile} from '../domain/Tile';
 import {TileFactory} from '../factories/TileFactory';
-// import {TileDTO} from '../dtos/TileDTO';
+import {TileDTO} from '../dtos/TileDTO';
 
 /**
  * TileMapper is responsible for mappings between the domain tile entity
@@ -50,17 +50,18 @@ export class TileMapper {
   //   throw new Error('no impl');
   // }
 
-  // /**
-  //  * Create a dto from a tile entity.
-  //  *
-  //  * @param {Tile} tile
-  //  * @return {TileDTO}
-  //  * @memberof TileMapper
-  //  */
-  // toDTO(tile: Tile): TileDTO {
-  //   // return new TileDTO(
-  //   //     tile.getNameString(),
-  //   // );
-  //   throw new Error('no impl');
-  // }
+  /**
+   * Create a dto from a tile entity.
+   *
+   * @param {Tile} tile
+   * @return {TileDTO}
+   * @memberof TileMapper
+   */
+  toDTO(tile: Tile): TileDTO {
+    return new TileDTO(
+        tile.$type,
+        tile.$row,
+        tile.$col,
+    );
+  }
 }

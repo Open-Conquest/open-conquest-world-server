@@ -44,8 +44,6 @@ export class GetTileForNewCityService {
     while (attempts < 10) {
       const row = Math.floor((Math.random() * map.$maxRows));
       const col = Math.floor((Math.random() * map.$maxCols));
-      log.info('row, col', row);
-      log.info('row, col', col);
       tile = await this.tileRepository.getTileAt(row, col);
       // if found a grass tile, then return because i said so
       if (tile.$type === TileType.Grass) {

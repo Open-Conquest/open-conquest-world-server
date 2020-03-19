@@ -5,5 +5,7 @@ export enum ServiceOperations {
   RegisterUserError = 'registerUserError',
   LoginUser = 'loginUser',
   LoginUserError = 'loginUserError',
-  GetArmies = 'getArmies'
+  GetArmies = 'getArmies',
+  GetWorld = 'getWorld',
+  GetWorldError = 'getWorldError',
 }

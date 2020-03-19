@@ -1,0 +1,14 @@
+{
+  "title": "Map",
+  "type": "object",
+  "properties": {
+    "tiles": {
+      "type": "array",
+      "tile": {
+        "$ref": "Tile.json"
+      }
+    }
+  },
+  "required": ["tiles"],
+  "additionalProperties": false
+}

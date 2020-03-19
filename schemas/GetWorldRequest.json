@@ -1,0 +1,11 @@
+{
+  "title": "GetWorldRequest",
+  "type": "object",
+  "properties": {
+    "worldID": {
+      "type": "number"
+    }
+  },
+  "required": ["worldID"],
+  "additionalProperties": false
+}
