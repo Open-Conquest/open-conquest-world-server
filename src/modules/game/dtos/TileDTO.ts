@@ -1,5 +1,5 @@
 /* eslint-disable require-jsdoc */
-import {Tile, TileType} from '../../../shared/schemas/Tile';
+import {Tile} from '../../../shared/schemas/Tile';
 
 export class TileDTO implements Tile {
   type: number;

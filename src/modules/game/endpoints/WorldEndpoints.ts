@@ -42,8 +42,7 @@ export class WorldEndpoints extends BaseEndpoints {
    */
   async getWorld(message: MessageDTO): Promise<MessageDTO> {
     try {
-      const responseDTO: GetWorldResponseDTO = await this.getWorldController
-          .getWorld();
+      const responseDTO = await this.getWorldController.getWorld();
 
       return new MessageDTO(
           ServiceNames.World,
@@ -59,7 +58,7 @@ export class WorldEndpoints extends BaseEndpoints {
       // change the error message depending on the internal error
       switch (err.message) {
         default:
-          errorDTO.$message = GetWorldErrors.UnknownError;
+          errorDTO.message = GetWorldErrors.UnknownError;
       }
 
       // return a new message indicating an error creating player

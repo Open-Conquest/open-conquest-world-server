@@ -28,7 +28,6 @@ export default (sequelize, DataTypes) => {
     },
     speed_modifier: {
       type: DataTypes.FLOAT,
-      allowNull: false,
     },
   }, {
     timestamps: false,
@@ -36,9 +35,6 @@ export default (sequelize, DataTypes) => {
   });
 
   march.associate = (models) => {
-    models.march.belongsTo(models.army, {
-      foreignKey: 'army_id',
-    });
     models.march.belongsTo(models.tile, {
       as: 'startTile',
       foreignKey: 'start_tile_id',
@@ -48,6 +44,10 @@ export default (sequelize, DataTypes) => {
       foreignKey: {
         name: 'end_tile_id',
       },
+    });
+    models.march.hasOne(models.army, {
+      foreignKey: 'army_id',
+      sourceKey: 'army_id',
     });
   };
 

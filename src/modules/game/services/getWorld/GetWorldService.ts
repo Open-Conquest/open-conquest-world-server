@@ -4,6 +4,7 @@ import {ICityRepository} from '../../repos/ICityRepository';
 import {IMapRepository} from '../../repos/IMapRepository';
 import {WorldFactory} from '../../factories/WorldFactory';
 import {ITileRepository} from '../../repos/ITileRepository';
+import {EntityID} from '../../../../shared/domain/EntityID';
 
 /**
  * Service for handling get world
@@ -53,6 +54,6 @@ export class GetWorldService {
     map.$tiles = await this.tileRepository.getAllTiles(map);
     const cities = await this.cityRepository.getAllCities();
 
-    return this.worldFactory.createWorld(1, players, map, cities);
+    return this.worldFactory.createWorld(new EntityID(1), players, map, cities);
   }
 }

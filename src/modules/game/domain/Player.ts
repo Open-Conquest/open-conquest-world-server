@@ -3,6 +3,7 @@ import {Entity} from '../../../shared/domain/Entity';
 import {EntityID} from '../../../shared/domain/EntityID';
 import {Playername} from './Playername';
 import {City} from './City';
+import {Army} from './Army';
 
 /**
  * Domain entity representation of a Player.
@@ -13,6 +14,7 @@ import {City} from './City';
 export class Player extends Entity {
   private name: Playername;
   private city: City;
+  private armies: Array<Army>;
 
   constructor(id: EntityID, name: Playername) {
     super(id);
@@ -29,5 +31,21 @@ export class Player extends Entity {
 
   public set $name(value: Playername) {
     this.name = value;
+  }
+
+  public get $city(): City {
+    return this.city;
+  }
+
+  public get $armies(): Array<Army> {
+    return this.armies;
+  }
+
+  public set $city(value: City) {
+    this.city = value;
+  }
+
+  public set $armies(value: Array<Army>) {
+    this.armies = value;
   }
 }

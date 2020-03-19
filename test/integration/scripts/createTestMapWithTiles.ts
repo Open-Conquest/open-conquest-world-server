@@ -15,8 +15,8 @@ import {TileType} from '../../../src/modules/game/domain/TileType';
  * @return {Player}
  */
 export async function createTestMapWithTiles(): Promise<Map> {
-  const rows = 5;
-  const cols = 5;
+  const rows = 10;
+  const cols = 10;
 
   // create new map and add to database
   const mapFactory = new MapFactory();
