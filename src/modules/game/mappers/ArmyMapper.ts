@@ -31,8 +31,6 @@ export class ArmyMapper {
       return null;
     }
 
-    log.info('Mapping dbArmy', dbArmy);
-
     const armyUnits = [];
     if (dbArmy.army_units !== undefined) {
       for (let i = 0; i < dbArmy.army_units.length; i++) {

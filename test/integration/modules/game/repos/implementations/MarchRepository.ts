@@ -63,6 +63,12 @@ describe('MarchRepository:createMarch', function() {
     assert(createdMarch.$startRow === 0);
     assert(createdMarch.$endRow === 5);
     assert(createdMarch.$endCol === 5);
+    assert(createdMarch.$army.$id.$value === player.$armies[0].$id.$value);
+    assert(createdMarch.$army.$units[0].$count === player.$armies[0].$units[0].$count);
+    assert(createdMarch.$army.$units[0].$unit.$type === player.$armies[0].$units[0].$unit.$type);
+    assert(createdMarch.$army.$units[0].$unit.$attack === player.$armies[0].$units[0].$unit.$attack);
+    assert(createdMarch.$army.$units[0].$unit.$defense === player.$armies[0].$units[0].$unit.$defense);
+    assert(createdMarch.$army.$units[0].$unit.$goldCost === player.$armies[0].$units[0].$unit.$goldCost);
   });
 });
 

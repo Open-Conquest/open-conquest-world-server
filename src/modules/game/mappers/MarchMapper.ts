@@ -31,22 +31,14 @@ export class MarchMapper {
       return null;
     }
 
-    log.info('Mapping dbMarch', dbMarch);
-
-    // map march army
-    const army = this.armyMapper.fromPersistence(dbMarch.army);
-
-    // map march start time
-    const startTime = new Time();
-
     return this.marchFactory.createMarch(
         dbMarch.march_id,
-        army,
-        dbMarch.start_row,
-        dbMarch.start_col,
-        dbMarch.end_row,
-        dbMarch.end_col,
-        startTime,
+        this.armyMapper.fromPersistence(dbMarch.army),
+        dbMarch.startTile.tile_row,
+        dbMarch.startTile.tile_col,
+        dbMarch.endTile.tile_row,
+        dbMarch.endTile.tile_col,
+        new Time(dbMarch.start_time),
     );
   }
 }

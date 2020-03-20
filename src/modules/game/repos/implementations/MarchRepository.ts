@@ -49,10 +49,16 @@ export class MarchRepository implements IMarchRepository {
               model: this.models.unit,
             }],
           }],
+        }, {
+          model: this.models.tile,
+          as: 'startTile',
+        }, {
+          model: this.models.tile,
+          as: 'endTile',
         }],
       });
 
-      log.error(dbMarchWithArmy);
+      log.info(dbMarchWithArmy);
 
       // march from db to domain and return
       return this.marchMapper.fromPersistence(dbMarchWithArmy);
