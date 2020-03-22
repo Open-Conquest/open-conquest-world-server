@@ -119,3 +119,6 @@ CREATE TABLE `city` (
   CONSTRAINT `city_player` FOREIGN KEY (`player_id`) REFERENCES `player` (`player_id`),
   CONSTRAINT `city_tile` FOREIGN KEY (`tile_id`) REFERENCES `tile` (`tile_id`)
 );
+
+INSERT INTO unit (unit_id, attack, defense, name, level, gold_cost) VALUES (@wizard_unit_id, 100, 50, "Wizard", 1, 100);
+INSERT INTO unit (unit_id, attack, defense, name, level, gold_cost) VALUES (@bear_unit_id, 30, 200, "Bear", 1, 150);		

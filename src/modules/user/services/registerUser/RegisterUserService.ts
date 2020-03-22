@@ -7,8 +7,8 @@ import * as jwt from 'jsonwebtoken';
 import * as bcrypt from 'bcryptjs';
 import * as config from '../../../../shared/config/real-config';
 import {log} from '../../../../shared/utils/log';
-import { UserFactory } from '../../factories/UserFactory';
-import { RegisterUserErrors } from './RegisterUserErrors';
+import {UserFactory} from '../../factories/UserFactory';
+import {RegisterUserErrors} from './RegisterUserErrors';
 
 /**
  *

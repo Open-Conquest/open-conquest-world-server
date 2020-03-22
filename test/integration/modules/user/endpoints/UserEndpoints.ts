@@ -47,13 +47,17 @@ describe('UserEndpoints registerUser', function() {
     const data = new RegisterUserRequestDTO(
         creds,
     );
-    const registerMessage = new MessageDTO(null, null, null, null, null);
-    registerMessage.$service = ServiceNames.User;
-    registerMessage.$operation = ServiceOperations.RegisterUser;
-    registerMessage.$data = data;
-
+    const registerMessage = new MessageDTO(
+        ServiceNames.User,
+        ServiceOperations.RegisterUser,
+        null,
+        null,
+        data,
+    );
     // register user
     const registerResponse = await userEndpoints.registerUser(registerMessage);
+
+    log.info('registerResponse', registerResponse);
 
     // create register response dto from generic message dto
     const registerResponseDTO = RegisterUserResponseDTO.fromJSON(registerResponse.$data);

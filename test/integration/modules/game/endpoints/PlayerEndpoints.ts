@@ -58,31 +58,47 @@ describe('PlayerEndpoints:createPlayer', function() {
     const createPlayerResponseDTO = await playerEndpoints.createPlayer(message);
 
     // assert message has expected service,operation properties
-    assert(createPlayerResponseDTO.$service === ServiceNames.Player);
-    assert(createPlayerResponseDTO.$operation === ServiceOperations.CreatePlayer);
+    assert(createPlayerResponseDTO.$service === ServiceNames.Player,
+        'Unexpected ServiceName');
+    assert(createPlayerResponseDTO.$operation === ServiceOperations.CreatePlayer,
+        'Unexpected ServiceOperation');
 
     // assert player has expected name
     const data = createPlayerResponseDTO.$data;
-    assert(data.player.name === playerDTO.$name);
+    assert(data.player.name === playerDTO.$name,
+        'Unexpected player name');
 
     // assert city has expected properties
-    assert(data.city.name === playerDTO.$name);
-    assert(data.city.level === 1);
-    assert(data.city.row < map.$maxRows);
-    assert(data.city.col < map.$maxCols);
-    assert(data.city.row >= 0);
-    assert(data.city.col >= 0);
+    assert(data.city.name === playerDTO.$name,
+        'Unexpected city name');
+    assert(data.city.level === 1,
+        'Unexpected city level');
+    assert(data.city.row < map.$maxRows,
+        'Unexpected city row > maxRows');
+    assert(data.city.col < map.$maxCols,
+        'Unexpected city col > maxCols');
+    assert(data.city.row >= 0,
+        'Unexpected city row < 0');
+    assert(data.city.col >= 0,
+        'Unexpected city col < 0');
 
     // assert army equals the default army for a new player
     const armyUnits = data.army.units;
-    assert(armyUnits[0].count === 10);
-    assert(armyUnits[0].unit.type === UnitType.Wizard);
-    assert(armyUnits[0].unit.name === UnitName.Wizard);
-    assert(armyUnits[0].unit.attack === UnitAttack.Wizard);
-    assert(armyUnits[0].unit.defense === UnitDefense.Wizard);
-    assert(armyUnits[0].unit.goldCost === UnitGoldCost.Wizard);
+    assert(armyUnits[0].count === 10,
+        'Unexpected armyunits count');
+    assert(armyUnits[0].unit.type === UnitType.Wizard,
+        'Unexpected armyunits type');
+    assert(armyUnits[0].unit.name === UnitName.Wizard,
+        'Unexpected armyunits name');
+    assert(armyUnits[0].unit.attack === UnitAttack.Wizard,
+        'Unexpected armyunits attack');
+    assert(armyUnits[0].unit.defense === UnitDefense.Wizard,
+        'Unexpected armyunits defense');
+    assert(armyUnits[0].unit.goldCost === UnitGoldCost.Wizard,
+        'Unexpected armyunits goldcost');
 
     // assert user has the expected starting resources
-    assert(data.resources.gold === 100);
+    assert(data.resources.gold === 100,
+        'Unexpected resources gold');
   });
 });
