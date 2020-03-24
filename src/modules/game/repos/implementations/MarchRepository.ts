@@ -5,6 +5,7 @@ import {Player} from '../../domain/Player';
 import {MarchMapper} from '../../mappers/MarchMapper';
 import {log} from '../../../../shared/utils/log';
 import {Tile} from '../../domain/Tile';
+import { MarchRepositoryErrors } from '../MarchRepositoryErrors';
 
 /**
  * Repository implementation for march entities.
@@ -64,8 +65,17 @@ export class MarchRepository implements IMarchRepository {
       return this.marchMapper.fromPersistence(dbMarchWithArmy);
     } catch (err) {
       // check to see what type of error was returned
-      log.error(err.message);
-      throw err;
+      switch (err.name) {
+        case 'SequelizeForeignKeyConstraintError':
+          switch (err.table) {
+            case 'army':
+              throw new Error(MarchRepositoryErrors.NonexistentArmy);
+            case 'tile':
+              throw new Error(MarchRepositoryErrors.NonexistentTile);
+          }
+        default:
+          throw err;
+      }
     }
   }
 }

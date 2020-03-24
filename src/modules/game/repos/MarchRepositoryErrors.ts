@@ -1,3 +1,4 @@
 export enum MarchRepositoryErrors {
-  NonexistentPlayer = 'Player march is being created for does not exist',
+  NonexistentArmy = 'Army march is being created with does not exist',
+  NonexistentTile = 'Tile march is being created with does not exist',
 }
