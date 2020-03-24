@@ -6,6 +6,8 @@ import {UserCredentials} from '../../domain/UserCredentials';
 import {UserCredentialsMapper} from '../../mappers/UserCredentialsMapper';
 import {JWTMapper} from '../../mappers/JWTMapper';
 import {RegisterUserErrors} from './RegisterUserErrors';
+import {UsernameErrors} from '../../domain/Username';
+import {PasswordErrors} from '../../domain/Password';
 
 /**
  *
@@ -43,26 +45,25 @@ export class RegisterUserController {
   async registerUser(incomingDTO: RegisterUserRequestDTO): Promise<RegisterUserResponseDTO> {
     try {
       // get domain objects from dtos
-      const credentials = this.userCredentialsMapper.fromDTO(incomingDTO.credentials);
-
+      const credentials = this.userCredentialsMapper.fromDTO(incomingDTO.$credentials);
       // call services with domain objects
       const jwt = await this.registerUserService.registerUser(credentials);
-
       // map domain responses to dtos
       const jwtDto = this.jwtMapper.toDTO(jwt);
       return new RegisterUserResponseDTO(
-          credentials.getUsernameString(),
+          credentials.$username.$value,
           jwtDto,
       );
     } catch (err) {
       switch (err.message) {
-        case RegisterUserErrors.BadUsername:
-          throw err;
+        case UsernameErrors.InvalidUsername:
+          throw new Error(RegisterUserErrors.InvalidUsername);
+        case PasswordErrors.InvalidPassword:
+          throw new Error(RegisterUserErrors.InvalidPassword);
         case RegisterUserErrors.UsernameTaken:
           throw err;
         default:
-          log.error('Unknown error in RegisterUserController:registerUser', err.stack);
-          throw new Error('Unknown error');
+          throw err;
       }
     }
   }

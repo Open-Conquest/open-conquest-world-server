@@ -9,11 +9,7 @@ import {LoginUserErrors} from './LoginUserErrors';
 import {LoginUserResponseErrorDTO} from './LoginUserReponseErrorDTO';
 
 /**
- *
- *
- * @export
- * @class LoginUserController
- * @extends {BaseServices}
+ * LoginUserController
  */
 export class LoginUserController {
   private loginUserService: LoginUserService;
@@ -22,9 +18,7 @@ export class LoginUserController {
 
   /**
    * Creates an instance of LoginUserController.
-   *
    * @param {LoginUserService} loginUserService
-   * @memberof UserServices
    */
   constructor(loginUserService: LoginUserService) {
     this.loginUserService = loginUserService;
@@ -36,33 +30,29 @@ export class LoginUserController {
    * This method accepts a `LoginUserRequestDTO`, maps the incoming DTO to
    * a domain model, and calls the appropriate services to fulfill the
    * request.
-   *
    * @param {LoginUserRequestDTO} incomingDTO
    * @return {Promise<LoginUserResponseDTO>}
-   * @memberof UserServices
    */
   async loginUser(incomingDTO: LoginUserRequestDTO): Promise<LoginUserResponseDTO> {
     try {
       // get domain objects from dtos
-      const credentials = this.userCredentialsMapper.fromDTO(incomingDTO.credentials);
-
+      const credentials = this.userCredentialsMapper.fromDTO(
+          incomingDTO.credentials,
+      );
       // call services with domain objects
       const jwt = await this.loginUserService.loginUser(credentials);
-
       // map domain responses to dtos
       const jwtDto = this.jwtMapper.toDTO(jwt);
       return new LoginUserResponseDTO(
-          credentials.getUsernameString(),
+          credentials.$username.$value,
           jwtDto,
       );
     } catch (err) {
       switch (err.message) {
-        case LoginUserErrors.InvalidCredentials: {
+        case LoginUserErrors.InvalidCredentials:
           throw err;
-        }
-        default: {
+        default:
           throw new Error('Unkown error');
-        }
       }
     }
   }

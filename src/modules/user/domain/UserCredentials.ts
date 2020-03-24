@@ -1,6 +1,6 @@
 /* eslint-disable require-jsdoc */
-import {Username} from "./Username";
-import {Password} from "./Password";
+import {Username} from './Username';
+import {Password} from './Password';
 import {HashedPassword} from './HashedPassword';
 
 export class UserCredentials {
@@ -18,7 +18,7 @@ export class UserCredentials {
   }
 
   getUsernameString(): string {
-    return this.username.getString();
+    return this.username.$value;
   }
 
   getHashedPasswordString(): string {

@@ -53,12 +53,10 @@ export class UserEndpoints extends BaseEndpoints {
       const requestDTO = LoginUserRequestDTO.fromJSON(
           incomingMessage.$data,
       );
-
       // call registerUser service and get response DTO
       const responseDTO = await this.loginUserController.loginUser(
           requestDTO,
       );
-
       // create response from DTO
       return new MessageDTO(
           ServiceNames.User,
@@ -70,15 +68,12 @@ export class UserEndpoints extends BaseEndpoints {
     } catch (err) {
       const errorDTO = new LoginUserResponseErrorDTO(null);
       switch (err.message) {
-        case LoginUserErrors.InvalidCredentials: {
+        case LoginUserErrors.InvalidCredentials:
           errorDTO.$message = 'Invalid username / password combination';
           break;
-        }
-        default: {
-          log.error('Unknown error', err.stack);
-          errorDTO.$message = 'Unkown error, fuck';
-          break;
-        }
+        default:
+          log.error('Unknown error in UserEndpoints:loginUser', err.stack);
+          errorDTO.$message = 'Unknown error';
       }
 
       return new MessageDTO(
@@ -104,12 +99,10 @@ export class UserEndpoints extends BaseEndpoints {
       const requestDTO = RegisterUserRequestDTO.fromJSON(
           incomingMessage.$data,
       );
-
       // call registerUser service and get response DTO
       const responseDTO = await this.registerUserController.registerUser(
           requestDTO,
       );
-
       // create general messageDTO from responseDTO
       return new MessageDTO(
           ServiceNames.User,
@@ -121,23 +114,18 @@ export class UserEndpoints extends BaseEndpoints {
     } catch (err) {
       const errorDTO = new RegisterUserErrorResponseDTO(null);
       switch (err.message) {
-        case RegisterUserErrors.BadUsername: {
+        case RegisterUserErrors.InvalidUsername:
           errorDTO.$message = 'Invalid username, must be between 4-20 characters';
           break;
-        }
-        case RegisterUserErrors.BadPassword: {
+        case RegisterUserErrors.InvalidPassword:
           errorDTO.$message = 'Invalid password, must be between 8-20 characters';
           break;
-        }
-        case RegisterUserErrors.UsernameTaken: {
+        case RegisterUserErrors.UsernameTaken:
           errorDTO.$message = 'Username is taken';
           break;
-        }
-        default: {
-          log.error('Unknown error', err.stack);
-          errorDTO.$message = 'Unknown error, fuck';
-          break;
-        }
+        default:
+          log.error('Unknown error in UserEndpoints:registerUser', err.stack);
+          errorDTO.$message = 'Unknown error';
       }
 
       return new MessageDTO(

@@ -11,15 +11,19 @@ import {jwtMiddleware} from '../../../../../../src/shared/middleware';
 import {JWT} from '../../../../../../src/modules/user/domain/JWT';
 import {RegisterUserErrors} from '../../../../../../src/modules/user/services/registerUser/RegisterUserErrors';
 
+const assert = chai.assert;
+const expect = chai.expect;
+
 /**
- * Summary of integration tests for RegisterUserController:registerUser
+ * Summary of integration tests for RegisterUserController
+ *
+ * :registerUser
  * 1. Should return a response with a valid JWT
- * 2. Should throw BadUsername error for invalid username
+ * 2. Should throw UsernameTaken error
+ * 3. Should throw InvalidUsername error
+ * 4. Should throw InvalidPassword error
  */
 describe('RegisterUserController:registerUser', function() {
-  const assert = chai.assert;
-  const expect = chai.expect;
-
   /**
    * Start a transaction before each test then rollback any changes after
    * the test finishes running. This ensure that no changes made to the
@@ -55,22 +59,55 @@ describe('RegisterUserController:registerUser', function() {
     expect(user.$username.$value).to.equal(creds.$username);
   });
 
-  it('Should throw BadUsername error for invalid username', async function() {
-    // create a request dto
-    const creds = new UserCredentialsDTO(
+  it('Should throw UsernameTaken error', async function() {
+    // register a user
+    const credentials = new UserCredentialsDTO(
+        'test_username',
+        'test_password',
+    );
+    const request = new RegisterUserRequestDTO(credentials);
+    await registerUserController.registerUser(request);
+
+    // try to register user with the same username
+    try {
+      await registerUserController.registerUser(request);
+      assert.fail('Expected UsernameTaken error');
+    } catch (err) {
+      expect(err.message).to.equal(RegisterUserErrors.UsernameTaken);
+    }
+  });
+
+  it('Should throw InvalidUsername error', async function() {
+    // register a user
+    const credentials = new UserCredentialsDTO(
         '',
         'test_password',
     );
-    const request = new RegisterUserRequestDTO(
-        creds,
-    );
+    const request = new RegisterUserRequestDTO(credentials);
 
-    // try to register user
+    // try to register user with the same username
     try {
       await registerUserController.registerUser(request);
-      assert.fail('Expected BadUsername error');
+      assert.fail('Expected InvalidUsername error');
     } catch (err) {
-      expect(err.message).to.equal(RegisterUserErrors.BadUsername);
+      expect(err.message).to.equal(RegisterUserErrors.InvalidUsername);
+    }
+  });
+
+  it('Should throw InvalidPassword error', async function() {
+    // register a user with invalid password in credentials
+    const credentials = new UserCredentialsDTO(
+        'test_username',
+        '',
+    );
+    const request = new RegisterUserRequestDTO(credentials);
+
+    // try to register user with an invalid password
+    try {
+      await registerUserController.registerUser(request);
+      assert.fail('Expected InvalidPassword error');
+    } catch (err) {
+      expect(err.message).to.equal(RegisterUserErrors.InvalidPassword);
     }
   });
 });

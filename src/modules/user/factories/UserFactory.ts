@@ -41,6 +41,16 @@ export class UserFactory {
     );
   }
 
+  createUserWithUsernameAndID(id: number, username: string) {
+    return new User(
+        new EntityID(id),
+        new Username(username),
+        null,
+        null,
+        null,
+    );
+  }
+
   createUserWithPassword(username: string, password: string): User {
     return new User(
         null,

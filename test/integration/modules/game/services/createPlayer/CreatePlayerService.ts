@@ -92,12 +92,9 @@ describe('CreatePlayerService:createPlayer', function() {
     // create a new nonexistent user entity
     const username = 'test_username';
     const madeUpID = -1;
-    const nonExistentUser = userFactory.createUser(
+    const nonExistentUser = userFactory.createUserWithUsernameAndID(
         madeUpID,
         username,
-        null,
-        null,
-        null,
     );
     // create a new player entity
     const name = 'test_playername';

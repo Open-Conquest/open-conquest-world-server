@@ -21,6 +21,7 @@ import { UnitType, UnitName, UnitAttack, UnitDefense, UnitGoldCost } from '../..
  */
 describe('PlayerEndpoints:createPlayer', function() {
   const assert = chai.assert;
+  const expect = chai.expect;
 
   /**
    * Start a transaction before each test then rollback any changes after
@@ -58,10 +59,10 @@ describe('PlayerEndpoints:createPlayer', function() {
     const createPlayerResponseDTO = await playerEndpoints.createPlayer(message);
 
     // assert message has expected service,operation properties
-    assert(createPlayerResponseDTO.$service === ServiceNames.Player,
-        'Unexpected ServiceName');
-    assert(createPlayerResponseDTO.$operation === ServiceOperations.CreatePlayer,
-        'Unexpected ServiceOperation');
+    expect(createPlayerResponseDTO.$service)
+        .to.equal(ServiceNames.Player);
+    expect(createPlayerResponseDTO.$operation)
+        .to.equal(ServiceOperations.CreatePlayer);
 
     // assert player has expected name
     const data = createPlayerResponseDTO.$data;

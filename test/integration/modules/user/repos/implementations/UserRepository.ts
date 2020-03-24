@@ -39,16 +39,17 @@ describe('UserRepository:createUser', function() {
     // create a new user entity
     const username = 'test_username';
     const password = 'hashed_password32f14edfq';
-    const user = userFactory.createUserWithHashedPassword(null, username, password);
+    const user = userFactory.createUserWithHashedPassword(
+        null,
+        username,
+        password,
+    );
 
-    return userRepository.createUser(user)
-        .then((newUser) => {
-          // assert that the user returned has the expected username
-          assert(newUser.getUsername().getString() === username);
-        })
-        .catch((err) => {
-          assert.fail(err);
-        });
+    // create user in database
+    const createdUser = await userRepository.createUser(user);
+
+    // assert user was created with expected values
+    assert(createdUser.$username.$value === username);
   });
 
   it('should fail with a duplicate username', async function() {

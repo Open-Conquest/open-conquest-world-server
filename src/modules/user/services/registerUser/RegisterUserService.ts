@@ -3,18 +3,13 @@ import {UserCredentials} from '../../domain/UserCredentials';
 import {User} from '../../domain/User';
 import {JWT} from '../../domain/JWT';
 import {jwtMiddleware} from '../../../../shared/middleware';
-import * as jwt from 'jsonwebtoken';
 import * as bcrypt from 'bcryptjs';
-import * as config from '../../../../shared/config/real-config';
-import {log} from '../../../../shared/utils/log';
 import {UserFactory} from '../../factories/UserFactory';
 import {RegisterUserErrors} from './RegisterUserErrors';
+import {UserRepositoryErrors} from '../../repos/UserRepositoryErrors';
 
 /**
- *
- *
- * @export
- * @class UserServices
+ * RegisterUserService.
  */
 export class RegisterUserService {
   private userRepository: IUserRepository;
@@ -22,48 +17,41 @@ export class RegisterUserService {
 
   /**
    * Creates an instance of UserServices.
-   *
    * @param {IUserRepository} userRepository
    * @memberof UserServices
    */
   constructor(userRepository: IUserRepository) {
-    // set repos from construtor
     this.userRepository = userRepository;
     this.userFactory = new UserFactory();
   }
 
   /**
    * Service for handling registering a new user.
-   *
    * @param {UserCredentials} credentials
    * @return {Promise<Response>}
-   * @memberof UserServices
    */
   async registerUser(credentials: UserCredentials): Promise<JWT> {
-    // try to register a new user
     try {
       // hash password
       const hashedPassword = bcrypt.hashSync(
           credentials.getPasswordString(),
           8,
       );
-      // create new user entity
-      const user = this.userFactory.createUserWithHashedPassword(
+      // create new user entity with hashed password and username
+      const user: User = this.userFactory.createUserWithHashedPassword(
           null,
-          credentials.getUsernameString(),
+          credentials.$username.$value,
           hashedPassword,
       );
-      // save new user to database
-      const newUser = await this.userRepository.createUser(user);
-      // create jwt for new user and return
+      // persist new user entity with hashed password
+      const newUser: User = await this.userRepository.createUser(user);
+      // create jwt for the new user and return
       return jwtMiddleware.createJWT(newUser);
-
-    // check for any errors
     } catch (err) {
-      if (err.message === 'Duplicate username error') {
+      if (err.message === UserRepositoryErrors.DuplicateUsername) {
         throw new Error(RegisterUserErrors.UsernameTaken);
       }
-      throw new Error('Unexpected error');
+      throw err;
     }
   }
 }

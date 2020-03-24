@@ -8,6 +8,14 @@ import {MessageDTO} from '../dtos/MessageDTO';
 import {JWTDTO} from '../dtos/JWTDTO';
 import {log} from '../utils/log';
 
+export enum JWTMiddlewareErrors {
+  InvalidJWT = 'Access denied, invalid authorization token.',
+  InvalidSignature = 'Token was signed with by an invalid authority',
+  UnknownError = 'Unknown error in JWTMiddleware',
+  NoToken = 'No token was provided',
+  NoUserProvided = 'No user was provided',
+}
+
 /**
  * Middleware for validating incoming JWTs.
  *
@@ -35,25 +43,28 @@ export class JWTMiddleware {
    * @memberof JWTMiddleware
    */
   validateJwt(token: JWT): User {
+    if (token === null) {
+      throw new Error(JWTMiddlewareErrors.InvalidJWT);
+    }
+
     try {
       // check if token is valid
-      log.info('token jwt obj in validateJWT', token);
       const payload = jwt.verify(token.getTokenString(), config.secret);
-      // instantiate user from jwt claims
-      return this.userFactory.createUser(
+      // construct user from jwt claims
+      return this.userFactory.createUserWithUsernameAndID(
           payload.user_id,
           payload.username,
-          null,
-          null,
-          null,
       );
     } catch (err) {
-      if (err.message === 'jwt malformed') {
-        throw new Error('Access denied, invalid authorization token.');
-      } else {
-        log.error(err);
-        throw err;
+      switch (err.message) {
+        case 'jwt must be provided':
+          throw new Error(JWTMiddlewareErrors.InvalidJWT);
+        case 'jwt malformed':
+          throw new Error(JWTMiddlewareErrors.InvalidJWT);
+        case 'invalid signature':
+          throw new Error(JWTMiddlewareErrors.InvalidSignature);
       }
+      throw err;
     }
   }
 
@@ -72,14 +83,11 @@ export class JWTMiddleware {
       // get token from message
       const token = message.$token;
       if (token == null) {
-        throw new Error('No token provided');
+        throw new Error(JWTMiddlewareErrors.NoToken);
       }
-      // CANNOT FIGURE OUT WHY I CANT ACCESS THIS PROPERTY WITH $VALUE GETTER!!
-      // IDEA IT IS NOT A JWTDTO SO I CANNOT USE THE GETTER
-      // THIS IS DEFINITELY THE ISSUE
-      const jwt = new JWT(token.value);
 
       // validate jwt and get user from claims
+      const jwt: JWT = new JWT(token.value);
       const user: User = this.validateJwt(jwt);
 
       // create userDTO from validated claims
@@ -87,19 +95,23 @@ export class JWTMiddleware {
           user.$id.$value,
           user.$username.$value,
       );
-      // set acting user property in message & return message to router
+      // set acting user property in message & return message
       message.$user = userDTO;
       return message;
 
       // catch any errors
     } catch (err) {
-      if (err.message === 'No token provided' ||
-          err.message === 'jwt malfored' ||
-          err.message === 'Access denied, invalid authorization token.') {
-        throw new Error('Invalid token');
-      } else {
-        log.error('Unexpected error in JWTMiddleware', err.stack);
-        throw new Error('Unexpected error');
+      switch (err.message) {
+        case JWTMiddlewareErrors.InvalidJWT:
+          throw err;
+        case JWTMiddlewareErrors.InvalidSignature:
+          throw err;
+        case JWTMiddlewareErrors.UnknownError:
+          throw err;
+        case JWTMiddlewareErrors.NoToken:
+          throw err;
+        default:
+          throw new Error(JWTMiddlewareErrors.UnknownError);
       }
     }
   }
@@ -112,6 +124,10 @@ export class JWTMiddleware {
    * @memberof JWTMiddleware
    */
   createJWT(user: User): JWT {
+    if (user == null) {
+      throw new Error(JWTMiddlewareErrors.NoUserProvided);
+    }
+
     // generate jwt for newly registered user
     const token = jwt.sign(
         {
@@ -119,12 +135,10 @@ export class JWTMiddleware {
           user_id: user.$id.$value,
         },
         config.secret,
-        {expiresIn: '1h'},
+        {
+          expiresIn: '1h',
+        },
     );
-
-    // should return a user with a username & token
-    return new JWT(
-        token,
-    );
+    return new JWT(token);
   }
 }
