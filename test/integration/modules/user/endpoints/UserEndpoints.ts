@@ -54,7 +54,6 @@ describe('UserEndpoints registerUser', function() {
         null,
         data,
     );
-    log.info(registerMessage);
     // register user
     const registerResponse = await userEndpoints.registerUser(registerMessage);
 
@@ -63,11 +62,9 @@ describe('UserEndpoints registerUser', function() {
 
     // get jwt from register response dto
     const jwt = new JWT(registerResponseDTO.token.$value);
-    log.info(jwt);
 
     // check if jwt is valid
     const user = jwtMiddleware.validateJwt(jwt);
-    log.info(user);
 
     // assert username in jwt claims equals registered username
     assert(user.$username.$value === creds.$username);

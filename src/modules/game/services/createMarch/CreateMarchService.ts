@@ -8,7 +8,7 @@ import {Player} from '../../domain/Player';
 import {Army} from '../../domain/Army';
 import {ITileRepository} from '../../repos/ITileRepository';
 import {log} from '../../../../shared/utils/log';
-import { IArmyRepository } from '../../repos/IArmyRepository';
+import {IArmyRepository} from '../../repos/IArmyRepository';
 /**
  * Coordinate between domain and persistence layers to create march entities.
  *
@@ -43,11 +43,10 @@ export class CreateMarchService {
    *
    * @param {Player} player
    * @param {March} march
-   * @param {Army} army
    * @return {Promise<Response>}
    * @memberof MarchServices
    */
-  async createMarch(player: Player, march: March, army: Army): Promise<March> {
+  async createMarch(player: Player, march: March): Promise<March> {
     try {
       // check if player has enough units in their army to create the march
       // const playersMainArmy = await this.armyRepository.getMainArmy(player);
