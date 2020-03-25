@@ -49,7 +49,14 @@ export class CreateMarchService {
   async createMarch(player: Player, march: March): Promise<March> {
     try {
       // check if player has enough units in their army to create the march
-      // const playersMainArmy = await this.armyRepository.getMainArmy(player);
+      // const mainArmy = await this.armyRepository.getMainArmy(player);
+
+      // // remove units for march from main army
+      // let marchArmy = mainArmy.split(march.$army);
+      // await this.armyRepository.saveArmy(mainArmy);
+
+      // // create new army with units to be used for the march
+      // marchArmy = await this.armyRepository.createArmy(player, marchArmy);
 
       // get start tile and end tile ids
       const startTile = await this.tileRepository.getTileAt(

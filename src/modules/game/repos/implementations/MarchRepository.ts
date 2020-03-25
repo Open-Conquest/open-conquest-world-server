@@ -5,7 +5,7 @@ import {Player} from '../../domain/Player';
 import {MarchMapper} from '../../mappers/MarchMapper';
 import {log} from '../../../../shared/utils/log';
 import {Tile} from '../../domain/Tile';
-import { MarchRepositoryErrors } from '../MarchRepositoryErrors';
+import {MarchRepositoryErrors} from '../MarchRepositoryErrors';
 
 /**
  * Repository implementation for march entities.
@@ -58,8 +58,6 @@ export class MarchRepository implements IMarchRepository {
           as: 'endTile',
         }],
       });
-
-      log.info(dbMarchWithArmy);
 
       // march from db to domain and return
       return this.marchMapper.fromPersistence(dbMarchWithArmy);

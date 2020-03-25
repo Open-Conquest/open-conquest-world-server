@@ -60,8 +60,6 @@ describe('MarchRepository:createMarch', function() {
         endTile,
     );
 
-    log.info('created march', createdMarch);
-
     // assert created march has expected values
     assert(createdMarch.$startCol === 0);
     assert(createdMarch.$startRow === 0);

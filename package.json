@@ -10,7 +10,8 @@
     "u-tests": "mocha --recursive --exit dist/test/unit/",
     "i-tests": "NODE_ENV=test mocha --recursive --exit dist/test/integration",
     "i-tests-travis": "NODE_ENV=travis ./node_modules/.bin/nyc mocha --recursive --exit dist/test/integration",
-    "start-test": "NODE_ENV=test node dist/src/WorldServer.js"
+    "start-test": "NODE_ENV=test node dist/src/WorldServer.js",
+    "start": "NODE_ENV=test node dist/src/shared/infra/ws/WorldServer.js"
   },
   "keywords": [],
   "author": "Zachary Wild",
