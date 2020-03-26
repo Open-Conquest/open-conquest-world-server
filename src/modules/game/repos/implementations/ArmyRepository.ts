@@ -56,6 +56,17 @@ export class ArmyRepository implements IArmyRepository {
   }
 
   /**
+   * Update an army and all of its ArmyUnits.
+   *
+   * @param {Army} army
+   * @return {Promise<Army>}
+   * @memberof ArmyRepository
+   */
+  async updateArmy(army: Army): Promise<Army> {
+
+  }
+
+  /**
    * Get a player's army.
    *
    * @param {Player} player

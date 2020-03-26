@@ -22,6 +22,11 @@ const playerFactory = new PlayerFactory();
  * :createArmy
  * 1. Should create expected army in database
  *
+ * :updateArmy
+ * 1. Should update army with expected values
+ * 2. Should throw NonexistentArmy error
+ * 3. Should throw NonexistentArmyUnits error
+ *
  * :getArmyForPlayer
  * 1. Should get the expected army
  * 2. Should throw NonexistentPlayer error
@@ -47,6 +52,61 @@ describe('ArmyRepository:createArmy', function() {
 
     // assert army have expected values
     expect(createdArmy.$id.$value).to.be.above(0);
+  });
+});
+
+describe('ArmyRepository:updateArmy', function() {
+  // Start transaction before each test & rollback changes made while testing
+  const connection = models.sequelize;
+  beforeEach(() => {
+    return connection.query('START TRANSACTION');
+  });
+  afterEach(() => {
+    return connection.query('ROLLBACK');
+  });
+
+  it('Should update army with expected values', async function() {
+    // create army in database for player
+    const player = await createTestPlayer();
+    let expArmy = armyFactory.createDefaultArmyWithUnits();
+    expArmy = await createArmyService.createArmyWithUnits(
+        expArmy, expArmy.$units,
+    );
+    await playerRepository.updatePlayerArmy(
+        player, expArmy,
+    );
+
+    // try to get the army from the database
+    const actArmy = await armyRepository.getArmyForPlayer(player);
+
+    // assert army has expected units
+    expect(actArmy).to.deep.equal(expArmy);
+  });
+
+  it('Should throw NonexistentPlayer error', async function() {
+    // create player entity that isn't in database
+    const player = playerFactory.createPlayer(-1, 'nonexistent_name');
+
+    // try to get the army for the player
+    try {
+      await armyRepository.getArmyForPlayer(player);
+      assert.fail('Expected NonexistentPlayer error');
+    } catch (err) {
+      expect(err.message).to.equal(ArmyRepositoryErrors.NonexistentPlayer);
+    }
+  });
+
+  it('Should throw NonexistentArmy error', async function() {
+    // create player entity that isn't in database
+    const player = await createTestPlayer();
+
+    // try to get the army for the player
+    try {
+      await armyRepository.getArmyForPlayer(player);
+      assert.fail('Expected NonexistentPlayer error');
+    } catch (err) {
+      expect(err.message).to.equal(ArmyRepositoryErrors.NonexistentArmy);
+    }
   });
 });
 

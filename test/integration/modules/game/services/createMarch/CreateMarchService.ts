@@ -1,17 +1,14 @@
 /* eslint-disable max-len */
-import {March} from '../../../../../../src/modules/game/domain/March';
-import {MarchFactory} from '../../../../../../src/modules/game/factories/MarchFactory';
-import {CreateMarchErrors} from '../../../../../../src/modules/game/services/createMarch/CreateMarchErrors';
-
 import * as chai from 'chai';
 import * as mocha from 'mocha';
 import {log} from '../../../../../../src/shared/utils/log';
+import {March} from '../../../../../../src/modules/game/domain/March';
+import {MarchFactory} from '../../../../../../src/modules/game/factories/MarchFactory';
+import {CreateMarchErrors} from '../../../../../../src/modules/game/services/createMarch/CreateMarchErrors';
 import {models} from '../../../../../../src/shared/infra/sequelize/models';
-
 import {createMarchService} from '../../../../../../src/modules/game/services/createMarch';
 import {createTestWorld} from '../../../../scripts/createTestWorld';
 import {createTestPlayerWithArmy} from '../../../../scripts/createTestPlayerWithArmy';
-import { create } from 'domain';
 
 const marchFactory = new MarchFactory();
 
@@ -47,14 +44,11 @@ describe('CreateMarchService:createMarch', function() {
     const march = marchFactory.createMarch(
         null, army, 0, 0, 5, 5, null,
     );
-    log.info('exp march', march);
 
     // try to create a march
     const createdMarch = await createMarchService.createMarch(
         player, march,
     );
-
-    log.info('created march', createdMarch);
 
     // assert created march has expected values
     expect(createdMarch.$startCol).to.equal(0);
