@@ -60,7 +60,7 @@ describe('ArmyUnitsUnitsRepository:createArmyUnits', function() {
   it('Should throw NonexistentArmy error', async function() {
     // create an army with units but a nonexistent id
     const units = armyFactory.createDefaultArmyWithUnits().$units;
-    const army = armyFactory.createArmy(-1, -1, units);
+    const army = armyFactory.createArmy(-1, units);
 
     // try to save the army's units to the database
     try {

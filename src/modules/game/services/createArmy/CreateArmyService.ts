@@ -1,4 +1,4 @@
-import {CreateArmyForPlayerServiceErrors} from './CreateArmyForPlayerServiceErrors';
+import {CreateArmyErrors} from './CreateArmyErrors';
 import {log} from '../../../../shared/utils/log';
 import {IArmyRepository} from '../../repos/IArmyRepository';
 import {IArmyUnitsRepository} from '../../repos/IArmyUnitsRepository';
@@ -12,15 +12,15 @@ import {IUnitRepository} from '../../repos/IUnitRepository';
  * Use an algorithm to get the best tile to create a new city at.
  *
  * @export
- * @class CreateArmyForPlayerService
+ * @class CreateArmyService
  */
-export class CreateArmyForPlayerService {
+export class CreateArmyService {
   private armyRepository: IArmyRepository;
   private armyUnitsRepository: IArmyUnitsRepository;
   private unitRepository: IUnitRepository;
 
   /**
-   * Creates an instance of CreateArmyForPlayerService.
+   * Creates an instance of CreateArmyService.
    *
    * @param {IArmyRepository} armyRepository
    * @param {IArmyUnitsRepository} armyUnitsRepository
@@ -40,19 +40,15 @@ export class CreateArmyForPlayerService {
   /**
    * Create a new empty army for a player.
    *
-   * @param {Player} player
    * @param {Army} army
    * @return {Promise<Tile>}
    * @memberof CityServices
    */
-  async createArmy(player: Player, army: Army): Promise<Army> {
+  async createArmy(army: Army): Promise<Army> {
     try {
-      return await this.armyRepository.createArmy(player, army);
+      return await this.armyRepository.createArmy(army);
     } catch (err) {
       switch (err.message) {
-        case ArmyRepositoryErrors.NonexistentPlayer:
-          // there are some errors that we know
-          throw new Error(CreateArmyForPlayerServiceErrors.NonexistentPlayer);
         default:
           throw err;
       }
@@ -63,18 +59,17 @@ export class CreateArmyForPlayerService {
    * Create a new army and create the units that should be added to it in the
    * database as well. Return an army entity with units included.
    *
-   * @param {Player} player
    * @param {Army} army
    * @param {Array<ArmyUnits>} units
    * @return {Promise<Army>}
-   * @memberof CreateArmyForPlayerService
+   * @memberof CreateArmyService
    */
   async createArmyWithUnits(
-      player: Player, army: Army, units: Array<ArmyUnits>,
+      army: Army, units: Array<ArmyUnits>,
   ): Promise<Army> {
     try {
       // create army in database
-      const createdArmy = await this.armyRepository.createArmy(player, army);
+      const createdArmy = await this.armyRepository.createArmy(army);
 
       // create an entry for each set of units in the database
       const createdUnits = [];
@@ -97,9 +92,6 @@ export class CreateArmyForPlayerService {
       return createdArmy;
     } catch (err) {
       switch (err.message) {
-        case ArmyRepositoryErrors.NonexistentPlayer:
-          // there are some errors that we know
-          throw new Error(CreateArmyForPlayerServiceErrors.NonexistentPlayer);
         default:
           throw err;
       }

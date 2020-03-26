@@ -26,10 +26,9 @@ export class ArmyFactory {
     this.armyUnitsFactory = new ArmyUnitsFactory();
   }
 
-  createArmy(id: number, playerID: number, units: Array<ArmyUnits>): Army {
+  createArmy(id: number, units: Array<ArmyUnits>): Army {
     return new Army(
         new EntityID(id),
-        new EntityID(playerID),
         units,
     );
   }
@@ -43,7 +42,6 @@ export class ArmyFactory {
    */
   createDefaultArmy(): Army {
     return new Army(
-        null,
         null,
         null,
     );
@@ -69,6 +67,6 @@ export class ArmyFactory {
     const units = [];
     units.push(wizards);
 
-    return new Army(null, null, units);
+    return new Army(null, units);
   }
 }

@@ -3,7 +3,7 @@ import {Player} from '../../../src/modules/game/domain/Player';
 import {Playername} from '../../../src/modules/game/domain/Playername';
 import {createTestUser} from './createTestUser';
 import {createPlayerService} from '../../../src/modules/game/services/createPlayer';
-import {createArmyForPlayerService} from '../../../src/modules/game/services/createArmyForPlayer';
+import {createArmyService} from '../../../src/modules/game/services/createArmy';
 import {ArmyFactory} from '../../../src/modules/game/factories/ArmyFactory';
 
 /**
@@ -28,8 +28,7 @@ export async function createTestPlayerWithArmy(): Promise<Player> {
   // create armies for player
   const armies = [];
   const defaultArmy = armyFactory.createDefaultArmyWithUnits();
-  const createdArmy = await createArmyForPlayerService.createArmyWithUnits(
-      player,
+  const createdArmy = await createArmyService.createArmyWithUnits(
       defaultArmy,
       defaultArmy.$units,
   );

@@ -8,19 +8,28 @@ import {playerRepository} from '../../../../../../src/modules/game/repos/impleme
 import {PlayerRepositoryErrors} from '../../../../../../src/modules/game/repos/PlayerRepositoryErrors';
 import {models} from '../../../../../../src/shared/infra/sequelize/models';
 import {log} from '../../../../../../src/shared/utils/log';
+import {createTestArmy} from '../../../../scripts/createTestArmy';
+import { createTestUser } from '../../../../scripts/createTestUser';
 
 const userFactory = new UserFactory();
 const playerFactory = new PlayerFactory();
 
+const expect = chai.expect;
+const assert = chai.assert;
+
 /**
- * Summary of tests for PlayerRepository:createPlayer
+ * Summary of tests for PlayerRepository
+ *
+ * :createPlayer
  * 1. Should create a new player with the expected name
  * 2. Should throw NonexistentUser error
  * 3. Should throw DuplicatePlayername error
+ *
+ * :getPlayer
+ * 1. Should get a player with the expected name
+ * 2. Should return null for a non-existent player
  */
 describe('PlayerRepository:createPlayer', function() {
-  const assert = chai.assert;
-
   // Start transaction before each test & rollback any changes after
   const connection = models.sequelize;
   beforeEach(() => {
@@ -30,28 +39,22 @@ describe('PlayerRepository:createPlayer', function() {
     return connection.query('ROLLBACK');
   });
 
-  // 1.
   it('Should create a new player with the expected name', async function() {
-    // create a new user to register the player for
-    const username = 'test_username';
-    const hashedPassword = 'q1f8923hfkdjhf2ir3r';
-    const newUser = userFactory.createUserWithHashedPassword(null, username, hashedPassword);
-    const user = await userRepository.createUser(newUser);
+    // create user and army for player
+    const user = await createTestUser();
 
     // create a new player entity
     const playername = 'test_playername';
     const newPlayer = playerFactory.createPlayerWithName(playername);
 
-    // try to save the player entity to the database
+    // try to create player entity
     const createdPlayer = await playerRepository.createPlayer(user, newPlayer);
 
-    // assert that the saved player's name equals the new player entity
-    assert(createdPlayer.getNameString() === playername);
+    expect(createdPlayer.$id.$value).to.be.above(0);
   });
 
-  // 2.
   it('Should throw NonexistentUser error', async function() {
-    // create a new user to register the player for
+    // create a nonexistent user entity to try and create the player for
     const nonexistentUserID = -1;
     const username = 'test_username';
     const hashedPassword = 'q1f8923hfkdjhf2ir3r';
@@ -77,13 +80,8 @@ describe('PlayerRepository:createPlayer', function() {
     }
   });
 
-  // 3.
   it('Should throw DuplicateUsername error', async function() {
-    // create a new user to register the player for
-    const username = 'test_username';
-    const hashedPassword = 'q1f8923hfkdjhf2ir3r';
-    const newUser = userFactory.createUserWithHashedPassword(null, username, hashedPassword);
-    const user = await userRepository.createUser(newUser);
+    const user = await createTestUser();
 
     // create a new player entity
     const playername = 'test_playername';
@@ -105,11 +103,6 @@ describe('PlayerRepository:createPlayer', function() {
   });
 });
 
-/**
- * Summary of tests for PlayerRepository:getPlayer
- * 1. Should get a player with the expected name
- * 2. Should return null for a non-existent player
- */
 describe('PlayerRepository:getPlayer', function() {
   const assert = chai.assert;
 
@@ -122,7 +115,6 @@ describe('PlayerRepository:getPlayer', function() {
     return connection.query('ROLLBACK');
   });
 
-  // 1. Should return a player with the expected name
   it('Should get the player with the expected name', async function() {
     // create a new user to register the player for
     const username = 'test_username';
@@ -142,7 +134,6 @@ describe('PlayerRepository:getPlayer', function() {
     assert(savedPlayer.$name.$value === playername, 'Unexpected username');
   });
 
-  // 2. Should return null for a non-existent player
   it('Should return null for a non-existent player', async function() {
     // create a new player entity
     const playername = 'test_playername';

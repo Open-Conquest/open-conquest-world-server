@@ -79,7 +79,7 @@ describe('MarchRepository:createMarch', function() {
     await createTestWorld();
 
     // create a nonexistent army
-    const army = armyFactory.createArmy(-1, -1, null);
+    const army = armyFactory.createArmy(-1, null);
 
     // create march entity with player's army
     const march = marchFactory.createMarch(

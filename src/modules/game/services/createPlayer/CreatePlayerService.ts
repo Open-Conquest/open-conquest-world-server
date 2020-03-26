@@ -5,6 +5,7 @@ import {Player} from '../../domain/Player';
 import {User} from '../../../../modules/user/domain/User';
 import {CreatePlayerErrors} from './CreatePlayerErrors';
 import {log} from '../../../../shared/utils/log';
+import { Army } from '../../domain/Army';
 
 /**
  * Coordinate between domain and persistence layers to create player entities.

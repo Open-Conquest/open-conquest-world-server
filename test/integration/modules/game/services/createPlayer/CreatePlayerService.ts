@@ -14,7 +14,9 @@ import {models} from '../../../../../../src/shared/infra/sequelize/models';
 import {createPlayerService} from '../../../../../../src/modules/game/services/createPlayer';
 
 /**
- * Summary of tests for CreatePlayerService:createPlayer
+ * Summary of tests for CreatePlayerService
+ *
+ * :createPlayer
  * 1. Should create a new player for an existing user
  * 2. Should throw DuplicatePlayername error
  * 3. Should throw NonexistentUser error

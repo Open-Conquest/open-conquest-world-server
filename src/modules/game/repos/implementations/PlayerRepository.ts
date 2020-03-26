@@ -3,7 +3,7 @@ import {Player} from '../../domain/Player';
 import {User} from '../../../user/domain/User';
 import {PlayerMapper} from '../../mappers/PlayerMapper';
 import {log} from '../../../../shared/utils/log';
-import { PlayerRepositoryErrors } from '../PlayerRepositoryErrors';
+import {PlayerRepositoryErrors} from '../PlayerRepositoryErrors';
 
 /**
  * A Sequelize implementation of the `IPlayerRepository`

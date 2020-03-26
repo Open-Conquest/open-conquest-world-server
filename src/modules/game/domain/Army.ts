@@ -11,29 +11,18 @@ import {ArmyUnits} from './ArmyUnits';
  * @extends {Entity}
  */
 export class Army extends Entity {
-  private playerID: EntityID;
   private units: Array<ArmyUnits>;
 
   /**
    * Create an instance of a army entity.
    *
    * @param {EntityID} id
-   * @param {PlayerID} playerID
    * @param {Array<ArmyUnits>} units
    * @memberof Army
    */
-  constructor(id: EntityID, playerID: EntityID, units: Array<ArmyUnits>) {
+  constructor(id: EntityID, units: Array<ArmyUnits>) {
     super(id);
-    this.playerID = playerID;
     this.units = units;
-  }
-
-  public get $playerID(): EntityID {
-    return this.playerID;
-  }
-
-  public set $playerID(value: EntityID) {
-    this.playerID = value;
   }
 
   public get $units(): Array<ArmyUnits> {

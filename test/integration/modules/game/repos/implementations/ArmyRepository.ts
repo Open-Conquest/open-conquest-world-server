@@ -2,24 +2,24 @@
 import {ArmyFactory} from '../../../../../../src/modules/game/factories/ArmyFactory';
 import {PlayerFactory} from '../../../../../../src/modules/game/factories/PlayerFactory';
 import {ArmyRepositoryErrors} from '../../../../../../src/modules/game/repos/ArmyRepositoryErrors';
+import {armyRepository} from '../../../../../../src/modules/game/repos/implementations';
 
 import * as chai from 'chai';
 import * as mocha from 'mocha';
 import {models} from '../../../../../../src/shared/infra/sequelize/models';
 import {log} from '../../../../../../src/shared/utils/log';
-import {createTestPlayer} from '../../../../scripts/createTestPlayer';
-import {armyRepository} from '../../../../../../src/modules/game/repos/implementations';
+
+const assert = chai.assert;
+const expect = chai.expect;
+
+const armyFactory = new ArmyFactory();
+const playerFactory = new PlayerFactory();
 
 /**
  * Summary of tests for ArmyRepository:createArmy
- * 1. Should create expected army for player
- * 2. Should throw NonexistentPlayer error
+ * 1. Should create expected army in database
  */
 describe('ArmyRepository:createArmy', function() {
-  const assert = chai.assert;
-  const armyFactory = new ArmyFactory();
-  const playerFactory = new PlayerFactory();
-
   // Start transaction before each test & rollback changes made while testing
   const connection = models.sequelize;
   beforeEach(() => {
@@ -30,40 +30,14 @@ describe('ArmyRepository:createArmy', function() {
   });
 
   // 1.
-  it('Should create expected army for player', async function() {
-    const player = await createTestPlayer();
-
+  it('Should create expected army in database', async function() {
+    // create army entity
     const army = armyFactory.createDefaultArmy();
-    army.$playerID = player.$id;
 
-    const createdArmy = await armyRepository.createArmy(
-        player,
-        army,
-    );
+    // save army to database
+    const createdArmy = await armyRepository.createArmy(army);
 
     // assert army have expected values
-    assert(createdArmy.$playerID.$value === army.$playerID.$value,
-        'Unexpected player id');
-  });
-
-  // 2.
-  it('Should throw NonexistentPlayer error', async function() {
-    const player = playerFactory.createPlayer(
-        -1,
-        'nonexistentplayer',
-    );
-
-    const army = armyFactory.createDefaultArmy();
-    army.$playerID = player.$id;
-
-    try {
-      await armyRepository.createArmy(
-          player,
-          army,
-      );
-      assert.fail('Expected NonexistentPlayer error');
-    } catch (err) {
-      assert(err.message === ArmyRepositoryErrors.NonexistentPlayer);
-    }
+    expect(createdArmy.$id.$value).to.be.above(0);
   });
 });

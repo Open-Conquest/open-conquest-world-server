@@ -42,7 +42,6 @@ export class ArmyMapper {
 
     return this.armyFactory.createArmy(
         dbArmy.army_id,
-        dbArmy.player_id,
         armyUnits,
     );
   }

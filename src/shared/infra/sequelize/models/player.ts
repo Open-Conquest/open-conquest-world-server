@@ -16,6 +16,10 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.INTEGER(11),
       allowNull: false,
     },
+    army_id: {
+      type: DataTypes.INTEGER(11),
+      allowNull: true,
+    },
   }, {
     timestamps: false,
     freezeTableName: true,
@@ -24,6 +28,11 @@ export default (sequelize, DataTypes) => {
   player.associate = (models) => {
     models.player.belongsTo(models.user, {
       foreignKey: 'user_id',
+    });
+    models.player.hasOne(models.army, {
+      foreignKey: 'army_id',
+      sourceKey: 'army_id',
+      as: 'army',
     });
   };
 

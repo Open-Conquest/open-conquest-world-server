@@ -43,7 +43,3 @@ BEGIN
 END$$
 DELIMITER ;
 Call CreateTiles();
-
-# CREAT THE BASIC UNIT TYPES WIZARD AND BEAR
-SET @wizard_unit_id = 0;
-SET @bear_unit_id = 1;

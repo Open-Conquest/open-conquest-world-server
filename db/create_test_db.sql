@@ -12,14 +12,23 @@ CREATE TABLE `user` (
   UNIQUE KEY `username_UNIQUE` (`username`)
 );
 
+CREATE TABLE `army` (
+  `army_id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`army_id`),
+  UNIQUE KEY `army_id_UNIQUE` (`army_id`)
+);
+
 CREATE TABLE `player` (
   `player_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   `user_id` int(11) NOT NULL,
+  `army_id` int(11) NOT NULL,
   PRIMARY KEY (`player_id`),
   UNIQUE KEY `player_id_UNIQUE` (`player_id`),
   UNIQUE KEY `name_UNIQUE` (`name`),
   KEY `player_user_idx` (`user_id`),
+  KEY `player_army_idx` (`army_id`),
+  CONSTRAINT `player_army` FOREIGN KEY (`army_id`) REFERENCES `army` (`army_id`),
   CONSTRAINT `player_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
 );
 
@@ -51,15 +60,6 @@ CREATE TABLE `tile` (
   UNIQUE KEY `tile_id_UNIQUE` (`tile_id`),
   KEY `tile_map_idx` (`map_id`),
   CONSTRAINT `tile_map` FOREIGN KEY (`map_id`) REFERENCES `map` (`map_id`)
-);
-
-CREATE TABLE `army` (
-  `army_id` int(11) NOT NULL AUTO_INCREMENT,
-  `player_id` int(11) NOT NULL,
-  PRIMARY KEY (`army_id`),
-  UNIQUE KEY `army_id_UNIQUE` (`army_id`),
-  KEY `army_player_idx` (`player_id`),
-  CONSTRAINT `army_player` FOREIGN KEY (`player_id`) REFERENCES `player` (`player_id`)
 );
 
 CREATE TABLE `unit` (
