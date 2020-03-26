@@ -5,7 +5,6 @@ import {UserFactory} from '../../../../../../src/modules/user/factories/UserFact
 import {PlayerFactory} from '../../../../../../src/modules/game/factories/PlayerFactory';
 import {userRepository} from '../../../../../../src/modules/user/repos/implementations';
 import {CreatePlayerErrors} from '../../../../../../src/modules/game/services/createPlayer/CreatePlayerErrors';
-
 import * as chai from 'chai';
 import * as mocha from 'mocha';
 import {log} from '../../../../../../src/shared/utils/log';

@@ -8,8 +8,7 @@ import {playerRepository} from '../../../../../../src/modules/game/repos/impleme
 import {PlayerRepositoryErrors} from '../../../../../../src/modules/game/repos/PlayerRepositoryErrors';
 import {models} from '../../../../../../src/shared/infra/sequelize/models';
 import {log} from '../../../../../../src/shared/utils/log';
-import {createTestArmy} from '../../../../scripts/createTestArmy';
-import { createTestUser } from '../../../../scripts/createTestUser';
+import {createTestUser} from '../../../../scripts/createTestUser';
 
 const userFactory = new UserFactory();
 const playerFactory = new PlayerFactory();

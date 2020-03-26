@@ -44,8 +44,5 @@ describe('CreatePlayerController:createPlayer', function() {
     const response = await createPlayerController.createPlayer(
         user, request,
     );
-
-    // assert response has expected values (player, city, resources, army)
-    log.info(response);
   });
 });
