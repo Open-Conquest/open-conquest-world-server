@@ -22,7 +22,7 @@ CREATE TABLE `player` (
   `player_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `army_id` int(11) NOT NULL,
+  `army_id` int(11),
   PRIMARY KEY (`player_id`),
   UNIQUE KEY `player_id_UNIQUE` (`player_id`),
   UNIQUE KEY `name_UNIQUE` (`name`),
