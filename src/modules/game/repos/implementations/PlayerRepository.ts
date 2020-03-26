@@ -4,6 +4,7 @@ import {User} from '../../../user/domain/User';
 import {PlayerMapper} from '../../mappers/PlayerMapper';
 import {log} from '../../../../shared/utils/log';
 import {PlayerRepositoryErrors} from '../PlayerRepositoryErrors';
+import { Army } from '../../domain/Army';
 
 /**
  * A Sequelize implementation of the `IPlayerRepository`
@@ -92,5 +93,38 @@ export class PlayerRepository implements IPlayerRepository {
       players.push(this.playerMapper.fromPersistence(dbPlayers[i]));
     }
     return players;
+  }
+
+  /**
+   * Update the player's army_id in the database.
+   *
+   * @param {Player} player
+   * @param {Army} army
+   * @return {Promise<Player>}
+   * @memberof PlayerRepository
+   */
+  async updatePlayerArmy(player: Player, army: Army): Promise<Player> {
+    try {
+      let dbPlayer = await this.models.player.findOne({
+        where: {
+          name: player.$name.$value,
+        },
+      });
+
+      dbPlayer = await dbPlayer.update({
+        army_id: army.$id.$value,
+      });
+
+      return this.playerMapper.fromPersistence(dbPlayer);
+    } catch (err) {
+      // check to see what type of error was returned
+      if (err.name === 'SequelizeUniqueConstraintError') {
+        throw new Error(PlayerRepositoryErrors.DuplicatePlayername);
+      } else if (err.name === 'SequelizeForeignKeyConstraintError') {
+        throw new Error(PlayerRepositoryErrors.NonexistentUser);
+      } else {
+        throw err;
+      }
+    }
   }
 }

@@ -26,7 +26,7 @@ import {ArmyUnits} from '../../domain/ArmyUnits';
 import {CityMapper} from '../../mappers/CityMapper';
 import {ArmyMapper} from '../../mappers/ArmyMapper';
 import {ResourcesMapper} from '../../mappers/ResourcesMapper';
-import { playerRepository } from '../../repos/implementations';
+import {AddArmyToPlayerService} from '../addArmyToPlayer/AddArmyToPlayerService';
 
 /**
  *
@@ -41,6 +41,7 @@ export class CreatePlayerController {
   private createCityService: CreateCityService;
   private createResourcesForPlayerService: CreateResourcesForPlayerService;
   private createArmyService: CreateArmyService;
+  private addArmyToPlayerService: AddArmyToPlayerService;
   private armyFactory: ArmyFactory;
   private armyUnitsFactory: ArmyUnitsFactory;
   private cityFactory: CityFactory;
@@ -59,6 +60,7 @@ export class CreatePlayerController {
    * @param {CreateCityService} createCityService
    * @param {CreateResourcesForPlayerService} createResourcesForPlayerService
    * @param {CreateArmyService} createArmyService
+   * @param {AddArmyToPlayerService} addArmyToPlayerService
    * @memberof PlayerServices
    */
   constructor(
@@ -67,12 +69,14 @@ export class CreatePlayerController {
       createCityService: CreateCityService,
       createResourcesForPlayerService: CreateResourcesForPlayerService,
       createArmyService: CreateArmyService,
+      addArmyToPlayerService: AddArmyToPlayerService,
   ) {
     this.createPlayerService = createPlayerService;
     this.getTileForNewCityService = getTileForNewCityService;
     this.createCityService = createCityService;
     this.createResourcesForPlayerService = createResourcesForPlayerService;
     this.createArmyService = createArmyService;
+    this.addArmyToPlayerService = addArmyToPlayerService;
     this.armyFactory = new ArmyFactory();
     this.armyUnitsFactory = new ArmyUnitsFactory();
     this.cityFactory = new CityFactory();
@@ -114,8 +118,8 @@ export class CreatePlayerController {
           user, player,
       );
 
-      // add army to player
-      
+      // add army to player in database
+      await this.addArmyToPlayerService.addArmyToPlayer(army, player);
 
       // find a tile to create the player's city at
       const tile: Tile = await this.getTileForNewCityService.getTile();

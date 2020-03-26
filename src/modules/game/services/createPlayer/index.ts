@@ -5,6 +5,7 @@ import {getTileForNewCityService} from '../getTileForNewCity';
 import {createCityService} from '../createCity';
 import {createResourcesForPlayerService} from '../createResourcesForPlayer';
 import {createArmyService} from '../createArmy';
+import {addArmyToPlayerService} from '../addArmyToPlayer';
 
 const createPlayerService = new CreatePlayerService(playerRepository);
 
@@ -14,6 +15,7 @@ const createPlayerController = new CreatePlayerController(
     createCityService,
     createResourcesForPlayerService,
     createArmyService,
+    addArmyToPlayerService,
 );
 
 export {createPlayerService, createPlayerController};
