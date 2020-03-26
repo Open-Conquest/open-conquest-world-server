@@ -49,7 +49,7 @@ export class CreateMarchService {
   async createMarch(player: Player, march: March): Promise<March> {
     try {
       // check if player has enough units in their army to create the march
-      // const mainArmy = await this.armyRepository.getMainArmy(player);
+      const army = await this.armyRepository.getArmy(player);
 
       // // remove units for march from main army
       // let marchArmy = mainArmy.split(march.$army);
