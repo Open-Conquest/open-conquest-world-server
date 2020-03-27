@@ -26,7 +26,7 @@ const expect = chai.expect;
 describe('MarchRepository:createMarch', function() {
   // Start transaction before each test & rollback any changes after
   const connection = models.sequelize;
-  beforeEach(() => {
+  beforeEach(() => { 
     return connection.query('START TRANSACTION');
   });
   afterEach(() => {
@@ -42,7 +42,7 @@ describe('MarchRepository:createMarch', function() {
     // create march entity with player's army
     const march = marchFactory.createMarch(
         null,
-        player.$armies[0],
+        player.$army,
         0,
         0,
         5,
@@ -65,12 +65,12 @@ describe('MarchRepository:createMarch', function() {
     assert(createdMarch.$startRow === 0);
     assert(createdMarch.$endRow === 5);
     assert(createdMarch.$endCol === 5);
-    assert(createdMarch.$army.$id.$value === player.$armies[0].$id.$value);
-    assert(createdMarch.$army.$units[0].$count === player.$armies[0].$units[0].$count);
-    assert(createdMarch.$army.$units[0].$unit.$type === player.$armies[0].$units[0].$unit.$type);
-    assert(createdMarch.$army.$units[0].$unit.$attack === player.$armies[0].$units[0].$unit.$attack);
-    assert(createdMarch.$army.$units[0].$unit.$defense === player.$armies[0].$units[0].$unit.$defense);
-    assert(createdMarch.$army.$units[0].$unit.$goldCost === player.$armies[0].$units[0].$unit.$goldCost);
+    assert(createdMarch.$army.$id.$value === player.$army.$id.$value);
+    assert(createdMarch.$army.$units[0].$count === player.$army.$units[0].$count);
+    assert(createdMarch.$army.$units[0].$unit.$type === player.$army.$units[0].$unit.$type);
+    assert(createdMarch.$army.$units[0].$unit.$attack === player.$army.$units[0].$unit.$attack);
+    assert(createdMarch.$army.$units[0].$unit.$defense === player.$army.$units[0].$unit.$defense);
+    assert(createdMarch.$army.$units[0].$unit.$goldCost === player.$army.$units[0].$unit.$goldCost);
   });
 
   // 2.
@@ -113,7 +113,7 @@ describe('MarchRepository:createMarch', function() {
     // create march entity with player's army
     const march = marchFactory.createMarch(
         null,
-        player.$armies[0],
+        player.$army,
         0,
         0,
         5,
@@ -144,7 +144,7 @@ describe('MarchRepository:createMarch', function() {
     // create march entity with player's army
     const march = marchFactory.createMarch(
         null,
-        player.$armies[0],
+        player.$army,
         0,
         0,
         5,
