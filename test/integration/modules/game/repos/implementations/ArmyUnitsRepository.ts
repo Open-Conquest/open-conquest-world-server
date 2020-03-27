@@ -3,7 +3,6 @@ import {ArmyUnitsFactory} from '../../../../../../src/modules/game/factories/Arm
 import {ArmyFactory} from '../../../../../../src/modules/game/factories/ArmyFactory';
 import {ArmyUnitsRepositoryErrors} from '../../../../../../src/modules/game/repos/ArmyUnitsRepositoryErrors';
 import {PlayerFactory} from '../../../../../../src/modules/game/factories/PlayerFactory';
-
 import * as chai from 'chai';
 import * as mocha from 'mocha';
 import {models} from '../../../../../../src/shared/infra/sequelize/models';
@@ -12,18 +11,27 @@ import {createTestPlayer} from '../../../../scripts/createTestPlayer';
 import {armyUnitsRepository} from '../../../../../../src/modules/game/repos/implementations';
 import {createTestArmy} from '../../../../scripts/createTestArmy';
 
+const assert = chai.assert;
+const expect = chai.expect;
+const armyFactory = new ArmyFactory();
+const armyUnitsFactory = new ArmyUnitsFactory();
+const armyFactory = new ArmyFactory();
+const armyUnitsFactory = new ArmyUnitsFactory();
+
 /**
- * Summary of tests for ArmyUnitsRepository:createArmyUnits
+ * Summary of tests for ArmyUnitsRepository
+ *
+ * :createArmyUnits
  * 1. Should create expected army units for army
  * 2. Should throw NonexistentArmy error
+ *
+ * :getArmyUnits
+ * 1. Should get the expected units in an army
+ *
+ * :updateUnits
+ * 1. Should update the units as expected
  */
 describe('ArmyUnitsUnitsRepository:createArmyUnits', function() {
-  const assert = chai.assert;
-  const expect = chai.expect;
-  const armyFactory = new ArmyFactory();
-  const armyUnitsFactory = new ArmyUnitsFactory();
-  const playerFactory = new PlayerFactory();
-
   // Start transaction before each test & rollback changes made while testing
   const connection = models.sequelize;
   beforeEach(() => {
@@ -72,15 +80,7 @@ describe('ArmyUnitsUnitsRepository:createArmyUnits', function() {
   });
 });
 
-/**
- * Summary of tests for ArmyUnitsRepository:getArmyUnits
- * 1. Should get the expected units in an army
- */
 describe('ArmyUnitsUnitsRepository:getArmyUnits', function() {
-  const assert = chai.assert;
-  const armyFactory = new ArmyFactory();
-  const armyUnitsFactory = new ArmyUnitsFactory();
-
   // Start transaction before each test & rollback changes made while testing
   const connection = models.sequelize;
   beforeEach(() => {

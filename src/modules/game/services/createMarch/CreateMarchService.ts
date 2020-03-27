@@ -9,6 +9,7 @@ import {Army} from '../../domain/Army';
 import {ITileRepository} from '../../repos/ITileRepository';
 import {log} from '../../../../shared/utils/log';
 import {IArmyRepository} from '../../repos/IArmyRepository';
+import {IArmyUnitsRepository} from '../../repos/IArmyUnitsRepository';
 /**
  * Coordinate between domain and persistence layers to create march entities.
  *
@@ -19,6 +20,7 @@ export class CreateMarchService {
   private marchRepository: IMarchRepository;
   private tileRepository: ITileRepository;
   private armyRepository: IArmyRepository;
+  private armyUnitsRepository: IArmyUnitsRepository;
 
   /**
    * Creates an instance of MarchServices.
@@ -26,16 +28,19 @@ export class CreateMarchService {
    * @param {IArmyRepository} armyRepository
    * @param {IMarchRepository} marchRepository
    * @param {ITileRepository} tileRepository
+   * @param {IArmyUnitsRepository} armyUnitsRepository
    * @memberof MarchServices
    */
   constructor(
       armyRepository: IArmyRepository,
       marchRepository: IMarchRepository,
       tileRepository: ITileRepository,
+      armyUnitsRepository: IArmyUnitsRepository,
   ) {
     this.armyRepository = armyRepository;
     this.marchRepository = marchRepository;
     this.tileRepository = tileRepository;
+    this.armyUnitsRepository = armyUnitsRepository;
   }
 
   /**
@@ -56,11 +61,9 @@ export class CreateMarchService {
       // update main army
       await this.armyRepository.updateArmy(army);
       // create march army
+      marchArmy = await this.armyRepository.createArmy(marchArmy);
 
-      // create new army with units to be used for the march
-      marchArmy = await this.armyRepository.createArmy(player, marchArmy);
-
-      // get start tile and end tile ids
+      // get start & end tile ids
       const startTile = await this.tileRepository.getTileAt(
           march.$startRow,
           march.$startCol,
@@ -70,6 +73,7 @@ export class CreateMarchService {
           march.$endCol,
       );
 
+      // create march with army & tiles
       return await this.marchRepository.createMarch(
           march,
           startTile,

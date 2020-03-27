@@ -9,6 +9,7 @@ import {models} from '../../../../../../src/shared/infra/sequelize/models';
 import {log} from '../../../../../../src/shared/utils/log';
 import {createTestPlayer} from '../../../../scripts/createTestPlayer';
 import {createArmyService} from '../../../../../../src/modules/game/services/createArmy';
+import {UnitType} from '../../../../../../src/modules/game/domain/Unit';
 
 const assert = chai.assert;
 const expect = chai.expect;
@@ -66,21 +67,44 @@ describe('ArmyRepository:updateArmy', function() {
   });
 
   it('Should update army with expected values', async function() {
-    // create army in database for player
+    // create default army for player
     const player = await createTestPlayer();
-    let expArmy = armyFactory.createDefaultArmyWithUnits();
-    expArmy = await createArmyService.createArmyWithUnits(
-        expArmy, expArmy.$units,
-    );
-    await playerRepository.updatePlayerArmy(
-        player, expArmy,
-    );
+    let army = armyFactory.createDefaultArmyWithUnits();
+    const units = army.$units;
+    army = await createArmyService.createArmyWithUnits(army, units);
+    await playerRepository.updatePlayerArmy(player, army);
 
-    // try to get the army from the database
-    const actArmy = await armyRepository.getArmyForPlayer(player);
+    // add units to army and update
+    army.addUnits(UnitType.Bear, 10);
+    army.removeUnits(UnitType.Wizard, 1);
+    const count = army.numberOfUnits(1);
+    await armyRepository.updateArmy(army);
 
-    // assert army has expected units
-    expect(actArmy).to.deep.equal(expArmy);
+    // assert that army has expected units
+    let actArmy = await armyRepository.getArmyForPlayer(player);
+    for (let i = 0; i < actArmy.$units.length; i++) {
+      const type = actArmy.$units[i].$unit.$type;
+      expect(actArmy.numberOfUnits(type)).to.equal(army.numberOfUnits(type));
+    }
+
+    // remove all the units of one type from the army
+    army.removeUnits(UnitType.Wizard, army.numberOfUnits(UnitType.Wizard));
+    await armyRepository.updateArmy(army);
+
+    // assert that army has expected units
+    actArmy = await armyRepository.getArmyForPlayer(player);
+    for (let i = 0; i < actArmy.$units.length; i++) {
+      const type = actArmy.$units[i].$unit.$type;
+      expect(actArmy.numberOfUnits(type)).to.equal(army.numberOfUnits(type));
+    }
+
+    // try to remove more units than the army has
+    army.$units[0].$count = -10;
+    try {
+      await armyRepository.updateArmy(army);
+    } catch (err) {
+      expect(err.message).to.equal(ArmyRepositoryErrors.InsufficientUnits);
+    }
   });
 
   it('Should throw NonexistentPlayer error', async function() {
@@ -107,6 +131,10 @@ describe('ArmyRepository:updateArmy', function() {
     } catch (err) {
       expect(err.message).to.equal(ArmyRepositoryErrors.NonexistentArmy);
     }
+  });
+
+  it('Should throw NonexistentArmy error', async function() {
+    const player = await createTestPlayer();
   });
 });
 

@@ -2,7 +2,8 @@
 import {Entity} from '../../../shared/domain/Entity';
 import {EntityID} from '../../../shared/domain/EntityID';
 import {ArmyUnits} from './ArmyUnits';
-import { UnitType } from './Unit';
+import { UnitType, Unit } from './Unit';
+import {createArmyService} from '../services/createArmy';
 
 export enum ArmyErrors {
   InsufficientUnits = 'Insufficient units in army for split',
@@ -45,6 +46,29 @@ export class Army extends Entity {
       const numUnits = army.numberOfUnits(type);
       this.removeUnits(type, numUnits);
     }
+  }
+
+  /**
+   * Add count number of units of type to this army.
+   *
+   * @param {UnitType} type
+   * @param {number} count
+   * @return {void}
+   * @memberof Army
+   */
+  addUnits(type: UnitType, count: number) {
+    // if army already has some units of this type
+    for (let i = 0; i < this.$units.length; i++) {
+      if (this.$units[i].$unit.$type === type) {
+        this.$units[i].$count += count;
+      }
+    }
+
+    // if army doesn't have any units of this type
+    // add new set of units to this army
+    const unit = new Unit(type, null, null, null, null);
+    const units = new ArmyUnits(null, this.$id, count, unit);
+    this.$units.push(units);
   }
 
   /**
