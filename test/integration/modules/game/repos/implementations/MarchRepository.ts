@@ -26,7 +26,7 @@ const expect = chai.expect;
 describe('MarchRepository:createMarch', function() {
   // Start transaction before each test & rollback any changes after
   const connection = models.sequelize;
-  beforeEach(() => { 
+  beforeEach(() => {
     return connection.query('START TRANSACTION');
   });
   afterEach(() => {

@@ -5,7 +5,7 @@ import {March} from '../../domain/March';
 import {User} from '../../../../modules/user/domain/User';
 import {CreateMarchErrors} from './CreateMarchErrors';
 import {Player} from '../../domain/Player';
-import {Army} from '../../domain/Army';
+import {Army, ArmyErrors} from '../../domain/Army';
 import {ITileRepository} from '../../repos/ITileRepository';
 import {log} from '../../../../shared/utils/log';
 import {IArmyRepository} from '../../repos/IArmyRepository';
@@ -54,17 +54,17 @@ export class CreateMarchService {
    */
   async createMarch(player: Player, march: March): Promise<March> {
     try {
-      // get the player's main army
-      const army = await this.armyRepository.getArmyForPlayer(player);
-      // take the march's units from the main army
-      army.split(march.$army);
-      // update the main army in the databse (remove the units for the march)
-      await this.armyRepository.updateArmy(army);
-      // create a new army in the database for the march with the removed units
+      // get the player's army
+      player.$army = await this.armyRepository.getArmyForPlayer(player);
+      // take the march's units from the player's army
+      player.$army.split(march.$army);
+      // update the player's army in the db (remove the units for the march)
+      await this.armyRepository.updateArmy(player.$army);
+      // create a new army in the db for the march's army
       march.$army = await this.createArmyService.createArmyWithUnits(
           march.$army, march.$army.$units,
       );
-      // get start & end tile ids
+      // get start & end tile ids from database
       const startTile = await this.tileRepository.getTileAt(
           march.$startRow,
           march.$startCol,
@@ -73,7 +73,7 @@ export class CreateMarchService {
           march.$endRow,
           march.$endCol,
       );
-      // create march in database with army & tiles
+      // create a march entry in database with the army & tiles
       return await this.marchRepository.createMarch(
           march,
           startTile,
@@ -81,6 +81,10 @@ export class CreateMarchService {
       );
     } catch (err) {
       switch (err.message) {
+        case ArmyErrors.InsufficientUnits:
+          throw new Error(CreateMarchErrors.InsufficientUnits);
+        case TileRepositoryErrors.NonexistentTile:
+          throw new Error(CreateMarchErrors.NonexistentTile);
         default:
           throw err;
       }
