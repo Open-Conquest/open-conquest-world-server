@@ -4,7 +4,7 @@ import {User} from '../../../user/domain/User';
 import {PlayerMapper} from '../../mappers/PlayerMapper';
 import {log} from '../../../../shared/utils/log';
 import {PlayerRepositoryErrors} from '../PlayerRepositoryErrors';
-import { Army } from '../../domain/Army';
+import {Army} from '../../domain/Army';
 
 /**
  * A Sequelize implementation of the `IPlayerRepository`
@@ -110,6 +110,10 @@ export class PlayerRepository implements IPlayerRepository {
           name: player.$name.$value,
         },
       });
+
+      if (dbPlayer === null) {
+        throw new Error(PlayerRepositoryErrors.NonexistentPlayer);
+      }
 
       dbPlayer = await dbPlayer.update({
         army_id: army.$id.$value,

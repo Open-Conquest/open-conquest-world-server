@@ -10,6 +10,7 @@ import {ITileRepository} from '../../repos/ITileRepository';
 import {log} from '../../../../shared/utils/log';
 import {IArmyRepository} from '../../repos/IArmyRepository';
 import {IArmyUnitsRepository} from '../../repos/IArmyUnitsRepository';
+import {CreateArmyService} from '../createArmy/CreateArmyService';
 /**
  * Coordinate between domain and persistence layers to create march entities.
  *
@@ -20,7 +21,7 @@ export class CreateMarchService {
   private marchRepository: IMarchRepository;
   private tileRepository: ITileRepository;
   private armyRepository: IArmyRepository;
-  private armyUnitsRepository: IArmyUnitsRepository;
+  private createArmyService: CreateArmyService;
 
   /**
    * Creates an instance of MarchServices.
@@ -28,19 +29,19 @@ export class CreateMarchService {
    * @param {IArmyRepository} armyRepository
    * @param {IMarchRepository} marchRepository
    * @param {ITileRepository} tileRepository
-   * @param {IArmyUnitsRepository} armyUnitsRepository
+   * @param {CreateArmyService} createArmyService
    * @memberof MarchServices
    */
   constructor(
       armyRepository: IArmyRepository,
       marchRepository: IMarchRepository,
       tileRepository: ITileRepository,
-      armyUnitsRepository: IArmyUnitsRepository,
+      createArmyService: CreateArmyService,
   ) {
     this.armyRepository = armyRepository;
     this.marchRepository = marchRepository;
     this.tileRepository = tileRepository;
-    this.armyUnitsRepository = armyUnitsRepository;
+    this.createArmyService = createArmyService;
   }
 
   /**
@@ -53,16 +54,16 @@ export class CreateMarchService {
    */
   async createMarch(player: Player, march: March): Promise<March> {
     try {
-      // check if player has enough units in their army to create the march
+      // get the player's main army
       const army = await this.armyRepository.getArmyForPlayer(player);
-
-      // remove march units from main army
-      let marchArmy = army.splitArmy(march.$army);
-      // update main army
+      // take the march's units from the main army
+      army.split(march.$army);
+      // update the main army in the databse (remove the units for the march)
       await this.armyRepository.updateArmy(army);
-      // create march army
-      marchArmy = await this.armyRepository.createArmy(marchArmy);
-
+      // create a new army in the database for the march with the removed units
+      march.$army = await this.createArmyService.createArmyWithUnits(
+          march.$army, march.$army.$units,
+      );
       // get start & end tile ids
       const startTile = await this.tileRepository.getTileAt(
           march.$startRow,
@@ -72,8 +73,7 @@ export class CreateMarchService {
           march.$endRow,
           march.$endCol,
       );
-
-      // create march with army & tiles
+      // create march in database with army & tiles
       return await this.marchRepository.createMarch(
           march,
           startTile,

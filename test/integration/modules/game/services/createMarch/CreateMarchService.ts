@@ -33,19 +33,16 @@ describe('CreateMarchService:createMarch', function() {
     return connection.query('ROLLBACK');
   });
 
-  // 1.
   it('Should create a new march for an existing user', async function() {
+    // create player to create the march for
     await createTestWorld();
-    // create a player to create the march for
     const player = await createTestPlayerWithArmy();
-    // choose a subset of the player's army to create the march with
-    const army = player.$armies[0];
-    // create a march entity with the player's army
-    const march = marchFactory.createMarch(
-        null, army, 0, 0, 5, 5, null,
-    );
 
-    // try to create a march
+    // create a march with the player's army
+    log.info('', player);
+    const march = marchFactory.createMarch(
+        null, player.$army, 0, 0, 5, 5, null,
+    );
     const createdMarch = await createMarchService.createMarch(
         player, march,
     );
@@ -55,8 +52,6 @@ describe('CreateMarchService:createMarch', function() {
     expect(createdMarch.$startRow).to.equal(0);
     expect(createdMarch.$endCol).to.equal(5);
     expect(createdMarch.$endRow).to.equal(5);
-    expect(createdMarch.$army.$id.$value).to.equal(player.$armies[0].$id.$value);
-    expect(createdMarch.$army.$units[0].$unit).to.deep.equal(player.$armies[0].$units[0].$unit);
-    expect(createdMarch.$army.$units[0].$count).to.equal(army.$units[0].$count);
+    expect(createdMarch.$army.$id.$value).not.to.equal(player.$army.$id.$value);
   });
 });

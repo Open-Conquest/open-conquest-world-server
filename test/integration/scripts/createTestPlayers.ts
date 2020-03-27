@@ -7,7 +7,7 @@ import {UserDTO} from '../../../src/modules/user/dtos/UserDTO';
 import {CreatePlayerRequestDTO} from '../../../src/modules/game/services/createPlayer/CreatePlayerRequestDTO';
 import {PlayerDTO} from '../../../src/modules/game/dtos/PlayerDTO';
 import {playerRepository} from '../../../src/modules/game/repos/implementations';
-import { log } from '../../../src/shared/utils/log';
+import {log} from '../../../src/shared/utils/log';
 
 /**
  * Create 10 players in the world; test_playername0-10

@@ -15,21 +15,17 @@ import {IPlayerRepository} from '../../repos/IPlayerRepository';
  * @class CreateArmyService
  */
 export class AddArmyToPlayerService {
-  private armyRepository: IArmyRepository;
   private playerRepository: IPlayerRepository;
 
   /**
    * Creates an instance of CreateArmyService.
    *
-   * @param {IArmyRepository} armyRepository
    * @param {IPlayerRepository} playerRepository
    * @memberof CityServices
    */
   constructor(
-      armyRepository: IArmyRepository,
       playerRepository: IPlayerRepository,
   ) {
-    this.armyRepository = armyRepository;
     this.playerRepository = playerRepository;
   }
 

@@ -15,8 +15,6 @@ const assert = chai.assert;
 const expect = chai.expect;
 const armyFactory = new ArmyFactory();
 const armyUnitsFactory = new ArmyUnitsFactory();
-const armyFactory = new ArmyFactory();
-const armyUnitsFactory = new ArmyUnitsFactory();
 
 /**
  * Summary of tests for ArmyUnitsRepository
