@@ -5,7 +5,7 @@ import {Map} from '../../domain/Map';
 import {TileMapper} from '../../mappers/TileMapper';
 import {MapMapper} from '../../mappers/MapMapper';
 import {log} from '../../../../shared/utils/log';
-import { TileRepositoryErrors } from '../TileRepositoryErrors';
+import {TileRepositoryErrors} from '../TileRepositoryErrors';
 
 /**
  * Repository implementation for tile entities.

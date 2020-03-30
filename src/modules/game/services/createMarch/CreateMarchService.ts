@@ -11,6 +11,8 @@ import {log} from '../../../../shared/utils/log';
 import {IArmyRepository} from '../../repos/IArmyRepository';
 import {IArmyUnitsRepository} from '../../repos/IArmyUnitsRepository';
 import {CreateArmyService} from '../createArmy/CreateArmyService';
+import {TileRepositoryErrors} from '../../repos/TileRepositoryErrors';
+import {ArmyRepositoryErrors} from '../../repos/ArmyRepositoryErrors';
 /**
  * Coordinate between domain and persistence layers to create march entities.
  *
@@ -85,6 +87,8 @@ export class CreateMarchService {
           throw new Error(CreateMarchErrors.InsufficientUnits);
         case TileRepositoryErrors.NonexistentTile:
           throw new Error(CreateMarchErrors.NonexistentTile);
+        case ArmyRepositoryErrors.NonexistentPlayer:
+          throw new Error(CreateMarchErrors.NonexistentPlayer);
         default:
           throw err;
       }

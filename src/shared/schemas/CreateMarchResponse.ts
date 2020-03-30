@@ -5,6 +5,9 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
+export interface CreateMarchResponse {
+  march: March;
+}
 export interface March {
   army: Army;
   player?: Player;

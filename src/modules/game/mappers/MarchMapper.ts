@@ -3,6 +3,7 @@ import {MarchFactory} from '../factories/MarchFactory';
 import {ArmyMapper} from './ArmyMapper';
 import {Time} from '../domain/Time';
 import {log} from '../../../shared/utils/log';
+import { MarchDTO } from '../dtos/MarchDTO';
 // import {MarchDTO} from '../dtos/MarchDTO';
 
 /**
@@ -40,5 +41,14 @@ export class MarchMapper {
         dbMarch.endTile.tile_col,
         new Time(dbMarch.start_time),
     );
+  }
+
+  fromDTO(marchDTO: MarchDTO): March {
+    if (marchDTO === null) {
+      return null;
+    }
+
+    return this.marchFactory.createMarch(
+    )
   }
 }

@@ -5,6 +5,13 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
+export interface CreateMarchRequest {
+  player: Player;
+  march: March;
+}
+export interface Player {
+  name: string;
+}
 export interface March {
   army: Army;
   player?: Player;
@@ -27,7 +34,4 @@ export interface Unit {
   attack: number;
   defense: number;
   goldCost: number;
-}
-export interface Player {
-  name: string;
 }

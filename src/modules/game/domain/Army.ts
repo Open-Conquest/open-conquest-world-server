@@ -33,7 +33,7 @@ export class Army extends Entity {
   }
 
   /**
-   * Split this army into 2 armies with the ladder comprised of the units
+   * Split this army into 2 armies with the latter comprised of the units
    * of the army passed.
    *
    * @param {Army} army

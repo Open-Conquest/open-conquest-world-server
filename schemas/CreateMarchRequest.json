@@ -1,0 +1,14 @@
+{
+  "title": "CreateMarchRequest",
+  "type": "object",
+  "properties": {
+    "player": {
+      "$ref": "Player.json"
+    },
+    "march": {
+      "$ref": "March.json"
+    }
+  },
+  "required": ["player", "march"],
+  "additionalProperties": false
+}

@@ -5,7 +5,7 @@ import * as chai from 'chai';
 import * as mocha from 'mocha';
 import {UnitType} from '../../../../../src/modules/game/domain/Unit';
 import {ArmyErrors, Army} from '../../../../../src/modules/game/domain/Army';
-import { ArmyUnits } from 'src/modules/game/domain/ArmyUnits';
+import {ArmyUnits} from 'src/modules/game/domain/ArmyUnits';
 
 const assert = chai.assert;
 const expect = chai.expect;

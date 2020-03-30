@@ -35,7 +35,7 @@ describe('CreateMarchService:createMarch', function() {
     return connection.query('ROLLBACK');
   });
 
-  it('Should create a new march for an existing user', async function() {
+  it('Should create the expected march for the player', async function() {
     // create player to create the march for
     await createTestWorld();
     const player = await createTestPlayerWithArmy();
@@ -61,9 +61,6 @@ describe('CreateMarchService:createMarch', function() {
       const type = march.$army.$units[i].$unit.$type;
       expect(march.$army.numberOfUnits(type)).to.equal(createdMarch.$army.numberOfUnits(type));
     }
-
-    // assert that the player's army was reduced as expected
-    assert.fail('Assert that the player\'s army was reduced as expected');
   });
 
   it('Should throw InsufficientUnits error', async function() {
@@ -80,7 +77,7 @@ describe('CreateMarchService:createMarch', function() {
 
     // try to create a march that should throw insufficient units error
     try {
-      const createdMarch = await createMarchService.createMarch(
+      await createMarchService.createMarch(
           player, march,
       );
       assert.fail('Expected InsufficientUnits error');
@@ -103,7 +100,7 @@ describe('CreateMarchService:createMarch', function() {
 
     // try to create a march that should throw insufficient units error
     try {
-      const createdMarch = await createMarchService.createMarch(
+      await createMarchService.createMarch(
           player, march,
       );
       assert.fail('Expected NonexistentPlayer error');
@@ -124,7 +121,7 @@ describe('CreateMarchService:createMarch', function() {
 
     // try to create a march that should throw insufficient units error
     try {
-      const createdMarch = await createMarchService.createMarch(
+      await createMarchService.createMarch(
           player, march,
       );
       assert.fail('Expected NonexistentTile error');
