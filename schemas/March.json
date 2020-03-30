@@ -2,11 +2,11 @@
   "title": "March",
   "type": "object",
   "properties": {
+    "marchID": {
+      "type": "number"
+    },
     "army": {
       "$ref": "Army.json"
-    },
-    "player": {
-      "$ref": "Player.json"
     },
     "startRow": {
       "type": "number"
@@ -24,6 +24,6 @@
       "type": "string"
     }
   },
-  "required": ["army", "player", "startRow", "startCol", "endRow", "endCol", "startTime"],
+  "required": ["army", "startRow", "startCol", "endRow", "endCol", "startTime"],
   "additionalProperties": false
 }

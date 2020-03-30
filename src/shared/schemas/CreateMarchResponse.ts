@@ -9,8 +9,8 @@ export interface CreateMarchResponse {
   march: March;
 }
 export interface March {
+  marchID?: number;
   army: Army;
-  player?: Player;
   startRow: number;
   startCol: number;
   endRow: number;
@@ -30,7 +30,4 @@ export interface Unit {
   attack: number;
   defense: number;
   goldCost: number;
-}
-export interface Player {
-  name: string;
 }

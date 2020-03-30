@@ -13,8 +13,8 @@ export interface Player {
   name: string;
 }
 export interface March {
+  marchID?: number;
   army: Army;
-  player?: Player;
   startRow: number;
   startCol: number;
   endRow: number;

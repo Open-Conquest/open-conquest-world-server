@@ -4,7 +4,6 @@ import {ArmyMapper} from './ArmyMapper';
 import {Time} from '../domain/Time';
 import {log} from '../../../shared/utils/log';
 import { MarchDTO } from '../dtos/MarchDTO';
-// import {MarchDTO} from '../dtos/MarchDTO';
 
 /**
  * MarchMapper is responsible for mappings between the domain march entity
@@ -43,12 +42,52 @@ export class MarchMapper {
     );
   }
 
+  /**
+   * Maps a March to a MarchDTO.
+   *
+   * @param {March} march
+   * @return {MarchDTO}
+   * @memberof MarchMapper
+   */
+  toDTO(march: March): MarchDTO {
+    if (march === null) {
+      return null;
+    }
+
+    const armyDTO = this.armyMapper.toDTO(march.$army);
+    return new MarchDTO(
+        march.$id.$value,
+        armyDTO,
+        march.$startRow,
+        march.$startCol,
+        march.$endRow,
+        march.$endCol,
+        march.$startTime.$value,
+    );
+  }
+
+  /**
+   * Maps a MarchDTO to a March.
+   *
+   * @param {MarchDTO} marchDTO
+   * @return {March}
+   * @memberof MarchMapper
+   */
   fromDTO(marchDTO: MarchDTO): March {
     if (marchDTO === null) {
       return null;
     }
 
+    const army = this.armyMapper.fromDTO(marchDTO.$army);
+    const time = new Time(marchDTO.$startTime);
     return this.marchFactory.createMarch(
-    )
+        marchDTO.$marchID,
+        army,
+        marchDTO.$startRow,
+        marchDTO.$startCol,
+        marchDTO.$endRow,
+        marchDTO.$endCol,
+        time,
+    );
   }
 }

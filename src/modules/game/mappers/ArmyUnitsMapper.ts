@@ -44,6 +44,23 @@ export class ArmyUnitsMapper {
   }
 
   /**
+   * Map an ArmyUnitsDTO -> ArmyUnits.
+   *
+   * @param {ArmyUnitsDTO} armyUnits
+   * @return {ArmyUnits}
+   * @memberof ArmyUnitsMapper
+   */
+  fromDTO(armyUnits: ArmyUnitsDTO): ArmyUnits {
+    const unit = this.unitMapper.fromDTO(armyUnits.$unit);
+    return new ArmyUnits(
+        null,
+        null,
+        armyUnits.$count,
+        unit,
+    );
+  }
+
+  /**
    * Map a domain entity to a DTO.
    *
    * @param {ArmyUnits} armyUnits

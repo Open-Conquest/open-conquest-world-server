@@ -47,6 +47,29 @@ export class ArmyMapper {
   }
 
   /**
+   * Map an ArmyDTO -> Army.
+   *
+   * @param {ArmyDTO} army
+   * @return {Army}
+   * @memberof ArmyMapper
+   */
+  fromDTO(army: ArmyDTO): Army {
+    // convert all army units in list to dtos
+    const armyUnits = [];
+    for (let i = 0; i < army.$units.length; i++) {
+      const armyUnit = this.armyUnitsMapper.fromDTO(
+          army.$units[i],
+      );
+      armyUnits.push(armyUnit);
+    }
+
+    return this.armyFactory.createArmy(
+        army.$id,
+        army.$units,
+    );
+  }
+
+  /**
    * Create a dto from a army entity.
    *
    * @param {Army} army

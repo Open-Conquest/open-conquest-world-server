@@ -10,7 +10,7 @@ export enum CreateMarchErrorResponses {
   UnauthorizedUser = 'User is not authorized to create march for player',
   InsufficientUnits = 'Player has insufficient units to create march',
   NonexistentPlayer = 'Tried to create march for player that does not exist',
-  NonexistentTile = 'Tried to creat '
+  NonexistentTile = 'Tried to create march for nonexistent tile',
 }
 
 /**

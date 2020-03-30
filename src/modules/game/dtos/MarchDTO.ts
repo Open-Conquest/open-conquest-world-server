@@ -10,8 +10,8 @@ import {PlayerDTO} from './PlayerDTO';
  * @implements {March}
  */
 export class MarchDTO implements March {
+  marchID: number;
   army: ArmyDTO;
-  player: PlayerDTO;
   startRow: number;
   startCol: number;
   endRow: number;
@@ -19,16 +19,16 @@ export class MarchDTO implements March {
   startTime: string;
 
   constructor(
+      marchID: number,
       army: ArmyDTO,
-      player: PlayerDTO,
       startRow: number,
       startCol: number,
       endRow: number,
       endCol: number,
       startTime: string,
   ) {
+    this.marchID = marchID;
     this.army = army;
-    this.player = player;
     this.startRow = startRow;
     this.startCol = startCol;
     this.endRow = endRow;
@@ -36,12 +36,12 @@ export class MarchDTO implements March {
     this.startTime = startTime;
   }
 
-  public get $army(): ArmyDTO {
-    return this.army;
+  public get $marchID(): number {
+    return this.marchID;
   }
 
-  public get $player(): PlayerDTO {
-    return this.player;
+  public get $army(): ArmyDTO {
+    return this.army;
   }
 
   public get $startRow(): number {
@@ -64,12 +64,12 @@ export class MarchDTO implements March {
     return this.startTime;
   }
 
-  public set $army(value: ArmyDTO) {
-    this.army = value;
+  public set $marchID(value: number) {
+    this.marchID = value;
   }
 
-  public set $player(value: PlayerDTO) {
-    this.player = value;
+  public set $army(value: ArmyDTO) {
+    this.army = value;
   }
 
   public set $startRow(value: number) {
