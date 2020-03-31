@@ -28,7 +28,7 @@ export async function createTestPlayerWithArmyForUser(user: User): Promise<Playe
   const playername = 'test_playername';
   let player = new Player(
       null,
-      new Playername(playername),
+      new Playername(user.$username.$value),
   );
   // create player in database with army
   player = await createPlayerService.createPlayer(

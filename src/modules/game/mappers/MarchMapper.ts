@@ -30,7 +30,6 @@ export class MarchMapper {
     if (dbMarch === null) {
       return null;
     }
-
     return this.marchFactory.createMarch(
         dbMarch.march_id,
         this.armyMapper.fromPersistence(dbMarch.army),

@@ -49,23 +49,23 @@ export class ArmyMapper {
   /**
    * Map an ArmyDTO -> Army.
    *
-   * @param {ArmyDTO} army
+   * @param {ArmyDTO} armyDTO
    * @return {Army}
    * @memberof ArmyMapper
    */
-  fromDTO(army: ArmyDTO): Army {
-    // convert all army units in list to dtos
+  fromDTO(armyDTO: ArmyDTO): Army {
+    if (armyDTO === null) {
+      return null;
+    }
+
     const armyUnits = [];
-    for (let i = 0; i < army.$units.length; i++) {
-      const armyUnit = this.armyUnitsMapper.fromDTO(
-          army.$units[i],
-      );
-      armyUnits.push(armyUnit);
+    for (let i = 0; i < armyDTO.$units.length; i++) {
+      armyUnits.push(this.armyUnitsMapper.fromDTO(armyDTO.$units[i]));
     }
 
     return this.armyFactory.createArmy(
-        army.$id,
-        army.$units,
+        null,
+        armyUnits,
     );
   }
 

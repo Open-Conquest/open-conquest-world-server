@@ -56,6 +56,36 @@ export class PlayerRepository implements IPlayerRepository {
   }
 
   /**
+   * Get all the player entities that belong to user.
+   *
+   * @param {User} user
+   * @return {Promise<Array<Player>>}
+   * @memberof PlayerRepository
+   */
+  async getPlayers(user: User): Promise<Array<Player>> {
+    // try to save player to database
+    try {
+      const dbPlayers = await this.models.player.findAll({
+        where: {
+          user_id: user.$id.$value,
+        },
+      });
+      const players = [];
+      for (let i = 0; i < dbPlayers.length; i++) {
+        players.push(this.playerMapper.fromPersistence(dbPlayers[i]));
+      }
+      return players;
+    } catch (err) {
+      switch (err.name) {
+        case 'SequelizeForeignKeyConstraintError':
+          throw new Error(PlayerRepositoryErrors.NonexistentUser);
+        default:
+          throw err;
+      }
+    }
+  }
+
+  /**
    * Get a player from the database that is the Player entity passed as an
    * argument.
    *

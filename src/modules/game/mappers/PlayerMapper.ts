@@ -37,7 +37,7 @@ export class PlayerMapper {
    */
   fromDTO(dto: PlayerDTO): Player {
     return this.playerFactory.createPlayer(
-        null,
+        dto.$playerID,
         dto.$name,
     );
   }
@@ -50,7 +50,12 @@ export class PlayerMapper {
    * @memberof PlayerMapper
    */
   toDTO(player: Player): PlayerDTO {
+    let playerID = null;
+    if (player.$id != null) {
+      playerID = player.$id.$value;
+    }
     return new PlayerDTO(
+        playerID,
         player.getNameString(),
     );
   }

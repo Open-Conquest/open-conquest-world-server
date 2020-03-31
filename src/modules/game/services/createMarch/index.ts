@@ -1,7 +1,12 @@
 import {CreateMarchService} from './CreateMarchService';
-import {marchRepository, tileRepository, armyRepository} from '../../repos/implementations';
 import {createArmyService} from '../createArmy';
 import {CreateMarchController} from './CreateMarchController';
+import {doesPlayerBelongToUserService} from '../doesPlayerBelongToUser';
+import {
+  marchRepository,
+  tileRepository,
+  armyRepository,
+} from '../../repos/implementations';
 
 const createMarchService = new CreateMarchService(
     armyRepository,
@@ -12,6 +17,7 @@ const createMarchService = new CreateMarchService(
 
 const createMarchController = new CreateMarchController(
     createMarchService,
+    doesPlayerBelongToUserService,
 );
 
 export {createMarchService, createMarchController};

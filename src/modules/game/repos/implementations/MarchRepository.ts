@@ -58,7 +58,6 @@ export class MarchRepository implements IMarchRepository {
           as: 'endTile',
         }],
       });
-
       // march from db to domain and return
       return this.marchMapper.fromPersistence(dbMarchWithArmy);
     } catch (err) {
