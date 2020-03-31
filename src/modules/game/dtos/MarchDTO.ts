@@ -36,6 +36,19 @@ export class MarchDTO implements March {
     this.startTime = startTime;
   }
 
+  static fromJSON(json: any): MarchDTO {
+    const army = ArmyDTO.fromJSON(json['army']);
+    return new MarchDTO(
+        json['marchID'],
+        army,
+        json['startRow'],
+        json['startCol'],
+        json['endRow'],
+        json['endCol'],
+        json['startTime'],
+    );
+  }
+
   public get $marchID(): number {
     return this.marchID;
   }

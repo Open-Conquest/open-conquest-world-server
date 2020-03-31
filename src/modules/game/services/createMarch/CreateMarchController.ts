@@ -8,7 +8,7 @@ import {CreateMarchErrorResponseDTO} from './CreateMarchErrorResponseDTO';
 import {log} from '../../../../shared/utils/log';
 import {UserMapper} from '../../../user/mappers/UserMapper';
 import {DoesPlayerBelongToUserService} from '../doesPlayerBelongToUser/DoesPlayerBelongToUserService';
-import { CreateMarchErrors } from './CreateMarchErrors';
+import {CreateMarchErrors} from './CreateMarchErrors';
 
 export enum CreateMarchErrorResponses {
   UnauthorizedUser = 'User is not authorized to create march for player',

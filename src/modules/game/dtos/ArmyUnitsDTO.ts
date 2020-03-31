@@ -11,6 +11,14 @@ export class ArmyUnitsDTO implements ArmyUnits {
     this.unit = unit;
   }
 
+  static fromJSON(json: any): ArmyUnitsDTO {
+    const unit = UnitDTO.fromJSON(json['unit']);
+    return new ArmyUnitsDTO(
+        json['count'],
+        unit,
+    );
+  }
+
   public get $count(): number {
     return this.count;
   }

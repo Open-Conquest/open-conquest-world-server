@@ -8,7 +8,6 @@ import {CreateMarchErrors} from '../../../../../../src/modules/game/services/cre
 import {models} from '../../../../../../src/shared/infra/sequelize/models';
 import {createMarchController} from '../../../../../../src/modules/game/services/createMarch';
 import {createTestWorld} from '../../../../scripts/createTestWorld';
-import {PlayerFactory} from '../../../../../../src/modules/game/factories/PlayerFactory';
 import {createTestPlayerWithArmyForUser} from '../../../../scripts/createTestPlayerWithArmyForUser';
 import {createTestUser} from '../../../../scripts/createTestUser';
 import {MarchMapper} from '../../../../../../src/modules/game/mappers/MarchMapper';
@@ -19,12 +18,9 @@ import {CreateMarchResponseDTO} from '../../../../../../src/modules/game/service
 import {Time} from '../../../../../../src/modules/game/domain/Time';
 import {createTestUserWithName} from '../../../../scripts/createTestUserWithName';
 import {CreateMarchErrorResponses} from '../../../../../../src/modules/game/services/createMarch/CreateMarchController';
-import { ArmyFactory } from '../../../../../../src/modules/game/factories/ArmyFactory';
 
 const marchFactory = new MarchFactory();
-const playerFactory = new PlayerFactory();
 const marchMapper = new MarchMapper();
-const armyFactory = new ArmyFactory();
 const userMapper = new UserMapper();
 const playerMapper = new PlayerMapper();
 

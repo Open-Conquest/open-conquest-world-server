@@ -12,6 +12,15 @@ export class CreateMarchRequestDTO implements CreateMarchRequest {
     this.march = $march;
   }
 
+  static fromJSON(json: any): CreateMarchRequestDTO {
+    const player = PlayerDTO.fromJSON(json['player']);
+    const march = MarchDTO.fromJSON(json['march']);
+    return new CreateMarchRequestDTO(
+        player,
+        march,
+    );
+  }
+
   public get $player(): PlayerDTO {
     return this.player;
   }

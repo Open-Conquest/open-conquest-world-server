@@ -16,6 +16,13 @@ export class PlayerDTO implements Player {
     this.name = name;
   }
 
+  static fromJSON(json: any): PlayerDTO {
+    return new PlayerDTO(
+        json['playerID'],
+        json['name'],
+    );
+  }
+
   public get $name(): string {
     return this.name;
   }

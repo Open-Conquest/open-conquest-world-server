@@ -8,6 +8,10 @@ export class CreateMarchErrorResponseDTO implements CreateMarchErrorResponse {
     this.message = message;
   }
 
+  toJSON(): any {
+    return this;
+  }
+
   public get $message(): string {
     return this.message;
   }
