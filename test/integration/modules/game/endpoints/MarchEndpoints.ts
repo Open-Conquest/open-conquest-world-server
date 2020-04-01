@@ -11,27 +11,24 @@ import {marchEndpoints} from '../../../../../src/modules/game/endpoints';
 import {createTestUser} from '../../../scripts/createTestUser';
 import {PlayerDTO} from '../../../../../src/modules/game/dtos/PlayerDTO';
 import {UserDTO} from '../../../../../src/modules/user/dtos/UserDTO';
-import { UnitType, UnitName, UnitAttack, UnitDefense, UnitGoldCost } from '../../../../../src/modules/game/domain/Unit';
 import {createTestWorld} from '../../../scripts/createTestWorld';
 import {createTestPlayerWithArmyForUser} from '../../../scripts/createTestPlayerWithArmyForUser';
 import {MarchMapper} from '../../../../../src/modules/game/mappers/MarchMapper';
 import {MarchFactory} from '../../../../../src/modules/game/factories/MarchFactory';
 import {Time} from '../../../../../src/modules/game/domain/Time';
 import {CreateMarchRequestDTO} from '../../../../../src/modules/game/services/createMarch/CreateMarchRequestDTO';
-import { MarchDTO } from '../../../../../src/modules/game/dtos/MarchDTO';
+import {MarchDTO} from '../../../../../src/modules/game/dtos/MarchDTO';
 
-
+const assert = chai.assert;
+const expect = chai.expect;
 const marchMapper = new MarchMapper();
 const marchFactory = new MarchFactory();
 
 /**
- * Summary of tests for PlayerEndpoints:createPlayer
- * 1. Should get a DTO with a new player & their army, resources, and army
+ * Summary of tests for MarchEndpoints:createMarch
+ * 1. Should get the expected CreateMarchResponseDTO
  */
 describe('MarchEndpoints:createMarch', function() {
-  const assert = chai.assert;
-  const expect = chai.expect;
-
   /**
    * Start a transaction before each test then rollback any changes after
    * the test finishes running. This ensures that no changes made to the
@@ -45,8 +42,7 @@ describe('MarchEndpoints:createMarch', function() {
     return connection.query('ROLLBACK');
   });
 
-  // 1. Should get a DTO with a new player & their army, resources, and army
-  it('Should get a DTO with a new player & their army, resources, and army', async function() {
+  it('Should get the expected CreateMarchResponseDTO', async function() {
     // create entites
     const world = await createTestWorld();
     const user = await createTestUser();
