@@ -27,7 +27,7 @@ export class ArmyMapper {
    * @memberof ArmyMapper
    */
   fromPersistence(dbArmy: any): Army {
-    if (dbArmy === null) {
+    if (dbArmy == null) {
       return null;
     }
 
@@ -77,6 +77,9 @@ export class ArmyMapper {
    * @memberof ArmyMapper
    */
   toDTO(army: Army): ArmyDTO {
+    if (army == null) {
+      return null;
+    }
     // convert all army units in list to dtos
     const armyUnitsDTOs = [];
     for (let i = 0; i < army.$units.length; i++) {

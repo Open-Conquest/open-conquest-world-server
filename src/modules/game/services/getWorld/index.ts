@@ -4,6 +4,7 @@ import {
   cityRepository,
   mapRepository,
   tileRepository,
+  marchRepository,
 } from '../../repos/implementations';
 import {GetWorldController} from './GetWorldController';
 
@@ -11,6 +12,7 @@ const getWorldService = new GetWorldService(
     playerRepository,
     cityRepository,
     mapRepository,
+    marchRepository,
     tileRepository,
 );
 

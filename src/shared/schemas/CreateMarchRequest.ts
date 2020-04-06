@@ -10,6 +10,7 @@ export interface CreateMarchRequest {
   march: March;
 }
 export interface Player {
+  playerID?: number;
   name: string;
 }
 export interface March {

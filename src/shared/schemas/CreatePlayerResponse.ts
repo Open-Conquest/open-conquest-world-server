@@ -12,6 +12,7 @@ export interface CreatePlayerResponse {
   resources: Resources;
 }
 export interface Player {
+  playerID?: number;
   name: string;
 }
 export interface City {

@@ -9,5 +9,6 @@ export interface CreatePlayerRequest {
   player: Player;
 }
 export interface Player {
+  playerID?: number;
   name: string;
 }

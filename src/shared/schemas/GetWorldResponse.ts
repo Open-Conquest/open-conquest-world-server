@@ -12,6 +12,7 @@ export interface World {
   id: number;
   map: Map;
   cities: any[];
+  marches: any[];
 }
 export interface Map {
   tiles: any[];

@@ -29,6 +29,27 @@ export class MarchRepository implements IMarchRepository {
     this.marchMapper = new MarchMapper();
   }
 
+  async getAllMarches(): Promise<Array<March>> {
+    // get all march entities from db
+    const dbMarches = await this.models.march.findAll({
+      include: [{
+        model: this.models.tile,
+        as: 'startTile',
+      }, {
+        model: this.models.tile,
+        as: 'endTile',
+      }],
+    });
+
+    // map march db entities -> domain entities
+    const marches = [];
+    for (let i = 0; i < dbMarches.length; i++) {
+      const thisMarch = this.marchMapper.fromPersistence(dbMarches[i]);
+      marches.push(thisMarch);
+    }
+    return marches;
+  }
+
   async createMarch(march: March, start: Tile, end: Tile): Promise<March> {
     try {
       const dbMarch = await this.models.march.create({

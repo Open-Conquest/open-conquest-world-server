@@ -3,6 +3,7 @@ import {World} from '../../../shared/schemas/World';
 import {CityDTO} from './CityDTO';
 import {MapDTO} from './MapDTO';
 import {PlayerDTO} from './PlayerDTO';
+import {MarchDTO} from './MarchDTO';
 
 /**
  * DTO object for world.
@@ -16,12 +17,20 @@ export class WorldDTO implements World {
   map: MapDTO;
   cities: Array<CityDTO>;
   players: Array<PlayerDTO>;
+  marches: Array<MarchDTO>
 
-  constructor(id: number, map: MapDTO, cities: Array<CityDTO>, players: Array<PlayerDTO>) {
+  constructor(
+      id: number,
+      map: MapDTO,
+      cities: Array<CityDTO>,
+      players: Array<PlayerDTO>,
+      marches: Array<MarchDTO>,
+  ) {
     this.id = id;
     this.map = map;
     this.cities = cities;
     this.players = players;
+    this.marches = marches;
   }
 
   public get $id(): number {
@@ -40,6 +49,10 @@ export class WorldDTO implements World {
     return this.players;
   }
 
+  public get $marches(): Array<MarchDTO> {
+    return this.marches;
+  }
+
   public set $id(value: number) {
     this.id = value;
   }
@@ -54,5 +67,9 @@ export class WorldDTO implements World {
 
   public set $players(value: Array<PlayerDTO>) {
     this.players = value;
+  }
+
+  public set $marches(value: Array<MarchDTO>) {
+    this.marches = value;
   }
 }

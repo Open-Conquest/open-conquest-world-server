@@ -27,11 +27,14 @@ export async function createTestWorld(): Promise<World> {
   // get the updated map with cities added
   map.$tiles = await tileRepository.getAllTiles(map);
 
+  const marches = [];
+
   const worldFactory = new WorldFactory();
   return worldFactory.createWorld(
       null,
       players,
       map,
       cities,
+      marches,
   );
 }
