@@ -3,7 +3,7 @@ import {MarchFactory} from '../factories/MarchFactory';
 import {ArmyMapper} from './ArmyMapper';
 import {Time} from '../domain/Time';
 import {log} from '../../../shared/utils/log';
-import { MarchDTO } from '../dtos/MarchDTO';
+import {MarchDTO} from '../dtos/MarchDTO';
 
 /**
  * MarchMapper is responsible for mappings between the domain march entity

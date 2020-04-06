@@ -120,7 +120,7 @@ describe('WorldRouter:handle', function() {
 
     // create a new player dto
     const playerName = 'new_playername';
-    const player = new PlayerDTO(null);
+    const player = new PlayerDTO(null, playerName);
     player.$name = playerName;
 
     // create a player for newly registered user

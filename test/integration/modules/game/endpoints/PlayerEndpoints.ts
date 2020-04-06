@@ -44,6 +44,7 @@ describe('PlayerEndpoints:createPlayer', function() {
     // build CreatePlayerRequest message
     const userDTO = new UserDTO(user.$id.$value, user.$username.$value);
     const playerDTO = new PlayerDTO(
+        null,
         'test_playername',
     );
     const createPlayerDTO = new CreatePlayerRequestDTO(playerDTO);

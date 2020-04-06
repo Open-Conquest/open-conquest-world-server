@@ -37,7 +37,7 @@ describe('CreatePlayerController:createPlayer', function() {
     const user = new UserDTO(
         createdUser.$id.$value, createdUser.$username.$value,
     );
-    const player = new PlayerDTO('test_playername');
+    const player = new PlayerDTO(0, 'test_playername');
     const request = new CreatePlayerRequestDTO(player);
 
     // try to create player from request
