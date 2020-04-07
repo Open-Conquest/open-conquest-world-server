@@ -17,6 +17,7 @@ export class MarchDTO implements March {
   endRow: number;
   endCol: number;
   startTime: string;
+  endTime: string;
 
   constructor(
       marchID: number,

@@ -1,18 +1,16 @@
 import {IMarchRepository} from '../../repos/IMarchRepository';
-import {MarchRepositoryErrors} from '../../repos/MarchRepositoryErrors';
-import {MarchFactory} from '../../factories/MarchFactory';
 import {March} from '../../domain/March';
-import {User} from '../../../../modules/user/domain/User';
 import {CreateMarchErrors} from './CreateMarchErrors';
 import {Player} from '../../domain/Player';
-import {Army, ArmyErrors} from '../../domain/Army';
+import {ArmyErrors} from '../../domain/Army';
 import {ITileRepository} from '../../repos/ITileRepository';
 import {log} from '../../../../shared/utils/log';
 import {IArmyRepository} from '../../repos/IArmyRepository';
-import {IArmyUnitsRepository} from '../../repos/IArmyUnitsRepository';
 import {CreateArmyService} from '../createArmy/CreateArmyService';
 import {TileRepositoryErrors} from '../../repos/TileRepositoryErrors';
 import {ArmyRepositoryErrors} from '../../repos/ArmyRepositoryErrors';
+import {Time} from '../../domain/Time';
+
 /**
  * Coordinate between domain and persistence layers to create march entities.
  *
@@ -66,6 +64,7 @@ export class CreateMarchService {
       march.$army = await this.createArmyService.createArmyWithUnits(
           march.$army, march.$army.$units,
       );
+
       // get start & end tile ids from database
       const startTile = await this.tileRepository.getTileAt(
           march.$startRow,
@@ -75,6 +74,15 @@ export class CreateMarchService {
           march.$endRow,
           march.$endCol,
       );
+
+      // calculate start time for march (now)
+      let now = new Date();
+      log.info(now);
+      march.$startTime = Time.fromDate(now);
+      // calculate end time for march (now + distance * 1 minute)
+      now = new Date(now.getTime() + (march.getDistance() * 60000));
+      march.$endTime = Time.fromDate(now);
+
       // create a march entry in database with the army & tiles
       return await this.marchRepository.createMarch(
           march,

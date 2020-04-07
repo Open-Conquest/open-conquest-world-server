@@ -52,10 +52,13 @@ export class MarchRepository implements IMarchRepository {
 
   async createMarch(march: March, start: Tile, end: Tile): Promise<March> {
     try {
+      log.error(march);
       const dbMarch = await this.models.march.create({
         army_id: march.$army.$id.$value,
         start_tile_id: start.$id.$value,
         end_tile_id: end.$id.$value,
+        start_time: march.$startTime.$value,
+        end_time: march.$endTime.$value,
       });
 
       // get march with army
@@ -79,6 +82,7 @@ export class MarchRepository implements IMarchRepository {
           as: 'endTile',
         }],
       });
+      log.info(dbMarchWithArmy);
       // march from db to domain and return
       return this.marchMapper.fromPersistence(dbMarchWithArmy);
     } catch (err) {

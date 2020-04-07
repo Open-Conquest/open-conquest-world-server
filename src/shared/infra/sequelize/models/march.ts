@@ -21,10 +21,10 @@ export default (sequelize, DataTypes) => {
       allowNull: false,
     },
     start_time: {
-      type: DataTypes.DATE,
+      type: 'DATETIME',
     },
     end_time: {
-      type: DataTypes.DATE,
+      type: 'DATETIME',
     },
     speed_modifier: {
       type: DataTypes.FLOAT,

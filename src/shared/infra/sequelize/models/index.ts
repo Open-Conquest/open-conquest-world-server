@@ -13,7 +13,8 @@ const sequelize = new Sequelize(
       logging: false,
       host: config.host,
       dialect: config.dialect,
-    });
+    },
+);
 
 const models: any = {};
 

@@ -31,7 +31,7 @@ export class MarchMapper {
       return null;
     }
 
-    return this.marchFactory.createMarch(
+    const march = this.marchFactory.createMarch(
         dbMarch.march_id,
         this.armyMapper.fromPersistence(dbMarch.army),
         dbMarch.startTile.tile_row,
@@ -40,6 +40,10 @@ export class MarchMapper {
         dbMarch.endTile.tile_col,
         new Time(dbMarch.start_time),
     );
+
+    march.$endTime = new Time(dbMarch.end_time);
+
+    return march;
   }
 
   /**
@@ -55,7 +59,7 @@ export class MarchMapper {
     }
 
     const armyDTO = this.armyMapper.toDTO(march.$army);
-    return new MarchDTO(
+    const marchDTO = new MarchDTO(
         march.$id.$value,
         armyDTO,
         march.$startRow,
@@ -64,6 +68,9 @@ export class MarchMapper {
         march.$endCol,
         march.$startTime.$value,
     );
+    marchDTO.endTime = march.$endTime.$value;
+
+    return marchDTO;
   }
 
   /**

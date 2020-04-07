@@ -17,6 +17,7 @@ export class March extends Entity {
   private endRow: number;
   private endCol: number;
   private startTime: Time;
+  private endTime: Time;
 
   constructor(
       id: EntityID,
@@ -34,6 +35,12 @@ export class March extends Entity {
     this.endRow = endRow;
     this.endCol = endCol;
     this.startTime = startTime;
+  }
+
+  getDistance(): number {
+    const rowDiff = this.startRow - this.endRow;
+    const colDiff = this.startCol - this.endCol;
+    return Math.floor(Math.sqrt(rowDiff*rowDiff + colDiff*colDiff));
   }
 
   public get $army(): Army {
@@ -60,6 +67,10 @@ export class March extends Entity {
     return this.startTime;
   }
 
+  public get $endTime(): Time {
+    return this.endTime;
+  }
+
   public set $army(value: Army) {
     this.army = value;
   }
@@ -82,5 +93,9 @@ export class March extends Entity {
 
   public set $startTime(value: Time) {
     this.startTime = value;
+  }
+
+  public set $endTime(value: Time) {
+    this.endTime = value;
   }
 }
