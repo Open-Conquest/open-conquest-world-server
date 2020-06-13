@@ -1,15 +1,11 @@
 import {IUserRepository} from '../IUserRepository';
 import {User} from '../../domain/User';
-import {Password} from '../../domain/Password';
-import {HashedPassword} from '../../domain/HashedPassword';
 import {Username} from '../../domain/Username';
 import {UserMapper} from '../../mappers/UserMapper';
-import {log} from '../../../../shared/utils/log';
+import {UserRepositoryErrors} from '../UserRepositoryErrors';
 
 /**
  * A Sequelize implementation of the `IUserRepository`
- *
- * @class UserRepository
  */
 export class UserRepository implements IUserRepository {
   private models: any;
@@ -17,7 +13,6 @@ export class UserRepository implements IUserRepository {
 
   /**
    * Creates an instance of UserRepository.
-   *
    * @param {*} models
    * @memberof UserRepository
    */
@@ -28,53 +23,41 @@ export class UserRepository implements IUserRepository {
 
   /**
    * Save the user in the database.
-   *
-   * @param {User} user
+   * @param {User} user the user entity to be created
    * @return {Promise<User>}
-   * @memberof UserRepository
    */
   async createUser(user: User): Promise<User> {
-    // try to save user to database
     try {
+      // try to save user to database
       const dbUser = await this.models.user.create({
-        username: user.getUsernameString(),
-        password: user.getHashedPasswordString(),
+        username: user.$username.$value,
+        password: user.$hashedPassword.$value,
       });
-      // map from db to domain and return
+      // return user entity
       return this.userMapper.fromPersistence(dbUser);
     } catch (err) {
-      // check to see what type of error was returned
       if (err.name === 'SequelizeUniqueConstraintError') {
-        throw new Error('Duplicate username error');
-      } else {
-        throw new Error('Unexpected error');
+        throw new Error(UserRepositoryErrors.DuplicateUsername);
       }
+      throw err;
     }
   }
 
   /**
-   * Get a user's password based on their username.
-   *
-   * @param {string} username
+   * Get a user's hashed password based on their username.
+   * @param {string} username the user's username
    * @return {Promise<HashedPassword>}
-   * @memberof UserRepository
    */
   async getUserPasswordWithUsername(username: Username): Promise<User> {
-    try {
-      // try to find user in database with username
-      const dbUser = await this.models.user.findOne({
-        where: {username: username.$value},
-      });
-
-      if (dbUser === null) {
-        // if no user was found
-        throw new Error('No user found');
-      } else {
-        // return password hash
-        return this.userMapper.fromPersistence(dbUser);
-      }
-    } catch (err) {
-      throw new Error('No user found');
+    // try to find user in database with username
+    const dbUser = await this.models.user.findOne({
+      where: {username: username.$value},
+    });
+    // if no user was found
+    if (dbUser === null) {
+      throw new Error(UserRepositoryErrors.NonexistentUser);
     }
+    // return user entity with hashed password
+    return this.userMapper.fromPersistence(dbUser);
   }
 }

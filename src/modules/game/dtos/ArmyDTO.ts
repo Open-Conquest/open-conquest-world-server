@@ -9,6 +9,15 @@ export class ArmyDTO implements Army {
     this.units = units;
   }
 
+  static fromJSON(json: any): ArmyDTO {
+    const units = [];
+    for (let i = 0; i < json['units'].length; i++) {
+      const unitsJSON = json['units'][i];
+      units.push(ArmyUnitsDTO.fromJSON(unitsJSON));
+    }
+    return new ArmyDTO(units);
+  }
+
   public get $units(): ArmyUnitsDTO[] {
     return this.units;
   }

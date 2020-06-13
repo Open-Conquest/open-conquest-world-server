@@ -1,18 +1,17 @@
 /* eslint-disable require-jsdoc */
 
+export enum UsernameErrors {
+  InvalidUsername = 'Invalid Username'
+}
+
 export class Username {
   private value: string;
 
   constructor(username: string) {
-    if (username === null) {
-      return null;
+    if (!this.isValidUsername(username)) {
+      throw new Error(UsernameErrors.InvalidUsername);
     }
-
-    if (this.isValidUsername(username)) {
-      this.value = username;
-    } else {
-      throw new Error('Invalid username, does not meet requirements');
-    }
+    this.$value = username;
   }
 
   isValidUsername(username: string): boolean {
@@ -20,10 +19,6 @@ export class Username {
       return false;
     }
     return true;
-  }
-
-  getString(): string {
-    return this.value;
   }
 
   public get $value(): string {

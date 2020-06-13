@@ -8,9 +8,10 @@
     "watch": "tsc --watch",
     "test": "npm run u-tests; npm run i-tests",
     "u-tests": "mocha --recursive --exit dist/test/unit/",
-    "i-tests": "NODE_ENV=test mocha --recursive --exit dist/test/integration",
-    "i-tests-travis": "NODE_ENV=travis mocha --recursive --exit dist/test/integration",
-    "start-test": "NODE_ENV=test node dist/src/WorldServer.js"
+    "i-tests": "NODE_ENV=test mocha --recursive --timeout 5000 --exit dist/test/integration",
+    "i-tests-travis": "NODE_ENV=travis ./node_modules/.bin/nyc mocha --recursive --exit dist/test/integration",
+    "start-test": "NODE_ENV=test node dist/src/WorldServer.js",
+    "start": "NODE_ENV=test node dist/src/shared/infra/ws/WorldServer.js"
   },
   "keywords": [],
   "author": "Zachary Wild",
@@ -20,6 +21,7 @@
     "json-schema-to-typescript": "^8.0.1",
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.0.0",
+    "nyc": "^15.0.0",
     "sequelize": "^5.21.2",
     "typescript": "^3.7.5",
     "websocket": "^1.0.30",

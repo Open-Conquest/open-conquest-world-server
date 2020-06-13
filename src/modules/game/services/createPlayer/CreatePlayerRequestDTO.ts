@@ -20,7 +20,7 @@ export class CreatePlayerRequestDTO implements CreatePlayerRequest {
 
   static fromJSON(json: any): CreatePlayerRequestDTO {
     return new CreatePlayerRequestDTO(
-        new PlayerDTO(json.player.name),
+        new PlayerDTO(0, json.player.name),
     );
   }
 

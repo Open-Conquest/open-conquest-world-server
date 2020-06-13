@@ -7,6 +7,8 @@ import {CreatePlayerRequestDTO} from '../../../../../../src/modules/game/service
 import {UserCredentialsDTO} from '../../../../../../src/modules/user/dtos/UserCredentialsDTO';
 import {PlayerDTO} from '../../../../../../src/modules/game/dtos/PlayerDTO';
 import {JWTDTO} from '../../../../../../src/shared/dtos/JWTDTO';
+import {JWTMiddlewareErrors} from '../../../../../../src/shared/middleware/JWTMiddleware';
+import {createTestWorld} from '../../../../scripts/createTestWorld';
 
 import {models} from '../../../../../../src/shared/infra/sequelize/models';
 import {log} from '../../../../../../src/shared/utils/log';
@@ -14,7 +16,6 @@ import * as chai from 'chai';
 import * as mocha from 'mocha';
 
 import {worldRouter} from '../../../../../../src/shared/infra/ws/routing/';
-
 /**
  * Summary of tests for WorldRouter:handle
  * 1. Ensure handle dispatches unauthorized messages to UserEndpoints
@@ -23,6 +24,7 @@ import {worldRouter} from '../../../../../../src/shared/infra/ws/routing/';
  */
 describe('WorldRouter:handle', function() {
   const assert = chai.assert;
+  const expect = chai.expect;
 
   // Start transaction before each test & rollback changes after test finishes
   const connection = models.sequelize;
@@ -85,12 +87,13 @@ describe('WorldRouter:handle', function() {
       await worldRouter.handle(message.toJSON());
       assert.fail('Expected invalid token error');
     } catch (err) {
-      assert(err.message === 'Invalid token', 'Unexpected error message: ' + err.message);
+      expect(err.message).to.equal(JWTMiddlewareErrors.NoToken);
     }
   });
 
   // 3.
   it('should dispatch an authorized request to PlayerEndpoints', async function() {
+    await createTestWorld();
     // register a new user
     const username = 'test_username';
     const password = 'test_password';
@@ -117,7 +120,7 @@ describe('WorldRouter:handle', function() {
 
     // create a new player dto
     const playerName = 'new_playername';
-    const player = new PlayerDTO(null);
+    const player = new PlayerDTO(null, playerName);
     player.$name = playerName;
 
     // create a player for newly registered user

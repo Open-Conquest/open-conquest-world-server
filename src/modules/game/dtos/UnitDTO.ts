@@ -22,6 +22,16 @@ export class UnitDTO implements Unit {
     this.goldCost = goldCost;
   }
 
+  static fromJSON(json: any): UnitDTO {
+    return new UnitDTO(
+        json['type'],
+        json['name'],
+        json['attack'],
+        json['defense'],
+        json['goldCost'],
+    );
+  }
+
   public get $type(): number {
     return this.type;
   }

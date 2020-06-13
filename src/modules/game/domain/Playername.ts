@@ -12,7 +12,7 @@ export class Playername {
   }
 
   isValidPlayername(playername: string): boolean {
-    if (playername === null || playername.length < 10 || playername.length > 20) {
+    if (playername == null) {
       return false;
     }
     return true;

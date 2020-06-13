@@ -29,8 +29,8 @@ export class LoginUserRequestDTO implements LoginUserRequest {
   static fromJSON(data: any) {
     return new LoginUserRequestDTO(
         new UserCredentialsDTO(
-            data.username,
-            data.password,
+            data.credentials.username,
+            data.credentials.password,
         ),
     );
   }

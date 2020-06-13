@@ -13,8 +13,14 @@
       "city": {
         "$ref": "City.json"
       }
+    },
+    "marches": {
+      "type": "array",
+      "march": {
+        "$ref": "March.json"
+      }
     }
   },
-  "required": ["id", "map", "cities"],
+  "required": ["id", "map", "cities", "marches"],
   "additionalProperties": false
 }

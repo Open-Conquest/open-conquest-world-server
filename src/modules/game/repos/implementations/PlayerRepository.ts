@@ -3,7 +3,8 @@ import {Player} from '../../domain/Player';
 import {User} from '../../../user/domain/User';
 import {PlayerMapper} from '../../mappers/PlayerMapper';
 import {log} from '../../../../shared/utils/log';
-import { PlayerRepositoryErrors } from '../PlayerRepositoryErrors';
+import {PlayerRepositoryErrors} from '../PlayerRepositoryErrors';
+import {Army} from '../../domain/Army';
 
 /**
  * A Sequelize implementation of the `IPlayerRepository`
@@ -55,6 +56,36 @@ export class PlayerRepository implements IPlayerRepository {
   }
 
   /**
+   * Get all the player entities that belong to user.
+   *
+   * @param {User} user
+   * @return {Promise<Array<Player>>}
+   * @memberof PlayerRepository
+   */
+  async getPlayers(user: User): Promise<Array<Player>> {
+    // try to save player to database
+    try {
+      const dbPlayers = await this.models.player.findAll({
+        where: {
+          user_id: user.$id.$value,
+        },
+      });
+      const players = [];
+      for (let i = 0; i < dbPlayers.length; i++) {
+        players.push(this.playerMapper.fromPersistence(dbPlayers[i]));
+      }
+      return players;
+    } catch (err) {
+      switch (err.name) {
+        case 'SequelizeForeignKeyConstraintError':
+          throw new Error(PlayerRepositoryErrors.NonexistentUser);
+        default:
+          throw err;
+      }
+    }
+  }
+
+  /**
    * Get a player from the database that is the Player entity passed as an
    * argument.
    *
@@ -92,5 +123,42 @@ export class PlayerRepository implements IPlayerRepository {
       players.push(this.playerMapper.fromPersistence(dbPlayers[i]));
     }
     return players;
+  }
+
+  /**
+   * Update the player's army_id in the database.
+   *
+   * @param {Player} player
+   * @param {Army} army
+   * @return {Promise<Player>}
+   * @memberof PlayerRepository
+   */
+  async updatePlayerArmy(player: Player, army: Army): Promise<Player> {
+    try {
+      let dbPlayer = await this.models.player.findOne({
+        where: {
+          name: player.$name.$value,
+        },
+      });
+
+      if (dbPlayer === null) {
+        throw new Error(PlayerRepositoryErrors.NonexistentPlayer);
+      }
+
+      dbPlayer = await dbPlayer.update({
+        army_id: army.$id.$value,
+      });
+
+      return this.playerMapper.fromPersistence(dbPlayer);
+    } catch (err) {
+      // check to see what type of error was returned
+      if (err.name === 'SequelizeUniqueConstraintError') {
+        throw new Error(PlayerRepositoryErrors.DuplicatePlayername);
+      } else if (err.name === 'SequelizeForeignKeyConstraintError') {
+        throw new Error(PlayerRepositoryErrors.NonexistentUser);
+      } else {
+        throw err;
+      }
+    }
   }
 }

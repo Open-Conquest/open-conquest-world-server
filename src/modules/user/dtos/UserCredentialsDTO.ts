@@ -25,5 +25,4 @@ export class UserCredentialsDTO implements UserCredentials {
   public set $password(value: string) {
     this.password = value;
   }
-
 }

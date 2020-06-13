@@ -37,6 +37,23 @@ export class UnitMapper {
   }
 
   /**
+   * Map a UnitDTO -> Unit.
+   *
+   * @param {UnitDTO} unitDTO
+   * @return {Unit}
+   * @memberof UnitMapper
+   */
+  fromDTO(unitDTO: UnitDTO): Unit {
+    return this.unitFactory.createUnit(
+        unitDTO.$type,
+        unitDTO.$name,
+        unitDTO.$attack,
+        unitDTO.$defense,
+        unitDTO.$goldCost,
+    );
+  }
+
+  /**
    * Create a UnitDTO from a Unit entity.
    *
    * @param {Unit} unit

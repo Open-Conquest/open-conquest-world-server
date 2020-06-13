@@ -66,8 +66,10 @@ describe('GetWorldController:getWorld', function() {
       // assert world has expected players
       const players = world.$players;
       const expectedPlayers = expectedWorld.$players;
+      expect(players.length).to.be.above(0);
       for (let i = 0; i < players.length; i++) {
         assert(players[i].$name === expectedPlayers[i].$name.$value);
+        expect(players[i].$playerID).to.equal(expectedPlayers[i].$id.$value);
       }
     }
   });

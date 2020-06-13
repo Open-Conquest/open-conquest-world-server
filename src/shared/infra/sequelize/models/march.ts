@@ -21,14 +21,13 @@ export default (sequelize, DataTypes) => {
       allowNull: false,
     },
     start_time: {
-      type: DataTypes.DATE,
+      type: 'DATETIME',
     },
     end_time: {
-      type: DataTypes.DATE,
+      type: 'DATETIME',
     },
     speed_modifier: {
       type: DataTypes.FLOAT,
-      allowNull: false,
     },
   }, {
     timestamps: false,
@@ -36,18 +35,19 @@ export default (sequelize, DataTypes) => {
   });
 
   march.associate = (models) => {
-    models.march.belongsTo(models.army, {
-      foreignKey: 'army_id',
-    });
-    models.march.belongsTo(models.tile, {
+    models.march.hasOne(models.tile, {
+      foreignKey: 'tile_id',
+      sourceKey: 'start_tile_id',
       as: 'startTile',
-      foreignKey: 'start_tile_id',
     });
-    models.march.belongsTo(models.tile, {
+    models.march.hasOne(models.tile, {
+      foreignKey: 'tile_id',
+      sourceKey: 'end_tile_id',
       as: 'endTile',
-      foreignKey: {
-        name: 'end_tile_id',
-      },
+    });
+    models.march.hasOne(models.army, {
+      foreignKey: 'army_id',
+      sourceKey: 'army_id',
     });
   };
 

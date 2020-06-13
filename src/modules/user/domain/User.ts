@@ -1,5 +1,3 @@
-/* eslint-disable max-len */
-/* eslint-disable no-unused-vars */
 /* eslint-disable require-jsdoc */
 import {EntityID} from '../../../shared/domain/EntityID';
 import {Entity} from '../../../shared/domain/Entity';
@@ -10,9 +8,6 @@ import {HashedPassword} from './HashedPassword';
 
 /**
  * Domain entity representation of a user.
- *
- * @export
- * @class User
  */
 export class User extends Entity {
   private username: Username;
@@ -22,15 +17,19 @@ export class User extends Entity {
 
   /**
    * Creates an instance of User.
-   *
    * @param {EntityID} id
    * @param {Username} username
    * @param {Password} password
    * @param {JWT} token
    * @param {hashedPassword} hashedPassword
-   * @memberof User
    */
-  constructor(id: EntityID, username: Username, password: Password, token: JWT, hashedPassword: HashedPassword) {
+  constructor(
+      id: EntityID,
+      username: Username,
+      password: Password,
+      token: JWT,
+      hashedPassword: HashedPassword,
+  ) {
     super(id);
     this.username = username;
     this.password = password;
@@ -43,43 +42,42 @@ export class User extends Entity {
   }
 
   getUsernameString(): string {
-    return this.username.getString();
+    return this.username.$value;
   }
 
   getHashedPasswordString(): string {
     return this.hashedPassword.getString();
   }
 
-	public get $username(): Username {
-		return this.username;
-	}
-
-	public get $password(): Password {
-		return this.password;
+  public get $username(): Username {
+    return this.username;
   }
 
-	public get $token(): JWT {
-		return this.token;
-	}
+  public get $password(): Password {
+    return this.password;
+  }
 
-	public get $hashedPassword(): HashedPassword {
-		return this.hashedPassword;
-	}
+  public get $token(): JWT {
+    return this.token;
+  }
 
-	public set $username(value: Username) {
-		this.username = value;
-	}
+  public get $hashedPassword(): HashedPassword {
+    return this.hashedPassword;
+  }
 
-	public set $password(value: Password) {
-		this.password = value;
-	}
+  public set $username(value: Username) {
+    this.username = value;
+  }
 
-	public set $token(value: JWT) {
-		this.token = value;
-	}
+  public set $password(value: Password) {
+    this.password = value;
+  }
 
-	public set $hashedPassword(value: HashedPassword) {
-		this.hashedPassword = value;
-	}
+  public set $token(value: JWT) {
+    this.token = value;
+  }
 
+  public set $hashedPassword(value: HashedPassword) {
+    this.hashedPassword = value;
+  }
 }

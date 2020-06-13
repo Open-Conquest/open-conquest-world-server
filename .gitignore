@@ -7,8 +7,8 @@ node_modules
 # VS Code
 .vscode
 
-# Old local files
-old-test
-
 # OSX files
 .DS_Store
+
+# Testing output
+.nyc_output

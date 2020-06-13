@@ -22,11 +22,9 @@ export class UserMapper {
    * @memberof UserMapper
    */
   fromPersistence(dbUser: any): User {
-    return this.userFactory.createUser(
+    return this.userFactory.createUserWithHashedPassword(
         dbUser.user_id,
         dbUser.username,
-        null,
-        null,
         dbUser.password,
     );
   }
@@ -39,12 +37,9 @@ export class UserMapper {
    * @memberof UserMapper
    */
   fromDTO(userDTO: UserDTO): User {
-    return this.userFactory.createUser(
+    return this.userFactory.createUserWithUsernameAndID(
         userDTO.$userID,
         userDTO.$username,
-        null,
-        null,
-        null,
     );
   }
 }

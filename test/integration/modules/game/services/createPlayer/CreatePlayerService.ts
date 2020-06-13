@@ -5,7 +5,6 @@ import {UserFactory} from '../../../../../../src/modules/user/factories/UserFact
 import {PlayerFactory} from '../../../../../../src/modules/game/factories/PlayerFactory';
 import {userRepository} from '../../../../../../src/modules/user/repos/implementations';
 import {CreatePlayerErrors} from '../../../../../../src/modules/game/services/createPlayer/CreatePlayerErrors';
-
 import * as chai from 'chai';
 import * as mocha from 'mocha';
 import {log} from '../../../../../../src/shared/utils/log';
@@ -14,7 +13,9 @@ import {models} from '../../../../../../src/shared/infra/sequelize/models';
 import {createPlayerService} from '../../../../../../src/modules/game/services/createPlayer';
 
 /**
- * Summary of tests for CreatePlayerService:createPlayer
+ * Summary of tests for CreatePlayerService
+ *
+ * :createPlayer
  * 1. Should create a new player for an existing user
  * 2. Should throw DuplicatePlayername error
  * 3. Should throw NonexistentUser error
@@ -92,12 +93,9 @@ describe('CreatePlayerService:createPlayer', function() {
     // create a new nonexistent user entity
     const username = 'test_username';
     const madeUpID = -1;
-    const nonExistentUser = userFactory.createUser(
+    const nonExistentUser = userFactory.createUserWithUsernameAndID(
         madeUpID,
         username,
-        null,
-        null,
-        null,
     );
     // create a new player entity
     const name = 'test_playername';

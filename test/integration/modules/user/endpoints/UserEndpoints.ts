@@ -47,11 +47,13 @@ describe('UserEndpoints registerUser', function() {
     const data = new RegisterUserRequestDTO(
         creds,
     );
-    const registerMessage = new MessageDTO(null, null, null, null, null);
-    registerMessage.$service = ServiceNames.User;
-    registerMessage.$operation = ServiceOperations.RegisterUser;
-    registerMessage.$data = data;
-
+    const registerMessage = new MessageDTO(
+        ServiceNames.User,
+        ServiceOperations.RegisterUser,
+        null,
+        null,
+        data,
+    );
     // register user
     const registerResponse = await userEndpoints.registerUser(registerMessage);
 
@@ -65,7 +67,7 @@ describe('UserEndpoints registerUser', function() {
     const user = jwtMiddleware.validateJwt(jwt);
 
     // assert username in jwt claims equals registered username
-    assert(user.getUsername().getString() === creds.$username);
+    assert(user.$username.$value === creds.$username);
   });
 });
 
@@ -129,7 +131,7 @@ describe('UserEndpoints:loginUser', function() {
     const user = jwtMiddleware.validateJwt(jwt);
 
     // assert username in jwt claims equals username logged in with
-    assert(user.getUsername().getString() === creds.$username);
+    assert(user.$username.$value === creds.$username);
   });
 
   // 2.

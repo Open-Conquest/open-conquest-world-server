@@ -1,5 +1,4 @@
 /* eslint-disable require-jsdoc */
-import {IDTO} from '../../../../shared/dtos/IDTO';
 import {RegisterUserRequest} from '../../../../shared/schemas/RegisterUserRequest';
 import {UserCredentialsDTO} from '../../dtos/UserCredentialsDTO';
 import {RegisterUserErrors} from './RegisterUserErrors';
@@ -34,16 +33,12 @@ export class RegisterUserRequestDTO implements RegisterUserRequest {
   }
 
   static fromJSON(json: any): RegisterUserRequestDTO {
-    try {
-      return new RegisterUserRequestDTO(
-          new UserCredentialsDTO(
-              json.username,
-              json.password,
-          ),
-      );
-    } catch (err) {
-      throw new Error(RegisterUserErrors.BadUsername);
-    }
+    return new RegisterUserRequestDTO(
+        new UserCredentialsDTO(
+            json.credentials.username,
+            json.credentials.password,
+        ),
+    );
   }
 
   static fromJSONString(json: string): RegisterUserRequestDTO {

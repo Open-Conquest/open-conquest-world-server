@@ -8,4 +8,8 @@ export class GetWorldErrorResponseDTO implements GetWorldErrorResponse {
   constructor(message: string) {
     this.message = message;
   }
+
+  toJSON(): any {
+    return this;
+  }
 }

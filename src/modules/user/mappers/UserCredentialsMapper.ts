@@ -1,7 +1,7 @@
-import { UserCredentials } from "../domain/UserCredentials";
-import { UserCredentialsDTO } from "../dtos/UserCredentialsDTO";
-import { Username } from "../domain/Username";
-import { Password } from "../domain/Password";
+import {UserCredentials} from '../domain/UserCredentials';
+import {UserCredentialsDTO} from '../dtos/UserCredentialsDTO';
+import {Username} from '../domain/Username';
+import {Password} from '../domain/Password';
 
 /**
  * UserMapper is responsible for mappings between the domain `User` and `DTO`s
@@ -20,8 +20,8 @@ export class UserCredentialsMapper {
    */
   fromDTO(dto: UserCredentialsDTO): UserCredentials {
     return new UserCredentials(
-        new Username(dto.username),
-        new Password(dto.password),
+        new Username(dto.$username),
+        new Password(dto.$password),
     );
   }
 }

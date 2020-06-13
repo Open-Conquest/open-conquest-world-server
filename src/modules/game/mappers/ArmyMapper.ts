@@ -1,7 +1,8 @@
 import {Army} from '../domain/Army';
 import {ArmyFactory} from '../factories/ArmyFactory';
-import { ArmyDTO } from '../dtos/ArmyDTO';
-import { ArmyUnitsMapper } from './ArmyUnitsMapper';
+import {ArmyDTO} from '../dtos/ArmyDTO';
+import {ArmyUnitsMapper} from './ArmyUnitsMapper';
+import {log} from '../../../shared/utils/log';
 // import {ArmyDTO} from '../dtos/ArmyDTO';
 
 /**
@@ -26,14 +27,45 @@ export class ArmyMapper {
    * @memberof ArmyMapper
    */
   fromPersistence(dbArmy: any): Army {
-    if (dbArmy === null) {
+    if (dbArmy == null) {
       return null;
+    }
+
+    const armyUnits = [];
+    if (dbArmy.army_units !== undefined) {
+      for (let i = 0; i < dbArmy.army_units.length; i++) {
+        armyUnits.push(
+            this.armyUnitsMapper.fromPersistence(dbArmy.army_units[i]),
+        );
+      }
     }
 
     return this.armyFactory.createArmy(
         dbArmy.army_id,
-        dbArmy.player_id,
+        armyUnits,
+    );
+  }
+
+  /**
+   * Map an ArmyDTO -> Army.
+   *
+   * @param {ArmyDTO} armyDTO
+   * @return {Army}
+   * @memberof ArmyMapper
+   */
+  fromDTO(armyDTO: ArmyDTO): Army {
+    if (armyDTO === null) {
+      return null;
+    }
+
+    const armyUnits = [];
+    for (let i = 0; i < armyDTO.$units.length; i++) {
+      armyUnits.push(this.armyUnitsMapper.fromDTO(armyDTO.$units[i]));
+    }
+
+    return this.armyFactory.createArmy(
         null,
+        armyUnits,
     );
   }
 
@@ -45,6 +77,9 @@ export class ArmyMapper {
    * @memberof ArmyMapper
    */
   toDTO(army: Army): ArmyDTO {
+    if (army == null) {
+      return null;
+    }
     // convert all army units in list to dtos
     const armyUnitsDTOs = [];
     for (let i = 0; i < army.$units.length; i++) {

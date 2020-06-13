@@ -1,0 +1,11 @@
+{
+  "title": "CreateMarchResponse",
+  "type": "object",
+  "properties": {
+    "march": {
+      "$ref": "March.json"
+    }
+  },
+  "required": ["march"],
+  "additionalProperties": false
+}

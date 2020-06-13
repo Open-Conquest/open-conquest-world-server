@@ -19,6 +19,7 @@ import {GetWorldErrorResponseDTO} from '../../../../../src/modules/game/services
  */
 describe('WorldEndpoints:getWorld', function() {
   const assert = chai.assert;
+  const expect = chai.expect;
 
   /**
    * Start a transaction before each test then rollback any changes after
@@ -60,30 +61,40 @@ describe('WorldEndpoints:getWorld', function() {
       const map = world.$map;
       const tiles = map.$tiles;
       const expectedTiles = expectedWorld.$map.$tiles;
-      assert(tiles.length > 0);
+      assert(tiles.length > 0,
+          'Unexpected tiles length < 0');
       for (let row = 0; row < tiles.length; row++) {
         for (let col = 0; col < tiles[row].length; col++) {
-          assert(tiles[row][col].$col === expectedTiles[row][col].$col);
-          assert(tiles[row][col].$row === expectedTiles[row][col].$row);
-          assert(tiles[row][col].$type === expectedTiles[row][col].$type);
+          assert(tiles[row][col].$col === expectedTiles[row][col].$col,
+              'Unexpected tile col');
+          assert(tiles[row][col].$row === expectedTiles[row][col].$row,
+              'Unexpected tile row');
+          expect(tiles[row][col].type).to.be.equal(expectedTiles[row][col].$type);
         }
       }
       // assert world has expected cities
       const cities = world.$cities;
       const expectedCities = expectedWorld.$cities;
-      assert(cities.length > 0);
+      assert(cities.length > 0,
+          'Unexpected ');
       for (let i = 0; i < cities.length; i++) {
-        assert(cities[i].$name === expectedCities[i].$name.$value);
-        assert(cities[i].$row === expectedCities[i].$row);
-        assert(cities[i].$col === expectedCities[i].$col);
-        assert(cities[i].$level === expectedCities[i].$level.$value);
+        assert(cities[i].$name === expectedCities[i].$name.$value,
+            'Unexpected city name');
+        assert(cities[i].$row === expectedCities[i].$row,
+            'Unexpected city row');
+        assert(cities[i].$col === expectedCities[i].$col,
+            'Unexpected city col');
+        assert(cities[i].$level === expectedCities[i].$level.$value,
+            'Unexpected city level');
       }
       // assert world has expected players
       const players = world.$players;
       const expectedPlayers = expectedWorld.$players;
-      assert(players.length > 0);
+      assert(players.length > 0,
+          'Unexpected players length 0');
       for (let i = 0; i < players.length; i++) {
-        assert(players[i].$name === expectedPlayers[i].$name.$value);
+        assert(players[i].$name === expectedPlayers[i].$name.$value,
+            'Unexpected player name');
       }
     }
   });
