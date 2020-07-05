@@ -3,6 +3,7 @@ import {User} from '../../domain/User';
 import {Username} from '../../domain/Username';
 import {UserMapper} from '../../mappers/UserMapper';
 import {UserRepositoryErrors} from '../UserRepositoryErrors';
+import {log} from '../../../../shared/utils/log';
 
 /**
  * A Sequelize implementation of the `IUserRepository`
@@ -33,6 +34,28 @@ export class UserRepository implements IUserRepository {
         username: user.$username.$value,
         password: user.$hashedPassword.$value,
       });
+      // return user entity
+      return this.userMapper.fromPersistence(dbUser);
+    } catch (err) {
+      log.error(err);
+      if (err.name === 'SequelizeUniqueConstraintError') {
+        throw new Error(UserRepositoryErrors.DuplicateUsername);
+      }
+      throw err;
+    }
+  }
+
+  // eslint-disable-next-line valid-jsdoc
+  /**
+   * Duh
+   */
+  async testcreateUser(user: User, transaction: any): Promise<User> {
+    try {
+      // try to save user to database
+      const dbUser = await this.models.user.create({
+        username: user.$username.$value,
+        password: user.$hashedPassword.$value,
+      }, {transaction: transaction});
       // return user entity
       return this.userMapper.fromPersistence(dbUser);
     } catch (err) {

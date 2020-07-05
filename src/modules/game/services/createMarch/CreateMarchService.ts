@@ -77,7 +77,6 @@ export class CreateMarchService {
 
       // calculate start time for march (now)
       let now = new Date();
-      log.info(now);
       march.$startTime = Time.fromDate(now);
       // calculate end time for march (now + distance * 1 minute)
       now = new Date(now.getTime() + (march.getDistance() * 60000));
