@@ -1,19 +1,3 @@
-/* eslint-disable require-jsdoc */
-/* eslint-disable max-len */
-import * as chai from 'chai';
-import * as mocha from 'mocha';
-import {UserFactory} from '../../../../../../src/modules/user/factories/UserFactory';
-import {userRepository} from '../../../../../../src/modules/user/repos/implementations';
-import {UserRepositoryErrors} from '../../../../../../src/modules/user/repos/UserRepositoryErrors';
-import {Username} from '../../../../../../src/modules/user/domain/Username';
-import {User} from '../../../../../../src/modules/user/domain/User';
-import {models} from '../../../../../../src/shared/infra/sequelize/models';
-
-const userFactory = new UserFactory();
-
-const assert = chai.assert;
-const expect = chai.expect;
-
 /**
  * Summary of integration tests for UserRepository
  *
@@ -26,16 +10,25 @@ const expect = chai.expect;
  * 2. Should throw NonexistentUser error
  */
 
+import {assert, expect} from 'chai';
+import * as mocha from 'mocha';
+import {UserFactory} from '../../../../../../src/modules/user/factories/UserFactory';
+import {userRepository} from '../../../../../../src/modules/user/repos/implementations';
+import {UserRepositoryErrors} from '../../../../../../src/modules/user/repos/UserRepositoryErrors';
+import {Username} from '../../../../../../src/modules/user/domain/Username';
+import {User} from '../../../../../../src/modules/user/domain/User';
+import {models} from '../../../../../../src/shared/infra/sequelize/models';
+
+const userFactory = new UserFactory();
+
 describe('UserRepository:createUser', function() {
-  // Start transaction before each test
+  // Start transaction before each test & rollback changes made while testing
   const connection = models.sequelize;
-  let t = null;
-  beforeEach(async () => {
-    t = await connection.transaction();
+  beforeEach(() => {
+    return connection.query('START TRANSACTION');
   });
-  // Rollback any database changes made during a test
-  afterEach(async () => {
-    await t.rollback();
+  afterEach(() => {
+    return connection.query('ROLLBACK');
   });
 
   it('Should create a new user', async function() {
@@ -48,7 +41,7 @@ describe('UserRepository:createUser', function() {
         password,
     );
 
-    const createdUser = await userRepository.testcreateUser(user, t);
+    const createdUser = await userRepository.createUser(user);
 
     // assert user was created with expected values
     assert(createdUser.$username.$value === username);
@@ -72,15 +65,15 @@ describe('UserRepository:createUser', function() {
 });
 
 describe('UserRepository:getPasswordWithUsername', function() {
-  // Start transaction before each test
+  // Start transaction before each test & rollback changes made while testing
   const connection = models.sequelize;
   beforeEach(() => {
     return connection.query('START TRANSACTION');
   });
-  // Rollback any database changes made during a test
   afterEach(() => {
     return connection.query('ROLLBACK');
   });
+
 
   it('Should get the expected user', async function() {
     // create a new user entity
