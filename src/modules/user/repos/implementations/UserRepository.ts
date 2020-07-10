@@ -3,11 +3,12 @@ import {User} from '../../domain/User';
 import {Username} from '../../domain/Username';
 import {UserMapper} from '../../mappers/UserMapper';
 import {UserRepositoryErrors} from '../UserRepositoryErrors';
+import {BaseRepository} from '../../../../shared/infra/repos/BaseRepository';
 
 /**
  * A Sequelize implementation of the `IUserRepository`
  */
-export class UserRepository implements IUserRepository {
+export class UserRepository extends BaseRepository implements IUserRepository {
   private models: any;
   private userMapper: UserMapper;
 
@@ -17,6 +18,7 @@ export class UserRepository implements IUserRepository {
    * @memberof UserRepository
    */
   constructor(models) {
+    super();
     this.models = models;
     this.userMapper = new UserMapper();
   }
@@ -28,11 +30,12 @@ export class UserRepository implements IUserRepository {
    */
   async createUser(user: User): Promise<User> {
     try {
+      const t = this.asyncLocalStorage.getStore();
       // try to save user to database
       const dbUser = await this.models.user.create({
         username: user.$username.$value,
         password: user.$hashedPassword.$value,
-      });
+      }, {transaction: t});
       // return user entity
       return this.userMapper.fromPersistence(dbUser);
     } catch (err) {
