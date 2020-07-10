@@ -1,4 +1,8 @@
 import {models} from './models';
+import {AsyncLocalStorage} from 'async_hooks';
+import {log} from '../../utils/log';
+
+const asyncLocalStorage = new AsyncLocalStorage();
 
 /**
  * Transactional
@@ -6,33 +10,29 @@ import {models} from './models';
  * @return {any}
  */
 function transactional() {
-  return (
-      target: any,
-      propertyKey: string,
-      descriptor: TypedPropertyDescriptor<(...params: any[])=> Promise<any>>,
-  ) => {
-    const oldFunc = descriptor.value;
+  return (target: any, propertyKey: string, descriptor: TypedPropertyDescriptor<(...params: any[])=> Promise<any>>) => {
+    const func = descriptor.value;
     descriptor.value = async function() {
-      // create transaction and add to function arguments
+      // create transaction
       const transaction = await models.sequelize.transaction();
-      const newArgs = [];
-      newArgs.push(arguments[0]);
-      newArgs.push(transaction);
-      try {
-        // evaluate method being decorated with new args
-        const result = await oldFunc.apply(this, newArgs);
-        // if function doesn't error commit the transaction
-        await transaction.commit();
-        // return the functions result to its caller
-        return result;
-      } catch (error) {
-        // if the function errored rollback the transaction
-        await transaction.rollback();
-        // throw it's error to the caller
-        throw error;
-      }
+      console.log('transaction created');
+      // create store with transaction
+      const store = {t: transaction};
+      // create async context with transaction in store
+      asyncLocalStorage.run(store, async () => {
+        try {
+          // call method being decorated
+          const retValue = await func.apply(this);
+          // if there were no errors commit the transaction
+          await transaction.commit();
+          console.log('transaction committed');
+          return retValue;
+        } catch (err) {
+          // if there were any errors rollback the transaction
+          await transaction.rollback();
+          throw err;
+        }
+      });
     };
   };
 }
-
-module.exports = {transactional};
