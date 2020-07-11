@@ -1,14 +1,5 @@
-# TypeScript built files
 dist
-
-# Node dependencies
 node_modules
-
-# VS Code
 .vscode
-
-# OSX files
 .DS_Store
-
-# Testing output
 .nyc_output
