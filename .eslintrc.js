@@ -23,7 +23,7 @@ module.exports = {
         'properties': false
     }],
     'no-unused-vars': 'off',
-    'require-js-doc': 'off',
+    'require-jsdoc': 'off',
     'max-len': 'off'
   },
 };

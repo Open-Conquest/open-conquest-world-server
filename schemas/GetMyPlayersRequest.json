@@ -1,0 +1,7 @@
+{
+  "title": "GetMyPlayersRequest",
+  "type": "object",
+  "properties": {
+  },
+  "additionalProperties": false
+}

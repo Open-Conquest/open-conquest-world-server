@@ -1,0 +1,14 @@
+{
+  "title": "GetMyPlayersResponse",
+  "type": "object",
+  "properties": {
+    "players": {
+      "type": "array",
+      "player": {
+        "$ref": "Player.json"
+      }
+    }
+  },
+  "required": ["players"],
+  "additionalProperties": false
+}

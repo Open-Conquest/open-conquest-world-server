@@ -1,7 +1,4 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable max-len */
-import * as chai from 'chai';
-import * as mocha from 'mocha';
+import {assert, expect} from 'chai';
 import {log} from '../../../../../src/shared/utils/log';
 import {models} from '../../../../../src/shared/infra/sequelize/models';
 import {ServiceNames} from '../../../../../src/shared/infra/ws/routing/ServiceNames';
@@ -13,16 +10,19 @@ import {CreatePlayerRequestDTO} from '../../../../../src/modules/game/services/c
 import {PlayerDTO} from '../../../../../src/modules/game/dtos/PlayerDTO';
 import {UserDTO} from '../../../../../src/modules/user/dtos/UserDTO';
 import {createTestMapWithTiles} from '../../../scripts/createTestMapWithTiles';
-import { UnitType, UnitName, UnitAttack, UnitDefense, UnitGoldCost } from '../../../../../src/modules/game/domain/Unit';
+import {UnitType, UnitName, UnitAttack, UnitDefense, UnitGoldCost} from '../../../../../src/modules/game/domain/Unit';
 
 /**
- * Summary of tests for PlayerEndpoints:createPlayer
+ * Summary of tests for PlayerEndpoints
+ *
+ * :createPlayer
  * 1. Should get a DTO with a new player & their army, resources, and army
+ *
+ * :getMyPlayers
+ * 1. Should get a DTO with the expected list of players
  */
-describe('PlayerEndpoints:createPlayer', function() {
-  const assert = chai.assert;
-  const expect = chai.expect;
 
+describe('PlayerEndpoints:createPlayer', function() {
   /**
    * Start a transaction before each test then rollback any changes after
    * the test finishes running. This ensures that no changes made to the
@@ -102,5 +102,59 @@ describe('PlayerEndpoints:createPlayer', function() {
     // assert user has the expected starting resources
     assert(data.resources.gold === 100,
         'Unexpected resources gold');
+  });
+});
+
+describe('PlayerEndpoints:getMyPlayers', function() {
+  const connection = models.sequelize;
+  beforeEach(() => {
+    return connection.query('START TRANSACTION');
+  });
+  afterEach(() => {
+    return connection.query('ROLLBACK');
+  });
+
+  // 1. Should get a DTO with the expected list of players
+  it('Should get a DTO with the expected list of players', async function() {
+    const user = await createTestUser();
+
+    // create some players for the user
+    const userDTO = new UserDTO(user.$id.$value, user.$username.$value);
+    const playerNames = [];
+    playerNames.push('test_playername_1');
+    playerNames.push('test_playername_2');
+    playerNames.push('test_playername_3');
+    const playerDTO = new PlayerDTO(
+        null,
+        playerNames[0],
+    );
+    const createPlayerDTO = new CreatePlayerRequestDTO(playerDTO);
+    for (let i = 0; i < playerNames.length; i++) {
+      playerDTO.$name = playerNames[i];
+      const message = new MessageDTO(
+          ServiceNames.Player,
+          ServiceOperations.CreatePlayer,
+          null,
+          userDTO,
+          createPlayerDTO,
+      );
+      await playerEndpoints.createPlayer(message);
+    }
+
+    // get user's players
+    const message = new MessageDTO(
+        ServiceNames.Player,
+        ServiceOperations.GetMyPlayers,
+        null,
+        userDTO,
+        null,
+    );
+    const usersPlayers = await playerEndpoints.getMyPlayers(message);
+
+    // assert that each of the expected players is returned
+    console.log(usersPlayers);
+    // for (let i = 0; i < playerNames.length; i++) {
+    //   assert(usersPlayers[i].)
+    // }
   });
 });
