@@ -9,12 +9,14 @@ import {CityMapper} from '../../mappers/CityMapper';
 import { GetCitiesResponseDTO } from './GetCitiesResponseDTO';
 import { GetCitiesService } from './GetCitiesService';
 import { GetCitiesErrorResponseDTO } from './GetCitiesErrorResponseDTO';
-import { GetCitiesRequestDTO } from './CreatePlayerRequestDTO';
-import { UserMapper } from 'src/modules/user/mappers/UserMapper';
+import { GetCitiesRequestDTO } from './GetCitiesRequestDTO';
+import { UserMapper } from '../../../user/mappers/UserMapper';
 import { DoesPlayerBelongToUserService } from '../doesPlayerBelongToUser/DoesPlayerBelongToUserService';
+import { doesPlayerBelongToUserService } from '../doesPlayerBelongToUser';
+import { GetCitiesErrors } from './GetCitiesErrors';
 
 export enum GetCitiesErrorResponses {
-  InvalidQuery = 'Invalid query',
+  UnauthorizedUser = 'Player does not belong to user',
 }
 
 /**
@@ -27,6 +29,7 @@ export enum GetCitiesErrorResponses {
 export class GetCitiesController {
   private getCitiesService: GetCitiesService;
   private doesPlayerBelongToUserService: DoesPlayerBelongToUserService;
+  private playerMapper: PlayerMapper;
   private cityMapper: CityMapper;
   private userMapper: UserMapper;
 
@@ -42,6 +45,7 @@ export class GetCitiesController {
   ) {
     this.getCitiesService = getCitiesService;
     this.doesPlayerBelongToUserService = doesPlayerBelongToUserService;
+    this.playerMapper = new PlayerMapper();
     this.cityMapper = new CityMapper();
     this.userMapper = new UserMapper();
   }
@@ -60,22 +64,23 @@ export class GetCitiesController {
   ): Promise<GetCitiesResponseDTO | GetCitiesErrorResponseDTO> {
     try {
       const user: User = this.userMapper.fromDTO(userDTO);
-      const player: Player = this.playerMapper.fromDTO(playerDTO);
+      const player: Player = this.playerMapper.fromDTO(incomingDTO.$player);
 
-      const cities: Array<City> = this.getCitiesService.getCities(player);
+      const authorized = await this.doesPlayerBelongToUserService.check(user, player);
+      
+      if (!authorized) throw new Error(GetCitiesErrors.UnauthorizedUser);
+
+      const cities: Array<City> = await this.getCitiesService.getCities(player);
 
       const cityDTOs = []
       for (let i = 0; i < cities.length; i++) {
         cityDTOs.push(this.cityMapper.toDTO(cities[i]));
       }
-       
-      return new GetCitiesResponseDTO(
-        cityDTOs
-      );
+
+      return new GetCitiesResponseDTO(cityDTOs);
     } catch (err) {
-      // check error message and throw appropriate error for caller to handle
       switch (err.message) {
-        case GetCitiesErrors.InvalidQuery:
+        case GetCitiesErrors.UnauthorizedUser:
           throw err;
         default:
           log.error('Unknown error in GetCitiesController', err.stack);

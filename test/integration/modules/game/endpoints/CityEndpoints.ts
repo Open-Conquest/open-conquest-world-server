@@ -4,13 +4,15 @@ import {models} from '../../../../../src/shared/infra/sequelize/models';
 import {ServiceNames} from '../../../../../src/shared/infra/ws/routing/ServiceNames';
 import {ServiceOperations} from '../../../../../src/shared/infra/ws/routing/ServiceOperations';
 import {MessageDTO} from '../../../../../src/shared/dtos/MessageDTO';
-import {playerEndpoints} from '../../../../../src/modules/game/endpoints';
+import {playerEndpoints, cityEndpoints} from '../../../../../src/modules/game/endpoints';
 import {createTestUser} from '../../../scripts/createTestUser';
 import {CreatePlayerRequestDTO} from '../../../../../src/modules/game/services/createPlayer/CreatePlayerRequestDTO';
 import {PlayerDTO} from '../../../../../src/modules/game/dtos/PlayerDTO';
 import {UserDTO} from '../../../../../src/modules/user/dtos/UserDTO';
 import {createTestMapWithTiles} from '../../../scripts/createTestMapWithTiles';
 import { createTestWorld } from '../../../scripts/createTestWorld';
+import { createTestPlayerWithCityForUser } from '../../../scripts/createTestPlayerWithCityForUser';
+import { GetCitiesRequestDTO } from '../../../../../src/modules/game/services/getCities/GetCitiesRequestDTO';
 
 describe('CityEndpoints:getCities', function() {
   /**
@@ -28,16 +30,31 @@ describe('CityEndpoints:getCities', function() {
 
   it('Should get a list of cities for a player', async function() {
     // Initialize a world to run tests in
-    const world = await createTestWorld();
+    await createTestWorld();
 
-    // Create a player
-
-    // Create a city for player
+    // Create a player with cities
+    const user = await createTestUser();
+    const player = await createTestPlayerWithCityForUser(user);
 
     // Get the cities for player
+    const userDTO = new UserDTO(user.$id.$value, user.$username.$value);
+    const playerDTO = new PlayerDTO(player.$id.$value, player.$name.$value);
+    const getCitiesDTO = new GetCitiesRequestDTO(playerDTO);
+
+    const message = new MessageDTO(
+      ServiceNames.City,
+      ServiceOperations.GetCities,
+      null,
+      userDTO,
+      getCitiesDTO,
+    );
+
+    const response = await cityEndpoints.getCities(message);
+
+    log.info(response)
 
     // Assert that the expected cities were returned
-    assert.fail()
+    // assert.fail()
   });
 
   it('Should get a list of cities for a tile range', async function() {

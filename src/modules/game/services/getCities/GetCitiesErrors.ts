@@ -1,3 +1,4 @@
 export enum GetCitiesErrors {
-  InvalidQuery = 'Query for GetCities is invalid',
+  UnauthorizedUser = 'Player does not belong to user',
+  UnknownError = 'Unknown getCities error'
 };

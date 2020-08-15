@@ -3,7 +3,7 @@ import {MessageDTO} from '../../../shared/dtos/MessageDTO';
 import {ServiceNames} from '../../../shared/infra/ws/routing/ServiceNames';
 import {ServiceOperations} from '../../../shared/infra/ws/routing/ServiceOperations';
 import { GetCitiesController, GetCitiesErrorResponses } from '../services/getCities/GetCitiesController';
-import { GetCitiesRequestDTO } from '../services/getCities/CreatePlayerRequestDTO';
+import { GetCitiesRequestDTO } from '../services/getCities/GetCitiesRequestDTO';
 import { GetCitiesErrorResponseDTO } from '../services/getCities/GetCitiesErrorResponseDTO';
 import { GetCitiesErrors } from '../services/getCities/GetCitiesErrors';
 import {log} from '../../../shared/utils/log';
@@ -60,8 +60,8 @@ export class CityEndpoints extends BaseEndpoints {
 
       // choose error message
       switch (err.message) {
-        case GetCitiesErrors.InvalidQuery:
-          errorDTO.$message = GetCitiesErrorResponses.InvalidQuery;
+        case GetCitiesErrors.UnauthorizedUser:
+          errorDTO.$message = GetCitiesErrorResponses.UnauthorizedUser;
           break;
         default:
           errorDTO.$message = 'Unknown internal error';

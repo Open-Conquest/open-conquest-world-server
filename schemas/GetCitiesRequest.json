@@ -2,10 +2,10 @@
   "title": "GetCitiesRequest",
   "type": "object",
   "properties": {
-    "query": {
-      "type": "any"
+    "player": {
+      "$ref": "Player.json"
     }
   },
-  "required": ["query"],
+  "required": ["player"],
   "additionalProperties": false
 }

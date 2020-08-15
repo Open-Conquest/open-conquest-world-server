@@ -6,5 +6,9 @@
  */
 
 export interface GetCitiesRequest {
-  query: any;
+  player: Player;
+}
+export interface Player {
+  playerID?: number;
+  name: string;
 }

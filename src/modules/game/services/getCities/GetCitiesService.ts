@@ -32,16 +32,7 @@ export class GetCitiesService {
    * @return {Promise<Array<City>>}
    * @memberof PlayerServices
    */
-  async createPlayer(player: Player): Promise<Array<City>> {
-    try {
-      return await this.cityRepository.getCities(player);
-    } catch (err) {
-      switch (err.message) {
-        case GetCitiesErrors.InvalidQuery:
-          throw new Error(GetCitiesErrors.InvalidQuery);
-        default:
-          throw err;
-      }
-    }
+  async getCities(player: Player): Promise<Array<City>> {
+    return await this.cityRepository.getCities(player);
   }
 }

@@ -5,7 +5,10 @@ import {getWorldController} from '../services/getWorld/';
 import {MarchEndpoints} from './MarchEndpoints';
 import {createMarchController} from '../services/createMarch';
 import {getMyPlayersController} from '../services/getMyPlayers';
+import { CityEndpoints } from './CityEndpoints';
+import { getCitiesController } from '../services/getCities';
 
+const cityEndpoints = new CityEndpoints(getCitiesController);
 const marchEndpoints = new MarchEndpoints(createMarchController);
 const worldEndpoints = new WorldEndpoints(getWorldController);
 const playerEndpoints = new PlayerEndpoints(
@@ -13,4 +16,4 @@ const playerEndpoints = new PlayerEndpoints(
     getMyPlayersController,
 );
 
-export {marchEndpoints, playerEndpoints, worldEndpoints};
+export {cityEndpoints, marchEndpoints, playerEndpoints, worldEndpoints};

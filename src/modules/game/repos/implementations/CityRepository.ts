@@ -84,6 +84,7 @@ export class CityRepository implements ICityRepository {
       },
       include: [this.models.tile],
     });
+    log.info('dbcities', dbCities)
     const cities = [];
     for (let i = 0; i < dbCities.length; i++) {
       cities.push(this.cityMapper.fromPersistence(dbCities[i]));

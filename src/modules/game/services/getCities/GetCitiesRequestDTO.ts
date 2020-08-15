@@ -1,4 +1,5 @@
 import { GetCitiesRequest } from '../../../../shared/schemas/GetCitiesRequest';
+import { PlayerDTO } from '../../dtos/PlayerDTO';
 
 /**
  * DTO implementation of CreatePlayerRequest.
@@ -8,21 +9,21 @@ import { GetCitiesRequest } from '../../../../shared/schemas/GetCitiesRequest';
  * @implements {CreatePlayerRequest}
  */
 export class GetCitiesRequestDTO implements GetCitiesRequest {
-  query: any;
+  player: PlayerDTO;
 
-  constructor(query: any) {
-    this.query = query;
+  constructor(player: any) {
+    this.player = player;
   }
 
   static fromJSON(json: any): GetCitiesRequestDTO {
-    return new GetCitiesRequestDTO(json.query);
+    return new GetCitiesRequestDTO(json.player);
   }
 
-  public get $query(): any {
-    return this.query;
+  public get $player(): any {
+    return this.player;
   }
 
-  public set $query(value: any) {
-    this.query = value;
+  public set $player(value: any) {
+    this.player = value;
   }
 }
