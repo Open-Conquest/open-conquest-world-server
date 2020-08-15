@@ -3,6 +3,8 @@ export enum ServiceOperations {
   CreatePlayerError = 'createPlayerError',
   CreateMarch = 'createMarch',
   CreateMarchError = 'createMarchError',
+  GetCities = 'getCities',
+  GetCitiesError = 'getCitiesError',
   GetMyPlayers = 'getMyPlayers',
   GetMyPlayersError = 'getMyPlayersError',
   GetWorld = 'getWorld',

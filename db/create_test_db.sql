@@ -120,6 +120,24 @@ CREATE TABLE `city` (
   CONSTRAINT `city_tile` FOREIGN KEY (`tile_id`) REFERENCES `tile` (`tile_id`)
 );
 
+CREATE TABLE `building` (
+  `building_id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`building_id`),
+  UNIQUE KEY `building_id_UNIQUE` (`building_id`),
+);
+
+CREATE TABLE `city_building` (
+  `city_building_id` int(11) NOT NULL AUTO_INCREMENT,
+  `city_id` int(11) NOT NULL,
+  `building_id` varchar(45) NOT NULL,
+  PRIMARY KEY (`city_building_id`),
+  UNIQUE KEY `city_building_id_UNIQUE` (`city_building_id`),
+  KEY `building_city_idx` (`city_id`),
+  KEY `building_idx` (`building_id`),
+  CONSTRAINT `city_id` FOREIGN KEY (`city_id`) REFERENCES `city` (`city_id`),
+  CONSTRAINT `building_id` FOREIGN KEY (`building_id`) REFERENCES `building` (`building_id`)
+);
+
 # CREAT THE BASIC UNIT TYPES WIZARD AND BEAR
 SET @wizard_unit_id = 0;
 SET @bear_unit_id = 1;

@@ -1,0 +1,14 @@
+{
+  "title": "GetCitiesResponse",
+  "type": "object",
+  "properties": {
+    "cities": {
+      "type": "array",
+      "items": {
+        "$ref": "City.json"
+      }
+    }
+  },
+  "required": ["cities"],
+  "additionalProperties": false
+}
