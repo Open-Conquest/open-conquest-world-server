@@ -1,21 +1,9 @@
-import {CreatePlayerController} from './CreatePlayerController';
-import {CreatePlayerService} from './CreatePlayerService';
-import {playerRepository} from '../../repos/implementations';
-import {getTileForNewCityService} from '../getTileForNewCity';
-import {createCityService} from '../createCity';
-import {createResourcesForPlayerService} from '../createResourcesForPlayer';
-import {createArmyService} from '../createArmy';
-import {addArmyToPlayerService} from '../addArmyToPlayer';
+import {cityRepository} from '../../repos/implementations';
+import { GetCitiesController } from './GetCitiesController';
+import { doesPlayerBelongToUserService } from '../doesPlayerBelongToUser';
+import { GetCitiesService } from './GetCitiesService';
 
-const createPlayerService = new CreatePlayerService(playerRepository);
+const getCitiesService = new GetCitiesService(cityRepository);
+const getCitiesController = new GetCitiesController(getCitiesService, doesPlayerBelongToUserService)
 
-const createPlayerController = new CreatePlayerController(
-    createPlayerService,
-    getTileForNewCityService,
-    createCityService,
-    createResourcesForPlayerService,
-    createArmyService,
-    addArmyToPlayerService,
-);
-
-export {createPlayerService, createPlayerController};
+export {getCitiesService, getCitiesController};

@@ -77,6 +77,20 @@ export class CityRepository implements ICityRepository {
     }
   }
 
+  async getCities(player: Player): Promise<Array<City>> {
+    const dbCities = await this.models.city.findAll({
+      where: {
+        player_id: player.$id.$value
+      },
+      include: [this.models.tile],
+    });
+    const cities = [];
+    for (let i = 0; i < dbCities.length; i++) {
+      cities.push(this.cityMapper.fromPersistence(dbCities[i]));
+    }
+    return cities;
+  }
+
   async getCity(city: City): Promise<City> {
     const dbCity = await this.models.city.findOne({
       where: {

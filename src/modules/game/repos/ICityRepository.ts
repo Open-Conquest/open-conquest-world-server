@@ -4,6 +4,7 @@ import {Tile} from '../domain/Tile';
 
 export interface ICityRepository {
   createCity(player: Player, city: City, tile: Tile): Promise<City>
+  getCities(player: Player): Promise<Array<City>>
   getCity(city: City): Promise<City>
   getAllCities(): Promise<Array<City>>
 }

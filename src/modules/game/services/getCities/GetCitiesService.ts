@@ -1,8 +1,8 @@
 import {ICityRepository} from '../../repos/ICityRepository';
 import {CityRepositoryErrors} from '../../repos/cityRepositoryErrors';
 import {Player} from '../../domain/Player';
-import {User} from '../../../../modules/user/domain/User';
 import {GetCitiesErrors} from './GetCitiesErrors';
+import { City } from '../../domain/City';
 import {log} from '../../../../shared/utils/log';
 
 /**
@@ -15,7 +15,7 @@ export class GetCitiesService {
   private cityRepository: ICityRepository;
 
   /**
-   * Creates an instance of PlayerServices.
+   * Creates an instance of GetCitiesService.
    *
    * @param {ICityRepository} cityRepository
    * @memberof GetCitiesService 
@@ -25,22 +25,16 @@ export class GetCitiesService {
   }
 
   /**
-   * Create a new player for a user.
+   * Get the cities for a player.
    *
-   * @param {User} user
    * @param {Player} player
    * @param {any} query
-   * @return {Promise<Response>}
+   * @return {Promise<Array<City>>}
    * @memberof PlayerServices
    */
-  async createPlayer(user: User, player: Player, query: any): Promise<Array<City>> {
+  async createPlayer(player: Player): Promise<Array<City>> {
     try {
-      // ensure query is valid
-
-      // 4 types (map, player, tile, tile range)
-
-      // query repository for cities
-      return await this.cityRepository.getCities(user, player, query);
+      return await this.cityRepository.getCities(player);
     } catch (err) {
       switch (err.message) {
         case GetCitiesErrors.InvalidQuery:

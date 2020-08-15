@@ -6,13 +6,19 @@ import {Player} from '../../domain/Player';
 import {User} from '../../../user/domain/User';
 import {City} from '../../domain/City';
 import {CityMapper} from '../../mappers/CityMapper';
+import { GetCitiesResponseDTO } from './GetCitiesResponseDTO';
+import { GetCitiesService } from './GetCitiesService';
+import { GetCitiesErrorResponseDTO } from './GetCitiesErrorResponseDTO';
+import { GetCitiesRequestDTO } from './CreatePlayerRequestDTO';
+import { UserMapper } from 'src/modules/user/mappers/UserMapper';
+import { DoesPlayerBelongToUserService } from '../doesPlayerBelongToUser/DoesPlayerBelongToUserService';
 
 export enum GetCitiesErrorResponses {
   InvalidQuery = 'Invalid query',
 }
 
 /**
- *
+ * Controller for the get cities operation.
  *
  * @export
  * @class GetCitiesController
@@ -20,48 +26,43 @@ export enum GetCitiesErrorResponses {
  */
 export class GetCitiesController {
   private getCitiesService: GetCitiesService;
-  private cityFactory: CityFactory;
-  private playerMapper: PlayerMapper;
+  private doesPlayerBelongToUserService: DoesPlayerBelongToUserService;
   private cityMapper: CityMapper;
+  private userMapper: UserMapper;
 
   /**
    * Creates an instance of GetCitiesController.
    *
-   * @param {CreatePlayerService} createPlayerService
-   * @param {GetTileForNewCityService} getTileForNewCityService
-   * @param {CreateCityService} createCityService
-   * @param {CreateResourcesForPlayerService} createResourcesForPlayerService
-   * @param {CreateArmyService} createArmyService
-   * @param {AddArmyToPlayerService} addArmyToPlayerService
+   * @param {GetCitiesService} getCitiesService
    * @memberof PlayerServices
    */
   constructor(
-      getCitiesService: GetCitiesService
+      getCitiesService: GetCitiesService,
+      doesPlayerBelongToUserService: DoesPlayerBelongToUserService
   ) {
     this.getCitiesService = getCitiesService;
-    this.cityFactory = new CityFactory();
-    this.playerMapper = new PlayerMapper();
+    this.doesPlayerBelongToUserService = doesPlayerBelongToUserService;
     this.cityMapper = new CityMapper();
+    this.userMapper = new UserMapper();
   }
 
   /**
    * Get all the cities that match a query.
    *
    * @param {UserDTO} userDTO
-   * @param {CreatePlayerRequestDTO} incomingDTO
+   * @param {GetCitiesRequestDTO} incomingDTO
    * @return {Promise<GetCitiesResponseDTO | GetCitiesErrorResponseDTO>}
    * @memberof PlayerServices
    */
   async getCities(
       userDTO: UserDTO,
-      incomingDTO: GetCitiesDTO,
+      incomingDTO: GetCitiesRequestDTO,
   ): Promise<GetCitiesResponseDTO | GetCitiesErrorResponseDTO> {
     try {
       const user: User = this.userMapper.fromDTO(userDTO);
-      let player: Player = this.playerMapper.fromDTO(incomingDTO.$player);
-      const query: CitiesQuery = incomingDTO.$query;
+      const player: Player = this.playerMapper.fromDTO(playerDTO);
 
-      const cities: Array<City> = this.getCitiesService.getCities(query);
+      const cities: Array<City> = this.getCitiesService.getCities(player);
 
       const cityDTOs = []
       for (let i = 0; i < cities.length; i++) {
