@@ -55,13 +55,13 @@ export class GetCitiesController {
    *
    * @param {UserDTO} userDTO
    * @param {GetCitiesRequestDTO} incomingDTO
-   * @return {Promise<GetCitiesResponseDTO | GetCitiesErrorResponseDTO>}
+   * @return {Promise<GetCitiesResponseDTO>}
    * @memberof PlayerServices
    */
   async getCities(
       userDTO: UserDTO,
       incomingDTO: GetCitiesRequestDTO,
-  ): Promise<GetCitiesResponseDTO | GetCitiesErrorResponseDTO> {
+  ): Promise<GetCitiesResponseDTO> {
     try {
       const user: User = this.userMapper.fromDTO(userDTO);
       const player: Player = this.playerMapper.fromDTO(incomingDTO.$player);

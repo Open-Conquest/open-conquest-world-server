@@ -95,13 +95,13 @@ export class CreatePlayerController {
    *
    * @param {UserDTO} userDTO
    * @param {CreatePlayerRequestDTO} incomingDTO
-   * @return {Promise<CreatePlayerResponseDTO | CreatePlayerErrorResponseDTO>}
+   * @return {Promise<CreatePlayerResponseDTO>}
    * @memberof PlayerServices
    */
   async createPlayer(
       userDTO: UserDTO,
       incomingDTO: CreatePlayerRequestDTO,
-  ): Promise<CreatePlayerResponseDTO | CreatePlayerErrorResponseDTO> {
+  ): Promise<CreatePlayerResponseDTO> {
     try {
       // get user and player from DTOs
       const user: User = this.userMapper.fromDTO(userDTO);

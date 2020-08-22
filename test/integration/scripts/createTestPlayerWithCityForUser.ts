@@ -10,6 +10,9 @@ import {playerRepository} from '../../../src/modules/game/repos/implementations'
 import {log} from '../../../src/shared/utils/log';
 import { EntityID } from '../../../src/shared/domain/EntityID';
 import { User } from '../../../src/modules/user/domain/User';
+import { PlayerMapper } from '../../../src/modules/game/mappers/PlayerMapper';
+
+const playerMapper = new PlayerMapper();
 
 /**
  * Create 10 players in the world; test_playername0-10
@@ -17,12 +20,12 @@ import { User } from '../../../src/modules/user/domain/User';
  * @export
  * @return {Array<Player>}
  */
-export async function createTestPlayerWithCityForUser(user: User): Promise<PlayerDTO> {
+export async function createTestPlayerWithCityForUser(user: User): Promise<Player> {
   const userDTO = new UserDTO(user.$id.$value, user.$username.$value);
   // create player
   const playername = 'test_playername';
   const player = new Player(new EntityID(-1), new Playername(playername));
   const createPlayerDTO = new CreatePlayerRequestDTO(new PlayerDTO(player.$id.$value, player.$name.$value));
   const createdPlayer = await createPlayerController.createPlayer(userDTO, createPlayerDTO);
-  return createdPlayer.player
+  return playerMapper.fromDTO(createdPlayer.$player);
 }

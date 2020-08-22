@@ -31,8 +31,8 @@ export class City extends Entity {
     super(id);
     this.$name = name;
     this.$level = level;
-    this.row = row;
-    this.col = col;
+    this.$row = row;
+    this.$col = col;
   }
 
   public get $name(): CityName {
